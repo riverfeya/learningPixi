@@ -1,111 +1,109 @@
-Learning Pixi
+Обучение Pixi
 =============
 
-A step-by-step introduction to making games and interactive media with
-the [Pixi rendering engine](https://github.com/pixijs/pixi.js). **[Updated for Pixi v4.5.5](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5)**. [Chinese version here: Pixi官方教程中文版](https://github.com/Zainking/learningPixi). If you like this
-tutorial, [you'll love the book, which contains 80% more content!](http://www.springer.com/us/book/9781484210956).
+Пошаговое введение в создание игр и интерактивных медиа с
+в [движком рендеринга Pixi](https://github.com/pixijs/pixi.js). **[Обновлено для Pixi v4.5.5](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5)**. . Если тебе это нравится
+руководство, [вам понравится книга, в которой на 80% больше контента!](http://www.springer.com/us/book/9781484210956).
 
-### Table of contents
-1. [Introduction](#introduction)
-2. [Setting up](#settingup)
-  1. [Installing Pixi](#installingpixi)
-3. [Creating the stage and renderer](#application)
-4. [Pixi sprites](#sprites)
-5. [Loading images into the texture cache](#loading)
-6. [Displaying sprites](#displaying)
-  1. [Using Aliases](#usingaliases)
-  2. [A little more about loading things](#alittlemoreaboutloadingthings)
-    1. [Make a sprite from an ordinary JavaScript Image object or Canvas](#makeaspritefromanordinaryjavascriptimageobject)
-    2. [Assigning a name to a loaded file](#assigninganametoaloadingfile)
-    3. [Monitoring load progress](#monitoringloadprogress)
-    4. [More about Pixi's loader](#moreaboutpixisloader)
-7. [Positioning sprites](#positioning)
-8. [Size and scale](#sizenscale)
-9. [Rotation](#rotation)
-10. [Make a sprite from a tileset sub-image](#tileset)
-11. [Using a texture atlas](#textureatlas)
-12. [Loading the texture atlas](#loadingatlas)
-13. [Creating sprites from a loaded texture atlas](#creating-sprites-from-a-loaded-texture-atlas)
-14. [Moving Sprites](#movingsprites)
-15. [Using velocity properties](#velocity)
+### Оглавление
+1. [Вступление](#introduction)
+2. [Настройка](#settingup)
+  1. [Установка Pixi](#installingpixi)
+3. [Создание сцены и рендерера](#application)
+4. [Спрайты Pixi](#sprites)
+5. [Загрузка изображений в кеш текстур](#loading)
+6. [Отображение спрайтов](#displaying)
+  1. [Использование псевдонимов](#usingaliases)
+  2. [Еще немного о загрузке вещей](#alittlemoreaboutloadingthings)
+    1. [Создайте спрайт из обычного объекта изображения JavaScript или холста](#makeaspritefromanordinaryjavascriptimageobject)
+    2. [Присвоение имени загруженному файлу](#assigninganametoaloadingfile)
+    3. [Мониторинг прогресса загрузки](#monitoringloadprogress)
+    4. [Подробнее о загрузчике Pixi](#moreaboutpixisloader)
+7. [Размещение спрайтов](#positioning)
+8. [Размер и масштаб](#sizenscale)
+9. [Вращение](#rotation)
+10. [Создание спрайта из фрагмента изображения](#tileset)
+11. [Использование текстурного атласа](#textureatlas)
+12. [Загрузка атласа текстур](#loadingatlas)
+13. [Создание спрайтов из загруженного атласа текстур](#creating-sprites-from-a-loaded-texture-atlas)
+14. [Движущиеся спрайты](#movingsprites)
+15. [Использование свойств velocity](#velocity)
 16. [Game states](#gamestates)
-17. [Keyboard Movement](#keyboard)
-18. [Grouping Sprites](#grouping)
-  1. [Local and global positions](#localnglobal)
-  2. [Using a ParticleContainer to group sprites](#spritebatch)
-19. [Pixi's Graphic Primitives](#graphic)
-  1. [Rectangle](#rectangles)
-  2. [Circles](#circles)
-  3. [Ellipses](#ellipses)
-  4. [Rounded rectangles](#rounded-rectangles)
-  5. [Lines](#lines)
-  6. [Polygons](#polygons)
-20. [Displaying text](#text)
-21. [Collision detection](#collision)
-  1. [The hitTestRectangle function](#the-hittestrectangle-function)
-22. [Case study: Treasure Hunter](#casestudy)
-  1. [Initialize the game in the setup function](#initialize)
-    1. [Creating the game scenes](#gamescene)
-    2. [Making the dungeon, door, explorer and treasure](#makingdungon)
-    3. [Making the blob monsters](#makingblob)
-    4. [Making health bar](#healthbar)
-    5. [Making message text](#message)
-  2. [Playing the game](#playing)
-  3. [Moving the explorer](#movingexplorer)
-    1. [Containing movement](#containingmovement)
-  4. [Moving the monsters](#movingmonsters)
-  5. [Checking for collisions](#checkingcollisions)
-  6. [Reaching the exit door and ending game](#reachingexit)
-23. [More about sprites](#spriteproperties)
-24. [Taking it further](#takingitfurther)</br>
+17. [Клавиатура движения](#keyboard)
+18. [Группировка спрайтов](#grouping)
+  1. [Локальное и глобальное положение](#localnglobal)
+  2. [Использование ParticleContainer для группировки спрайтов](#spritebatch)
+19. [Графические примитивы Pixi](#graphic)
+  1. [Прямоугольник](#rectangles)
+  2. [Круги](#circles)
+  3. [Эллипсы](#ellipses)
+  4. [Закругленные прямоугольники](#rounded-rectangles)
+  5. [Линии](#lines)
+  6. [Полигоны](#polygons)
+20. [Отображение текста](#text)
+21. [Обнаружение столкновений](#collision)
+  1. [Функция hitTestRectangle](#the-hittestrectangle-function)
+22. [Пример использования: Охотник за сокровищами](#casestudy)
+  1. [Инициализировать игру в функции настройки](#initialize)
+    1. [Создание игровых сцен](#gamescene)
+    2. [Изготовление темницы, двери, исследователя и сокровища](#makingdungon)
+    3. [Создание монстров-капель](#makingblob)
+    4. [Делаем полоску здоровья](#healthbar)
+    5. [Создание текста сообщения](#message)
+  2. [Играя в игру](#playing)
+  3. [Перемещение исследователя](#movingexplorer)
+    1. [Сдерживание движения](#containingmovement)
+  4. [Перемещение монстров](#movingmonsters)
+  5. [Проверка на столкновения](#checkingcollisions)
+  6. [Достижение выходной двери и окончание игры](#reachingexit)
+23. [Подробнее о спрайтах](#spriteproperties)
+24. [Продолжая](#takingitfurther)</br>
   i.[Hexi](#hexi)</br>
   ii.[BabylonJS](#babylonjs)</br>
-25. [Supporting this project](#supportingthisproject)
+25. [Поддерживая этот проект](#supportingthisproject)
 
 <a id='introduction'></a>
-Introduction
+Вступление
 ------------
 
-Pixi is an extremely fast 2D sprite rendering engine. What does that
-mean? It means that it helps you to display, animate and manage
-interactive graphics so that it's easy for you to make games and
-applications using
-JavaScript and other HTML5 technologies. It has a sensible,
-uncluttered API and includes many useful features, like supporting
-texture atlases and providing a streamlined system for animating
-sprites (interactive images). It also gives you a complete scene graph so that you can
-create hierarchies of nested sprites (sprites inside sprites), as well
-as letting you attach mouse and touch events directly to sprites. And,
-most
-importantly, Pixi gets out of your way so that you can use as much or
-as little of it as you want to, adapt it to your personal coding
-style, and integrate it seamlessly with other useful frameworks.
+Pixi - это чрезвычайно быстрый движок рендеринга 2D-спрайтов. Что это
+жадный? Это означает, что он помогает отображать, анимировать и управлять
+интерактивная графика, чтобы вам было легко создавать игры и
+приложения, использующие
+JavaScript и другие технологии HTML5. Имеет разумный,
+незагроможденный API и включает множество полезных функций, таких как поддержка
+текстурные атласы и обеспечение оптимизированной системы для анимации
+спрайты (интерактивные изображения). Он также дает вам полный график сцены, чтобы вы могли
+создавать иерархии вложенных спрайтов (спрайты внутри спрайтов), а также
+позволяя прикреплять события мыши и касания непосредственно к спрайтам. А также,
+большинство
+что важно, Pixi старается не мешать вам, чтобы вы могли использовать как можно больше или
+как можно меньше, адаптируйте его к своему личному кодированию
+style и легко интегрируйте его с другими полезными фреймворками.
 
-Pixi’s API is actually a refinement of a well-worn and battle-tested
-API pioneered by Macromedia/Adobe Flash. Old-skool Flash developers
-will feel right at home. Other current sprite rendering frameworks use
-a similar API: CreateJS, Starling, Sparrow and Apple’s SpriteKit. The
-strength of Pixi’s API is that it’s general-purpose: it’s not a game
-engine. That’s good because it gives you total expressive freedom to make anything you like, and wrap your own custom game engine around it.
+API Pixi на самом деле является усовершенствованной версией зашитого и проверенного в боях
+API впервые был разработан Macromedia / Adobe Flash. Старые разработчики Flash
+будет чувствовать себя как дома. Другие текущие фреймворки рендеринга спрайтов используют
+аналогичный API: CreateJS, Starling, Sparrow и SpriteKit от Apple. В
+Преимущество API Pixi в том, что он универсален: это не игра
+двигатель. Это хорошо, потому что дает вам полную свободу выражения, чтобы создавать все, что вам нравится, и оборачивать это своим собственным игровым движком.
 
-In this tutorial you’re going to find out how to combine Pixi’s
-powerful image rendering features and scene graph to start making
-games. But Pixi isn't just for games - you can use these same
-techniques to create any interactive media applications. That means
-apps for phones!
+В этом уроке вы узнаете, как комбинировать Pixi
+мощные функции рендеринга изображений и граф сцены, чтобы начать создавать
+игры. Но Pixi не только для игр - вы можете использовать их
+техники для создания любых интерактивных медиа-приложений. Это значит
+приложения для телефонов!
 
-What do you need to know before you get started with this tutorial?
+Что вам нужно знать, прежде чем приступить к работе с этим руководством?
 
-You should have a reasonable understanding of HTML and
-JavaScript. You don't have to be an expert, just an ambitious beginner
-with an eagerness to learn. If you don't know HTML and JavaScript, the
-best place to start learning it is this book:
+У вас должно быть разумное понимание HTML и JavaScript. Вам не обязательно быть экспертом, просто амбициозным новичком с желанием учиться. Если вы не знаете HTML и JavaScript,
+Лучшее место для начала изучения - это эта книга:
 
-[Foundation Game Design with HTML5 and JavaScript](http://www.apress.com/9781430247166)
+[Foundation Game Design with HTML5 and JavaScript](https://rutracker.org/forum/viewtopic.php?t=4342415)
 
-I know for a fact that it's the best book, because I wrote it!
+Я точно знаю, что это лучшая книга, потому что я ее написал!
 
-There are also some good internet resources to help get you started:
+Есть также несколько хороших интернет-ресурсов, которые помогут вам начать работу:
 
 [Khan Academy: Computer
 Programming](http://www.khanacademy.org/computing/cs)
@@ -113,74 +111,73 @@ Programming](http://www.khanacademy.org/computing/cs)
 [Code Academy:
 JavaScript](http://www.codecademy.com/tracks/javascript)
 
-Choose whichever best suits your learning style.
+Выберите то, что лучше всего подходит вашему стилю обучения.
 
-Ok, got it?
-Do you know what JavaScript variables, functions, arrays and objects are and how to
-use them? Do you know what [JSON data
+Вы знаете, что такое переменные, функции, массивы и объекты JavaScript и как их
+использовать? Знаешь что [JSON data
 files](http://www.copterlabs.com/blog/json-what-it-is-how-it-works-how-to-use-it/)
-are? Have you used the [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas)?
+are? Вы использовали [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas)?
 
-To use Pixi, you'll also need to run a webserver in your root project
-directory. Do you know what a webserver is and
-how to launch one in your project folder? The best way is to use
-[node.js](http://nodejs.org) and then to install the extremely easy to use
-[http-server](https://github.com/nodeapps/http-server). However, you need to be comfortable working with the Unix
-command line if you want to do that. You can learn how to use
-Unix [in this
-video](https://www.youtube.com/watch?feature=player_embedded&v=cX9ASUE3YAQ)
+Чтобы использовать Pixi, вам также необходимо запустить веб-сервер в корневом проекте.
+каталог. Вы знаете, что такое веб-сервер и как запустить один в папке вашего проекта? 
+Лучше всего использовать
+[node.js](http://nodejs.org) а затем установить чрезвычайно простой в использовании
+[http-server](https://github.com/nodeapps/http-server). Тем не менее, если вы хотите это сделать, вам нужно чувствовать себя комфортно при работе с командной строкой Unix. Вы можете узнать, как использовать
+Unix [in this video](https://www.youtube.com/watch?feature=player_embedded&v=cX9ASUE3YAQ)
 and, when you're finished, follow it with [this
 video](https://www.youtube.com/watch?v=INk0ATBbclc). You should learn
 how to use Unix - it only takes a couple of hours to learn and is a
 really fun and easy way to interact with your computer.
 
-But if you don't want to mess around with the command line just yet, try the Mongoose
+Но если вы пока не хотите возиться с командной строкой, попробуйте Mongoose
 webserver:
 
 [Mongoose](http://cesanta.com/mongoose.shtml)
 
-Or, just write all your code using the excellent [Brackets text
-editor](http://brackets.io). Brackets automatically launches a webserver
-and browser for you when you click the lightning bolt button in its
-main workspace.
+Или просто напишите весь свой код, используя отличный [текстовый редактор 
+Brackets](http://brackets.io). Brackets автоматически запускает веб-сервер
+и браузер для вас, когда вы нажимаете кнопку с изображением молнии в его
+основное рабочее пространство.
 
-Now if you think you're ready, read on!
+Теперь, если вы думаете, что готовы, читайте дальше!
 
-(Request to readers: this is a *living document*. If you have any
-questions about specific details or need any of the content clarified, please
-create an **issue** in this GitHub repository and I'll update the text
-with more information.)
+(Просьба к читателям: это * живой документ *. Если у тебя есть
+вопросы о конкретных деталях или необходимости разъяснения содержания, пожалуйста
+создайте ** проблему ** в этом репозитории GitHub, и я обновлю текст
+с дополнительной информацией.)
 
 <a id='settingup'></a>
-Setting up
+Настройка
 ----------
 
-Before you start writing any code, create a folder for your project, and launch a
-webserver in the project's root directory. If you aren't running a
-webserver, Pixi won't work.
+Прежде чем приступить к написанию кода, создайте папку для своего проекта и запустите
+веб-сервер в корневом каталоге проекта. Если вы не используете
+веб-сервер, Pixi не будет работать.
 
-Next, you need to install Pixi. 
+Далее вам необходимо установить Pixi.
 
 <a id='installingpixi'></a>
-### Installing Pixi
 
-The version used for this introduction is **v4.5.5**
-and you can find the `pixi.min.js`  file either in this repository's `pixi` folder or on [Pixi's release page for v4.5.5](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5).
-Or, you can get the latest version from [Pixi's main release page](https://github.com/pixijs/pixi.js/releases).
+### Установка Pixi
 
-This one file is all you need to use Pixi. You can ignore all the
-other files in the repository: **you don't need them.**
+Версия, используемая для этого введения: **v4.5.5**
+и вы можете найти файл `pixi.min.js` либо в этом репозитории в папке `pixi` либо в [Страница выпуска Pixi для версии 4.5.5](https://github.com/pixijs/pixi.js/releases/tag/v4.5.5).
+Или вы можете получить последнюю версию из [Pixi's main release page](https://github.com/pixijs/pixi.js/releases).
 
-Next, create a basic HTML page, and use a
-`<script>` tag to link the
-`pixi.min.js` file that you've just downloaded. The `<script>` tag's `src`
-should be relative to your root directory where your webserver is
-running. Your `<script>` tag might look something like this:
+Этот файл - все, что вам нужно для использования Pixi. Вы можете игнорировать все
+другие файлы в репозитории: **они тебе не нужны.**
+
+Затем создайте базовую HTML-страницу и используйте тэг `<script>` чтобы залинковать
+файл `pixi.min.js` который только что скачали. Тэги `<script>` и `src`
+должен быть относительно вашего корневого каталога, в котором находится ваш веб-сервер
+Бег. Ваш тэг `<script>` может выглядеть примерно так:
+
 ```html
 <script src="pixi.min.js"></script>
 ```
-Here's a basic HTML page that you could use to link Pixi and test that
-it's working. (This assumes that the `pixi.min.js` is in a subfolder called `pixi`):
+
+Вот базовая HTML-страница, которую вы можете использовать, чтобы связать Pixi и протестировать ее.
+это работает. (Предполагается, что `pixi.min.js` находится в подпапке с именем `pixi`.):
 
 ```html
 <!doctype html>
@@ -203,51 +200,53 @@ it's working. (This assumes that the `pixi.min.js` is in a subfolder called `pix
 </html>
 ```
 
-If Pixi is linking correctly,
-something like this will be displayed in your web browser's JavaScript console by default:
+Если Pixi подключается правильно,
+что-то вроде этого будет отображаться в консоли JavaScript вашего веб-браузера по умолчанию:
+
 ```
       PixiJS 4.4.5 - * canvas * http://www.pixijs.com/  ♥♥♥ 
 ```
 
-
 <a id='application'></a>
-Creating the Pixi Application and `stage`
--------------------------------
+Создание приложения Pixi и `stage`
+----------------------------------
 
-Now you can start using Pixi!
+Теперь вы можете начать использовать Pixi!
 
-But how? 
+Но как?
 
-The first step is to create a rectangular
-display area that you can start displaying images on. Pixi has a
-`Application` object that creates this for you. It
-automatically generates an HTML `<canvas>` element and figures out how
-to display your images on the canvas. You then need to create a
-special Pixi `Container` object called the `stage`. As you'll see
-ahead, this `stage` object is going to be used as the root container
-that holds all the things you want Pixi to display. 
+Первый шаг - создать прямоугольную
+область отображения, в которой можно начать отображение изображений. 
+У Pixi есть объект ʻApplication`, который создает это за вас. 
+Он автоматически генерирует HTML-элемент <canvas> и определяет, как
+отображать ваши изображения на холсте. Затем вам нужно создать
+специальный объект Pixi `Container` под названием` stage`. Как вы увидите
+далее этот объект `stage` будет использоваться как корневой контейнер
+который содержит все, что вы хотите, чтобы Pixi отображала.
 
-Here’s the code you need to write to create an `app` Pixi Application
-and `stage`. Add this code to your HTML document between the `<script>` tags:
+Вот код, который вам нужно написать, чтобы создать `app` Pixi Application
+и `stage`. Добавьте этот код в свой HTML-документ между тэгами `<script>`:
+
 ```js
-//Create a Pixi Application
+//Создать приложение Pixi
 let app = new PIXI.Application({width: 256, height: 256});
 
-//Add the canvas that Pixi automatically created for you to the HTML document
+//Добавьте холст, который Pixi автоматически создал для вас, в HTML-документ.
 document.body.appendChild(app.view);
 ```
-This is the most basic code you need write to get started using Pixi. 
-It produces a black 256 pixel by 256 pixel canvas element and adds it to your
-HTML document. Here's what this looks like in a browser when you run this code.
 
-![Basic display](/examples/images/screenshots/01.png)
+Это самый простой код, который вам нужно написать, чтобы начать использовать Pixi.
+Он создает черный элемент холста размером 256 на 256 пикселей и добавляет его в ваш
+HTML-документ. Вот как это выглядит в браузере при запуске этого кода.
 
-Yay, a [black square](http://rampantgames.com/blog/?p=7745)!
+![Базовый экран](/examples/images/screenshots/01.png)
 
-`PIXI.Application` figures out whether to use the
-Canvas Drawing API or WebGL to render graphics, depending on which is
-available on the web browser you're using. Its argument is a single object called the `options` object. In this example its `width` and `height` properties are set to determine the width and height of the canvas, in pixels. You can set many more optional properties inside this `options` object; here's how you could use it to set anti-aliasing, transparency
-and resolution:
+Вау [черный квадрат](http://rampantgames.com/blog/?p=7745)!
+
+`PIXI.Application` выясняет, использовать ли Canvas Drawing API или WebGL для рендеринга графики, в зависимости от того, что доступно в используемом вами веб-браузере. Его аргумент - это единственный объект, называемый объектом `options`.
+В этом примере его `width` и `height` свойства установлены для определения ширины и высоты холста в пикселях. Вы можете установить еще много дополнительных свойств внутри этого объекта `options`; 
+here's how you could use it to set anti-aliasing, transparency and resolution:
+
 ```js
 let app = new PIXI.Application({ 
     width: 256,         // default: 800
@@ -258,6 +257,7 @@ let app = new PIXI.Application({
   }
 );
 ```
+
 If you're happy with Pixi's default settings, you don't need to set any of these options.
 But, if you need to, see Pixi's documentation on [PIXI.Application](http://pixijs.download/release/docs/PIXI.Application.html).
 
@@ -277,6 +277,7 @@ Pixi's `renderer` object will default to WebGL, which is good, because WebGL is
 incredibly fast, and lets you use some spectacular visual effects that
 you’ll learn all about ahead. But if you need to force the Canvas Drawing
 API rendering over WebGL, you can set the `forceCanvas` option to `true`, like this:
+
 ```js
 forceCanvas: true,
 ```
@@ -284,9 +285,11 @@ forceCanvas: true,
 If you need to change the background color of the canvas after you’ve
 created it, set the `app.renderer` object’s `backgroundColor` property to
 any hexadecimal color value:
+
 ```js
 app.renderer.backgroundColor = 0x061639;
 ```
+
 If you want to find the width or the height of the `renderer`, use
 `app.renderer.view.width` and `app.renderer.view.height`.
 
@@ -294,23 +297,29 @@ To change the size of the canvas, use the `renderer`’s `resize`
 method, and supply any new `width` and `height` values. But, to make
 sure the canvas is resized to match the resolution, set `autoResize`
 to `true`.
+
 ```js
 app.renderer.autoResize = true;
 app.renderer.resize(512, 512);
 ```
+
 If you want to make the canvas fill the entire window, you can apply this
 CSS styling and resize the renderer to the size of the browser window.
+
 ```
 app.renderer.view.style.position = "absolute";
 app.renderer.view.style.display = "block";
 app.renderer.autoResize = true;
 app.renderer.resize(window.innerWidth, window.innerHeight);
 ```
+
 But, if you do that, make sure you also set the default padding and
 margins to 0 on all your HTML elements with this bit of CSS code:
+
 ```html
 <style>* {padding: 0; margin: 0}</style>
 ```
+
 (The asterisk, *, in the code above, is the CSS "universal selector",
 which just means "all the tags in the HTML document".)
 
@@ -322,9 +331,11 @@ Pixi sprites
 ------------
 
 Now that you have a renderer, you can start adding images to it. Anything you want to be made visible in the renderer has to be added to a special Pixi object called the `stage`. You can access this special `stage` object like this:
+
 ```js
 app.stage
 ```
+
 The `stage` is a Pixi `Container` object. You can think of a container
 as a kind of empty box that will group together and store whatever you
 put inside it. The `stage` object is the root container for all the visible
