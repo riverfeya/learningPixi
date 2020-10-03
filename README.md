@@ -6,58 +6,64 @@
 руководство, [вам понравится книга, в которой на 80% больше контента!](http://www.springer.com/us/book/9781484210956).
 
 ### Оглавление
-1. [Вступление](#introduction)
-2. [Настройка](#settingup)
-  1. [Установка Pixi](#installingpixi)
-3. [Создание сцены и рендерера](#application)
-4. [Спрайты Pixi](#sprites)
-5. [Загрузка изображений в кеш текстур](#loading)
-6. [Отображение спрайтов](#displaying)
-  1. [Использование псевдонимов](#usingaliases)
-  2. [Еще немного о загрузке вещей](#alittlemoreaboutloadingthings)
-    1. [Создайте спрайт из обычного объекта изображения JavaScript или холста](#makeaspritefromanordinaryjavascriptimageobject)
-    2. [Присвоение имени загруженному файлу](#assigninganametoaloadingfile)
-    3. [Мониторинг прогресса загрузки](#monitoringloadprogress)
-    4. [Подробнее о загрузчике Pixi](#moreaboutpixisloader)
-7. [Размещение спрайтов](#positioning)
-8. [Размер и масштаб](#sizenscale)
-9. [Вращение](#rotation)
-10. [Создание спрайта из фрагмента изображения](#tileset)
-11. [Использование текстурного атласа](#textureatlas)
-12. [Загрузка атласа текстур](#loadingatlas)
-13. [Создание спрайтов из загруженного атласа текстур](#creating-sprites-from-a-loaded-texture-atlas)
-14. [Движущиеся спрайты](#movingsprites)
-15. [Использование свойств velocity](#velocity)
-16. [Game states](#gamestates)
-17. [Клавиатура движения](#keyboard)
-18. [Группировка спрайтов](#grouping)
-  1. [Локальное и глобальное положение](#localnglobal)
-  2. [Использование ParticleContainer для группировки спрайтов](#spritebatch)
-19. [Графические примитивы Pixi](#graphic)
-  1. [Прямоугольник](#rectangles)
-  2. [Круги](#circles)
-  3. [Эллипсы](#ellipses)
-  4. [Закругленные прямоугольники](#rounded-rectangles)
-  5. [Линии](#lines)
-  6. [Полигоны](#polygons)
-20. [Отображение текста](#text)
-21. [Обнаружение столкновений](#collision)
-  1. [Функция hitTestRectangle](#the-hittestrectangle-function)
-22. [Пример использования: Охотник за сокровищами](#casestudy)
-  1. [Инициализировать игру в функции настройки](#initialize)
-    1. [Создание игровых сцен](#gamescene)
-    2. [Изготовление темницы, двери, исследователя и сокровища](#makingdungon)
-    3. [Создание монстров-капель](#makingblob)
-    4. [Делаем полоску здоровья](#healthbar)
-    5. [Создание текста сообщения](#message)
-  2. [Играя в игру](#playing)
-  3. [Перемещение исследователя](#movingexplorer)
-    1. [Сдерживание движения](#containingmovement)
-  4. [Перемещение монстров](#movingmonsters)
-  5. [Проверка на столкновения](#checkingcollisions)
-  6. [Достижение выходной двери и окончание игры](#reachingexit)
-23. [Подробнее о спрайтах](#spriteproperties)
-24. [Продолжая](#takingitfurther)</br>
+- [Обучение Pixi](#обучение-pixi)
+    - [Оглавление](#оглавление)
+  - [Вступление](#вступление)
+  - [Настройка](#настройка)
+    - [Установка Pixi](#установка-pixi)
+  - [Создание приложения Pixi и `stage`](#создание-приложения-pixi-и-stage)
+  - [Pixi спрайты](#pixi-спрайты)
+  - [Загрузка изображений в кеш текстур](#загрузка-изображений-в-кеш-текстур)
+  - [Отображение спрайтов](#отображение-спрайтов)
+    - [Использование псевдонимов](#использование-псевдонимов)
+    - [Еще немного о загрузке вещей](#еще-немного-о-загрузке-вещей)
+      - [Создайте спрайт из обычного объекта изображения JavaScript или холста](#создайте-спрайт-из-обычного-объекта-изображения-javascript-или-холста)
+      - [Присвоение имени загружаемому файлу](#присвоение-имени-загружаемому-файлу)
+      - [Мониторинг прогресса загрузки](#мониторинг-прогресса-загрузки)
+      - [Подробнее о загрузчике Pixi](#подробнее-о-загрузчике-pixi)
+  - [Размещение спрайтов](#размещение-спрайтов)
+  - [Размер и масштаб](#размер-и-масштаб)
+  - [Rotation](#rotation)
+  - [Make a sprite from a tileset sub-image](#make-a-sprite-from-a-tileset-sub-image)
+  - [Using a texture atlas](#using-a-texture-atlas)
+  - [Loading the texture atlas](#loading-the-texture-atlas)
+  - [Creating sprites from a loaded texture atlas](#creating-sprites-from-a-loaded-texture-atlas)
+  - [Moving Sprites](#moving-sprites)
+  - [Using velocity properties](#using-velocity-properties)
+  - [Game states](#game-states)
+  - [Keyboard Movement](#keyboard-movement)
+  - [Grouping Sprites](#grouping-sprites)
+    - [Local and global positions](#local-and-global-positions)
+    - [Using a ParticleContainer to group sprites](#using-a-particlecontainer-to-group-sprites)
+  - [Pixi's Graphic Primitives](#pixis-graphic-primitives)
+    - [Rectangles](#rectangles)
+    - [Circles](#circles)
+    - [Ellipses](#ellipses)
+    - [Rounded rectangles](#rounded-rectangles)
+    - [Lines](#lines)
+    - [Polygons](#polygons)
+  - [Displaying text](#displaying-text)
+  - [Collision detection](#collision-detection)
+    - [The hitTestRectangle function](#the-hittestrectangle-function)
+  - [Case study: Treasure Hunter](#case-study-treasure-hunter)
+    - [The code structure](#the-code-structure)
+    - [Initialize the game in the setup function](#initialize-the-game-in-the-setup-function)
+      - [Creating the game scenes](#creating-the-game-scenes)
+      - [Making the dungeon, door, explorer and treasure](#making-the-dungeon-door-explorer-and-treasure)
+      - [Making the blob monsters](#making-the-blob-monsters)
+      - [Making the health bar](#making-the-health-bar)
+      - [Making the message text](#making-the-message-text)
+    - [Playing the game](#playing-the-game)
+    - [Moving the explorer](#moving-the-explorer)
+      - [Containing movement](#containing-movement)
+    - [Moving the monsters](#moving-the-monsters)
+    - [Checking for collisions](#checking-for-collisions)
+    - [Reaching the exit door and ending the game](#reaching-the-exit-door-and-ending-the-game)
+  - [More about sprites](#more-about-sprites)
+  - [Taking it further](#taking-it-further)
+    - [Hexi](#hexi)
+    - [BabylonJS](#babylonjs)
+  - [Please help to support this project!](#please-help-to-support-this-project)
   i.[Hexi](#hexi)</br>
   ii.[BabylonJS](#babylonjs)</br>
 25. [Поддерживая этот проект](#supportingthisproject)
@@ -244,8 +250,8 @@ HTML-документ. Вот как это выглядит в браузере
 Вау [черный квадрат](http://rampantgames.com/blog/?p=7745)!
 
 `PIXI.Application` выясняет, использовать ли Canvas Drawing API или WebGL для рендеринга графики, в зависимости от того, что доступно в используемом вами веб-браузере. Его аргумент - это единственный объект, называемый объектом `options`.
-В этом примере его `width` и `height` свойства установлены для определения ширины и высоты холста в пикселях. Вы можете установить еще много дополнительных свойств внутри этого объекта `options`; 
-here's how you could use it to set anti-aliasing, transparency and resolution:
+В этом примере его `width` и `height` свойства установлены для определения ширины и высоты холста в пикселях. Вы можете установить еще много дополнительных свойств внутри этого объекта `options`;
+вот как вы можете использовать его для настройки сглаживания, прозрачности и разрешения:
 
 ```js
 let app = new PIXI.Application({ 
@@ -258,53 +264,52 @@ let app = new PIXI.Application({
 );
 ```
 
-If you're happy with Pixi's default settings, you don't need to set any of these options.
-But, if you need to, see Pixi's documentation on [PIXI.Application](http://pixijs.download/release/docs/PIXI.Application.html).
+Если вас устраивают настройки Pixi по умолчанию, вам не нужно устанавливать какие-либо из этих параметров.
+Bно, если вам нужно, см. документацию Pixi на [PIXI.Application](http://pixijs.download/release/docs/PIXI.Application.html).
 
-What do those options do?
-`antialias` smoothes the edges of fonts and graphic primitives. (WebGL
-anti-aliasing isn’t available on all platforms, so you’ll need to test
-this on your game’s target platform.) `transparent` makes the canvas
-background transparent. `resolution` makes it easier to work with
-displays of varying resolutions and pixel densities. Setting
-the resolutions is a little
-outside the scope of this tutorial, but check out [Mat Grove's
-explanation](http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/)
-about how to use `resolution` for all the details. But usually, just keep `resolution`
-at 1 for most projects and you'll be fine. 
+Что делают эти варианты?
+`antialias` сглаживает края шрифтов и графических примитивов. (WebGL
+сглаживание доступно не на всех платформах, поэтому вам необходимо протестировать
+это на целевой платформе вашей игры.) `transparent` делает холст
+фон прозрачный. `resolution` облегчает работу с
+дисплеи с различным разрешением и плотностью пикселей.
+Настройка разрешений немного выходит за рамки этого руководства,
+но проверьте [Объяснение Мэта Гроува](http://www.goodboydigital.com/pixi-js-v2-fastest-2d-webgl-renderer/) о том, как использовать `resolution` для всех деталей.
+Но обычно для большинства проектов просто держите значение «разрешение» равным 1, и все будет в порядке.
 
-Pixi's `renderer` object will default to WebGL, which is good, because WebGL is
-incredibly fast, and lets you use some spectacular visual effects that
-you’ll learn all about ahead. But if you need to force the Canvas Drawing
-API rendering over WebGL, you can set the `forceCanvas` option to `true`, like this:
+Объект Pixi `renderer` по умолчанию будет использовать WebGL, что хорошо, потому что WebGL
+невероятно быстр и позволяет использовать впечатляющие визуальные эффекты,
+вы узнаете все в будущем.
+Но если вам нужно заставить Canvas Drawing API rendering поверх WebGL,
+вы можете установить опцию `forceCanvas` в `true`, вот так:
 
 ```js
 forceCanvas: true,
 ```
 
-If you need to change the background color of the canvas after you’ve
-created it, set the `app.renderer` object’s `backgroundColor` property to
-any hexadecimal color value:
+Если вам нужно изменить цвет фона холста после того, как вы
+создал его, установите свойство `backgroundColor` объекта `app.renderer`
+в любое шестнадцатеричное значение цвета:
 
 ```js
 app.renderer.backgroundColor = 0x061639;
 ```
 
-If you want to find the width or the height of the `renderer`, use
-`app.renderer.view.width` and `app.renderer.view.height`.
+Если вы хотите найти ширину или высоту `renderer`, используйте
+`app.renderer.view.width` и `app.renderer.view.height`.
 
-To change the size of the canvas, use the `renderer`’s `resize`
-method, and supply any new `width` and `height` values. But, to make
-sure the canvas is resized to match the resolution, set `autoResize`
-to `true`.
+Чтобы изменить размер canvas, используйте метод `renderer` `resize`
+, и передайте любые новые значения `width` и `height`. Но чтобы сделать
+убедитесь, что размер холста изменен в соответствии с разрешением,
+установите `autoResize` в `true`.
 
 ```js
 app.renderer.autoResize = true;
 app.renderer.resize(512, 512);
 ```
 
-If you want to make the canvas fill the entire window, you can apply this
-CSS styling and resize the renderer to the size of the browser window.
+Если вы хотите, чтобы холст заполнял все окно, вы можете применить это
+Стилизацией CSS и изменением размера рендера до размера окна браузера..
 
 ```
 app.renderer.view.style.position = "absolute";
@@ -313,107 +318,113 @@ app.renderer.autoResize = true;
 app.renderer.resize(window.innerWidth, window.innerHeight);
 ```
 
-But, if you do that, make sure you also set the default padding and
-margins to 0 on all your HTML elements with this bit of CSS code:
+Но, если вы это сделаете, убедитесь, что вы также установили отступы по умолчанию и
+поля до 0 для всех ваших HTML-элементов с помощью этого фрагмента кода CSS:
 
 ```html
 <style>* {padding: 0; margin: 0}</style>
 ```
 
-(The asterisk, *, in the code above, is the CSS "universal selector",
-which just means "all the tags in the HTML document".)
+(Звездочка, *, в коде выше, в CSS это "универсальный селектор",
+который просто означает "все теги в HTML-документе".)
 
-If you want the canvas to scale proportionally to any browser window
-size, you can use [this custom `scaleToWindow` function](https://github.com/kittykatattack/scaleToWindow).
+Если вы хотите, чтобы холст масштабировался пропорционально любому окну браузера
+размер, вы можете использовать[эту подстройку функции `scaleToWindow`](https://github.com/kittykatattack/scaleToWindow).
 
 <a id='sprites'></a>
-Pixi sprites
+Pixi спрайты
 ------------
 
-Now that you have a renderer, you can start adding images to it. Anything you want to be made visible in the renderer has to be added to a special Pixi object called the `stage`. You can access this special `stage` object like this:
+Теперь, когда у вас есть средство визуализации, вы можете начать добавлять в него изображения.
+Все, что вы хотите сделать видимым в рендерере, необходимо добавить в специальный объект Pixi, называемый `stage` (deprecated, с версии 5 это теперь PIXI.container). Вы можете получить доступ к этому специальному объекту `stage` так:
 
 ```js
 app.stage
 ```
 
-The `stage` is a Pixi `Container` object. You can think of a container
-as a kind of empty box that will group together and store whatever you
-put inside it. The `stage` object is the root container for all the visible
-things in your scene. Whatever you put inside the `stage` will be
-rendered on the canvas. Right now the `stage` is empty, but soon we're going to
-start putting things inside it. (You can read more about Pixi's `Container` objects [here](http://pixijs.download/release/docs/PIXI.Container.html)).
+`stage` это Pixi объект `Container`. Вы можете думать о контейнере
+как своего рода пустую коробку, которая будет группироваться и хранить все, что вы
+положить внутрь.
+Объект `stage` - это корневой контейнер для всех видимых
+вещей в вашей сцене.
+Все, что вы поместите в `stage`, будет на холсте. Сейчас `stage` пуста, но скоро мы собираемся
+начать класть вещи в нее. (Вы можете узнать больше об объектах Pixi `Container` [здесь](http://pixijs.download/release/docs/PIXI.Container.html)).
 
-(Important: because the `stage` is a Pixi `Container` it has the same properties and methods as any other `Container` object. But,  although the `stage` has `width` and `height` properties, *they don't refer to
-the size of the rendering window*. The stage's `width` and `height`
-properties just tell you the area occupied by the things you put inside it - more on that ahead!)
+(Важно: поскольку `stage` это Pixi `Container` он имеет те же свойства и методы, что и любой другой объект`Container`. Но, хотя `stage` имеет свойства `width` и `height`, *они не относятся к
+размеру окна рендеринга*. `width` и `height` сцены это просто площадь, занимаемая предметами, которые вы поместили внутрь - подробнее об этом впереди!)
 
-So what do you put on the stage? Special image objects called
-**sprites**. Sprites are basically just images that you can control
-with code. You can control their position, size, and a host of other
-properties that are useful for making interactive and animated graphics. Learning to make and control sprites is really the most
-important thing about learning to use Pixi. If you know how to make
-sprites and add them to the stage, you're just a small step away from
-starting to make games.
+Так что вы можете поместить на сцену? Специальные объекты изображения, называемые
+**sprites**. Спрайты - это просто изображения, которыми вы можете управлять.
+в коде. Вы можете контролировать их положение, размер и множество других свойств, 
+которые полезны для создания интерактивной и анимированной графики.
+Научиться создавать и контролировать спрайты - действительно самая важная вещь 
+в обучении использованию Pixi.
 
-Pixi has a `Sprite` class that is a versatile way to make game
-sprites. There are three main ways to create them:
+В Pixi есть класс `Sprite`, который является универсальным способом создания игры.
+Есть три основных способа их создания:
 
-- From a single image file.
-- From a sub-image on a **tileset**. A tileset is a single, big image that
-includes all the images you'll need in your game.
-- From a **texture atlas** (A JSON file that defines the size and position of an image on a tileset.)
+- Из одного файла изображения.
+- Из суб-изображений в **tileset**. Набор плиток - это одно большое изображение, которое
+включает все изображения, которые вам понадобятся в вашей игре.
+- Из **texture atlas** (Файл JSON, определяющий размер и положение изображения на тайлсете.)
 
-You’re going to learn all three ways, but, before you do, let’s find
-out what you need to know about images before you can display them
-with Pixi.
+Вы собираетесь изучить все три способа, но прежде давайте найдем
+что вам нужно знать об изображениях, прежде чем вы сможете их отображать
+с Pixi.
 
 <a id='loading'></a>
-Loading images into the texture cache
+Загрузка изображений в кеш текстур
 -------------------------------------
 
-Because Pixi renders the image on the GPU with WebGL, the image needs
-to be in a format that the GPU can process. A WebGL-ready image is
-called a **texture**. Before you can make a sprite display an image,
-you need to convert an ordinary image file into a WebGL texture. To
-keep everything working fast and efficiently under the hood, Pixi uses
-a **texture cache** to store and reference all the textures your
-sprites will need. The names of the textures are strings that match
-the file locations of the images they refer to. That means if you have
-a texture that was loaded from `"images/cat.png"`, you could find it in the texture cache like this:
+Поскольку Pixi отображает изображение на GPU с помощью WebGL, изображение требует
+быть в формате, который GPU может обрабатывать. Готовое к WebGL изображение
+называется **texture**. Прежде чем вы сможете заставить спрайт отображать изображение,
+вам нужно преобразовать обычный файл изображения в текстуру WebGL.
+Чтобы все работало быстро и эффективно, Pixi использует
+**кэш текстур** для хранения и ссылки на все текстуры для ваших спрайтов.
+Имена текстур представляют собой строки, соответствующие расположению файлов изображений, к которым они относятся.
+Это означает, что если у вас есть текстура, загруженная из «images/cat.png», вы можете найти ее в кеше текстур, так:
+
 ```js
 PIXI.utils.TextureCache["images/cat.png"];
 ```
-The textures are stored in a WebGL compatible format that’s efficient
-for Pixi’s renderer to work with. You can then use Pixi’s `Sprite` class to make a new sprite using the texture.
+
+Текстуры хранятся в формате, совместимом с WebGL, что эффективно для работы рендерера Pixi с ним. Затем вы можете использовать класс Pixi `Sprite`, чтобы создать новый спрайт с использованием текстуры.
+
 ```js
 let texture = PIXI.utils.TextureCache["images/anySpriteImage.png"];
 let sprite = new PIXI.Sprite(texture);
 ```
-But how do you load the image file and convert it into a texture? Use
-Pixi’s built-in `loader` object. 
 
-Pixi's powerful `loader` object is all you need to load any kind of image. 
-Here’s how to use it to load an image and call a function called `setup` when the image has finished loading:
+Но как загрузить файл изображения и преобразовать его в текстуру?
+Используйте встроенный в Pixi объект `loader`.
+
+Мощный Pixi объект `loader` это все, что вам нужно для загрузки любого изображения.
+Вот как с его помощью загрузить изображение и вызвать функцию с именем `setup` когда изображение закончило загрузку:
+
 ```js
 PIXI.loader
   .add("images/anyImage.png")
   .load(setup);
 
 function setup() {
-  //This code will run when the loader has finished loading the image
+  //Этот код будет запущен, когда загрузчик закончит загрузку изображения.
 }
 ```
-[Pixi’s development team
-recommends](http://www.html5gamedevs.com/topic/16019-preload-all-textures/?p=90907)
-that if you use the loader, you should create the sprite by
-referencing the texture in the `loader`’s `resources` object, like this:
+
+[Команда разработчиков Pixi рекомендует](http://www.html5gamedevs.com/topic/16019-preload-all-textures/?p=90907)
+что если вы используете загрузчик, вы должны создать спрайт с помощью
+ссылки на текстуру в `resources` объекта `loader` , вот так:
+
 ```js
 let sprite = new PIXI.Sprite(
   PIXI.loader.resources["images/anyImage.png"].texture
 );
 ```
-Here’s an example of some complete code you could write to load an image, 
-call the `setup` function, and create a sprite from the loaded image:
+
+Вот пример полного кода, который вы можете написать для загрузки изображения,
+вызвать функцию `setup` и создать спрайт из загруженного изображения:
+
 ```js
 PIXI.loader
   .add("images/anyImage.png")
@@ -425,20 +436,25 @@ function setup() {
   );
 }
 ```
-This is the general format we’ll be using to load images and create
-sprites in this tutorial.
 
-You can load multiple images at the same time by listing them with
-chainable `add` methods, like this:
+Это общий формат, который мы будем использовать для загрузки изображений и создания
+спрайтов в этом уроке.
+
+Вы можете загрузить несколько изображений одновременно, перечислив их с помощью
+цепочки методов `add` , вот так:
+
 ```js
+
 PIXI.loader
   .add("images/imageOne.png")
   .add("images/imageTwo.png")
   .add("images/imageThree.png")
   .load(setup);
 ```
-Better yet, just list all the files you want to load in
-an array inside a single `add` method, like this:
+
+А еще лучше просто перечислите все файлы, которые хотите загрузить.
+массивом внутри одного `add` метода, вот так:
+
 ```js
 PIXI.loader
   .add([
@@ -448,209 +464,244 @@ PIXI.loader
   ])
   .load(setup);
 ```
-The `loader` also lets you load JSON files, which you'll learn
-about ahead.
+
+`loader` также позволяет загружать файлы JSON, о чем вы узнаете позже.
 
 <a id='displaying'></a>
-Displaying sprites
-------------------
 
-After you've loaded an image, and used it to make a sprite, you need to add the sprite to Pixi's `stage` with the `stage.addChild` method, like this:
+Отображение спрайтов
+--------------------
+
+После того, как вы загрузили изображение и использовали его для создания спрайта, вам нужно добавить спрайт на сцену `stage` Pixi методом `stage.addChild` вот так:
+
 ```js
 app.stage.addChild(cat);
 ```
-Remember that the `stage` is the main container that holds all of your sprites.
 
-**Important: you won't be able to see any of your sprites sprites unless you add them to the `stage`!**
+Помните, что `stage` это основной контейнер, в котором хранятся все ваши спрайты.
 
-Before we continue, let's look at a practical example of how to use what
-you've just learnt to display a single image. In the `examples/images`
-folder you'll find a 64 by 64 pixel PNG image of a cat.
+**Важно: вы не сможете увидеть свои спрайты, если не добавите их в `stage`!**
+
+Прежде чем продолжить, давайте рассмотрим практический пример того, как использовать то, что
+вы только что научились отображать одно изображение. В папке `examples/images`
+вы найдете изображение кота в формате PNG размером 64 на 64 пискеля.
 
 ![Basic display](/examples/images/cat.png)
 
-Here's all the JavaScript code you need to load the image, create a
-sprite, and display it on Pixi's stage:
+Вот весь код JavaScript, необходимый для загрузки изображения, создания
+спрайта и отображения его на сцене Pixi:
+
 ```js
-//Create a Pixi Application
-let app = new PIXI.Application({ 
-    width: 256, 
-    height: 256,                       
-    antialias: true, 
-    transparent: false, 
+//Создать приложение Pixi
+let app = new PIXI.Application({
+    width: 256,
+    height: 256,
+    antialias: true,
+    transparent: false,
     resolution: 1
   }
 );
 
-//Add the canvas that Pixi automatically created for you to the HTML document
+//Добавьте холст, который Pixi автоматически создал для вас, в HTML-документ.
 document.body.appendChild(app.view);
 
-//load an image and run the `setup` function when it's done
+//загрузите изображение и запустите функцию `setup`, когда это будет сделано
 PIXI.loader
   .add("images/cat.png")
   .load(setup);
 
-//This `setup` function will run when the image has loaded
+//Эта функция `setup` запускается, когда изображение загружено.
 function setup() {
 
-  //Create the cat sprite
+  //Создайте спрайт кошки
   let cat = new PIXI.Sprite(PIXI.loader.resources["images/cat.png"].texture);
   
-  //Add the cat to the stage
+  //Добавьте кота на сцену
   app.stage.addChild(cat);
 }
 ```
-When this code runs, here's what you'll see:
+
+Когда этот код запустится, вы увидите следующее:
 
 ![Cat on the stage](/examples/images/screenshots/02.png)
 
-Now we're getting somewhere!
+Теперь мы куда-то идем!
 
-If you ever need to remove a sprite from the stage, use the `removeChild` method:
+Если вам когда-нибудь понадобится удалить спрайт со сцены, используйте метод `removeChild`:
+
 ```js
 app.stage.removeChild(anySprite)
 ```
-But usually setting a sprite’s `visible` property to `false` will be a simpler and more efficient way of making sprites disappear.
+
+Но обычно установка свойства спрайта `visible` в `false` будет более простым и эффективным способом заставить спрайты исчезнуть.
+
 ```js
 anySprite.visible = false;
 ```
-<a id='usingaliases'></a>
-### Using aliases
 
-You can save yourself a little typing and make your code more readable
-by creating short-form aliases for the Pixi objects and methods that you
-use frequently. For example, is prefixing `PIXI` to all of Pixi's objects starting to bog you down? If you think so, create a shorter alias that points to it. For example, here's how you can create an alias to the `TextureCache` object:
+<a id='usingaliases'></a>
+
+### Использование псевдонимов
+
+Вы можете сэкономить немного времени на вводе текста и сделать свой код более читабельным
+создавая короткие псевдонимы для объектов и методов Pixi, которые вы часто
+используете.
+Например, вас утомляет добавление префикса `PIXI` ко всем объектам Pixi? Если вы так думаете, создайте более короткий псевдоним, указывающий на него.
+Например, вот как вы можете создать псевдоним для объекта `TextureCache`:
+
 ```js
 let TextureCache = PIXI.utils.TextureCache
 ```
-Then, use that alias in place of the original, like this:
+
+Затем используйте этот псевдоним вместо оригинала, например:
+
 ```js
 let texture = TextureCache["images/cat.png"];
 ```
-In addition to letting you write more slightly succinct code, using aliases has
-an extra benefit: it helps to buffer you from Pixi's frequently
-changing API. If Pixi's API changes in future
-versions - which it will! - you just need to update these aliases to
-Pixi objects and methods in one place, at the beginning of
-your program, instead of every instance where they're used throughout
-your code. So when Pixi's development team decides they want to
-rearrange the furniture a bit, you'll be one step ahead of them!
 
-To see how to do this, let's re-write the code we wrote to load an image and display it,
-using aliases for all the Pixi objects and methods.
+Помимо возможности писать более сжатый код, использование псевдонимов имеет
+дополнительное преимущество: это помогает защитить вас от частых
+изменение API.
+Если API Pixi изменится в будущем
+версии - что будет! - вам просто нужно обновить эти псевдонимы до
+Объекты и методы Pixi в одном месте, в начале
+ваша программа, а не каждый экземпляр, где они используются
+ваш код. Поэтому, когда команда разработчиков Pixi решает, что они хотят
+Немного переставьте мебель, вы будете на шаг впереди них!
+
+Чтобы увидеть, как это сделать, давайте перепишем написанный нами код для загрузки изображения и его отображения.
+используя псевдонимы для всех объектов и методов Pixi.
+
 ```js
-//Aliases
+//Псевдонимы
 let Application = PIXI.Application,
     loader = PIXI.loader,
     resources = PIXI.loader.resources,
     Sprite = PIXI.Sprite;
 
-//Create a Pixi Application
-let app = new Application({ 
-    width: 256, 
-    height: 256,                       
-    antialias: true, 
-    transparent: false, 
+//Создать приложение Pixi
+let app = new Application({
+    width: 256,
+    height: 256,
+    antialias: true,
+    transparent: false,
     resolution: 1
   }
 );
 
-//Add the canvas that Pixi automatically created for you to the HTML document
+//Добавьте холст, который Pixi автоматически создал для вас, в HTML-документ.
 document.body.appendChild(app.view);
 
-//load an image and run the `setup` function when it's done
+//загрузите изображение и запустите функцию `setup`, когда это будет сделано
 loader
   .add("images/cat.png")
   .load(setup);
 
-//This `setup` function will run when the image has loaded
+//Эта функция `setup` запускается, когда изображение загружено.
 function setup() {
 
-  //Create the cat sprite
+  //Создайте спрайт кошки
   let cat = new Sprite(resources["images/cat.png"].texture);
   
-  //Add the cat to the stage
+  //Добавьте кота на сцену
   app.stage.addChild(cat);
 }
 
 ```
-Most of the examples in this tutorial will use aliases for Pixi
-objects that follow this same model. **Unless otherwise stated, you can
-assume that all the code examples that follow use aliases like these**.
 
-This is all you need to know to start loading images and creating
-sprites.
+В большинстве примеров в этом руководстве будут использоваться псевдонимы для Pixi.
+объекты, которые следуют этой же модели. **Если не указано иное, вы можете предположим, что все последующие примеры кода используют псевдонимы, подобные этим**.
+
+Это все, что вам нужно знать, чтобы начать загружать изображения и создавать
+спрайты.
 
 <a id='alittlemoreaboutloadingthings'></a>
-### A little more about loading things
 
-The format I've shown you above is what I suggest you use as your
-standard template for loading images and displaying sprites. So, you
-can safely ignore the next few paragraphs and jump straight to the
-next section, "Positioning sprites." But Pixi's `loader` object is
-quite sophisticated and includes a few features that you should be
-aware of, even if you don't use them on a regular basis. Let's
-look at some of the most useful.
+### Еще немного о загрузке вещей
+
+Формат, который я показал вам выше, я предлагаю вам использовать в качестве
+стандартный шаблон для загрузки изображений и отображения спрайтов. Так что вы
+можете спокойно игнорировать следующие несколько абзацев и сразу перейти к
+следующему разделу «Размещение спрайтов». Но объект загрузчика Pixi
+довольно сложный и включает в себя несколько функций, которыми вы должны быть
+осведомлены, даже если вы не используете их на регулярной основе. Давайте
+посмотрите на некоторые из самых полезных.
 
 <a id='makeaspritefromanordinaryjavascriptimageobject'></a>
-#### Make a sprite from an ordinary JavaScript Image object or Canvas
 
-For optimization and efficiency it’s always best to make a sprite from
-a texture that’s been pre-loaded into Pixi’s texture cache. But if for
-some reason you need to make a texture from a regular JavaScript
-`Image`
-object, you can do that using Pixi’s `BaseTexture` and `Texture`
-classes:
+#### Создайте спрайт из обычного объекта изображения JavaScript или холста
+
+Для оптимизации и повышения эффективности всегда лучше создавать спрайт из
+текстуры, которая была предварительно загружена в кеш текстур Pixi. Но если
+почему-то вам нужно сделать текстуру из обычного объекта JavaScript `Image`,
+вы можете сделать это используя классы Pixi `BaseTexture` и `Texture`:
+
 ```js
 let base = new PIXI.BaseTexture(anyImageObject),
     texture = new PIXI.Texture(base),
     sprite = new PIXI.Sprite(texture);
 ```
-You can use `BaseTexture.fromCanvas` if you want to make a texture
-from any existing canvas element:
+
+Вы можете использовать `BaseTexture.fromCanvas` если вы хотите сделать текстуру
+из любого существующего элемента холста:
+
 ```js
 let base = new PIXI.BaseTexture.fromCanvas(anyCanvasElement),
 ```
-If you want to change the texture the sprite is displaying, use the
-`texture` property. Set it to any `Texture` object, like this:
+
+Если вы хотите изменить текстуру, отображаемую спрайтом, используйте
+свойство `texture`. Установите его на любой объект `Текстура`, например:
+
 ```js
 anySprite.texture = PIXI.utils.TextureCache["anyTexture.png"];
 ```
-You can use this technique to interactively change the sprite’s
-appearance if something significant happens to it in the game.
+
+Вы можете использовать эту технику для интерактивного изменения спрайта
+внешний вид, если с ним в игре произойдет что-то существенное.
 
 <a id='assigninganametoaloadingfile'></a>
-#### Assigning a name to a loading file
 
-It's possible to assign a unique name to each resource you want to
-load. Just supply the name (a string) as the first argument in the
-`add` method. For example, here's how to name an image of a cat as
-`catImage`.
+#### Присвоение имени загружаемому файлу
+
+Каждому ресурсу можно присвоить уникальное имя.
+грузить.
+Просто укажите имя (строку) в качестве первого аргумента в методе `add`.
+Например, вот как назвать изображение кошки как `catImage`.
+
 ```js
 PIXI.loader
   .add("catImage", "images/cat.png")
   .load(setup);
 ```
-This creates an object called `catImage` in `loader.resources`.
-That means you can create a sprite by referencing the `catImage` object, like this:
+
+Это создает объект с именем `catImage` в `loader.resources`.
+Это означает, что вы можете создать спрайт, обратившись к объект `catImage`, вот так:
+
 ```js
 let cat = new PIXI.Sprite(PIXI.loader.resources.catImage.texture);
 ```
-However, I recommend you don't use this feature! That's because you'll
-have to remember all names you gave each loaded files, as well as make sure
-you don't accidentally use the same name more than once. Using the file path name, as we've done in previous examples is simpler and less error prone.
+
+Однако я рекомендую вам не использовать эту функцию!
+Это потому, что вам нужно запомнить все имена, которые вы дали каждому загруженному файлу,
+а также убедитесь, что вы случайно не используете одно и то же имя более одного раза.
+Использование имени пути к файлу, как мы делали в предыдущих примерах, проще и менее подвержено ошибкам..
 
 <a id='monitoringloadprogress'></a>
-#### Monitoring load progress
 
-Pixi's loader has a special `progress` event that will call a
-customizable function that will run each time a file loads. `progress` events are called by the
-`loader`'s `on` method, like this:
+#### Мониторинг прогресса загрузки
+
+В загрузчике Pixi есть специальное событие `progress`, которое вызывает
+настраиваемая функция, которая будет запускаться каждый раз при загрузке файла.
+События `progress` вызываются методом `on` объекта `loader`, вот так:
+
 ```js
 PIXI.loader.on("progress", loadProgressHandler);
 ```
-Here's how to include the `on` method in the loading chain, and call
-a user-definable function called `loadProgressHandler` each time a file loads.
+
+Вот как включить метод `on` в цепочку загрузки и вызвать определяемая
+пользователем функция, называемая `loadProgressHandler` каждый раз,
+когда файл загружается.
+
 ```js
 PIXI.loader
   .add([
@@ -662,35 +713,42 @@ PIXI.loader
   .load(setup);
 
 function loadProgressHandler() {
-  console.log("loading"); 
+  console.log("loading");
 }
 
 function setup() {
   console.log("setup");
 }
 ```
-Each time one of the files loads, the progress event calls
-`loadProgressHandler` to display "loading" in the console. When all three files have loaded, the `setup`
-function will run. Here's the output of the above code in the console:
+
+Каждый раз, когда загружается один из файлов, событие progress вызывает
+`loadProgressHandler` для отображения "loading" в консоли.
+Когда все три файла загружены, функция setup будет запущена.
+Вот вывод вышеприведенного кода в консоли:
+
 ```js
 loading
 loading
 loading
 setup
 ```
-That's neat, but it gets better. You can also find out exactly which file
-has loaded and what percentage of overall files are have currently
-loaded. You can do this by adding optional `loader` and
-`resource` parameters to the `loadProgressHandler`, like this:
+
+Это здорово, но становится лучше. Вы также можете узнать, какой именно файл
+загружен, и какой процент файлов в настоящее время загружен.
+Вы можете сделать это, добавив необязательные `loader` и
+`resource` параметры к `loadProgressHandler`, вот так:
+
 ```js
 function loadProgressHandler(loader, resource) { /*...*/ }
 ```
-You can then use `resource.url` to find the file that's currently
-loaded. (Use `resource.name` if you want to find the optional name
-that you might have assigned to the file, as the first argument in the
-`add` method.) And you can use `loader.progress` to find what
-percentage of total resources have currently loaded. Here's some code
-that does just that.
+
+Затем вы можете использовать `resource.url` чтобы найти текущий файл
+загрузки. (Используйте `resource.name` если вы хотите найти необязательное имя
+что вы могли назначить файлу, как первый аргумент в методе
+`add`.) И вы можете использовать `loader.progress` для поиска
+процента от общих ресурсов загрузки.
+Вот код, который это делает.
+
 ```js
 PIXI.loader
   .add([
@@ -703,22 +761,24 @@ PIXI.loader
 
 function loadProgressHandler(loader, resource) {
 
-  //Display the file `url` currently being loaded
-  console.log("loading: " + resource.url); 
+  // Отобразить загружаемый в данный момент файл url
+  console.log("loading: " + resource.url);
 
-  //Display the percentage of files currently loaded
-  console.log("progress: " + loader.progress + "%"); 
+  // Показать процент загруженных файлов
+  console.log("progress: " + loader.progress + "%");
 
-  //If you gave your files names as the first argument 
-  //of the `add` method, you can access them like this
-  //console.log("loading: " + resource.name);
+  // Если вы указали имена файлов в качестве первого аргумента метода ʻadd`,
+  // вы можете получить к ним доступ следующим образом
+  // console.log("loading: " + resource.name);
 }
 
 function setup() {
   console.log("All files loaded");
 }
 ```
-Here's what this code will display in the console when it runs:
+
+Вот что этот код будет отображать в консоли при запуске:
+
 ```js
 loading: images/one.png
 progress: 33.333333333333336%
@@ -728,48 +788,53 @@ loading: images/three.png
 progress: 100%
 All files loaded
 ```
-That's really cool, because you could use this as the basis for
-creating a loading progress bar. 
 
-(Note: There are additional properties you can access on the
-`resource` object. `resource.error` will tell you of any possible
-error that happened while
-trying to load a file. `resource.data` lets you
-access the file's raw binary data.)
+Это действительно здорово, потому что вы можете использовать это как основу для
+создание индикатора выполнения загрузки.
+
+(Note: Есть дополнительные свойства, к которым вы можете получить доступ на
+объект `resource`. `resource.error` расскажет вам о любых возможных
+ошибках, произошедших во время попытки загрузить файл. `resource.data` открывает вам
+доступ к необработанным двоичным данным файла.)
 
 <a id='moreaboutpixisloader'></a>
-#### More about Pixi's loader
 
-Pixi's loader is ridiculously feature-rich and configurable. Let's
-take a quick bird's-eye view of its usage to
-get you started.
+#### Подробнее о загрузчике Pixi
 
-The loader's chainable `add` method takes 4 basic arguments:
+Загрузчик Pixi невероятно многофункциональный и настраиваемый. Давайте
+взгляните на его использование с высоты птичьего полета, чтобы
+начать.
+
+Цепной метод ʻadd` загрузчика принимает 4 основных аргумента.:
+
 ```js
 add(name, url, optionObject, callbackFunction)
 ```
-Here's what the loader's source code documentation has to say about
-these parameters:
 
-`name` (string): The name of the resource to load. If it's not passed, the `url`is used.  
-`url` (string): The url for this resource, relative to the `baseUrl` of the loader.  
-`options` (object literal): The options for the load.  
-`options.crossOrigin` (Boolean): Is the request cross-origin? The default is to determine automatically.  
-`options.loadType`: How should the resource be loaded? The default value is `Resource.LOAD_TYPE.XHR`.  
-`options.xhrType`: How should the data being loaded be interpreted
-when using XHR? The default value is `Resource.XHR_RESPONSE_TYPE.DEFAULT`  
-`callbackFunction`: The function to call when this specific resource completes loading.
+Вот что говорится в документации по исходному коду загрузчика
+эти параметры:
 
-The only one of these arguments that's required is the `url` (the file that you want to load.) 
+`name` (string): Имя загружаемого ресурса. Если он не передан, используется url.
+`url` (string): URL-адрес этого ресурса относительно baseUrl загрузчика.
+`options` (object literal): Варианты загрузки.
+`options.crossOrigin` (Boolean): Является ли запрос кросс-источником? По умолчанию определяется автоматически.
+`options.loadType`: Как следует загружать ресурс? Значение по умолчанию - `Resource.LOAD_TYPE.XHR`.
+`options.xhrType`: Как следует интерпретировать загружаемые данные
+при использовании XHR? Значение по умолчанию - `Resource.XHR_RESPONSE_TYPE.DEFAULT`
+`callbackFunction`: Функция, вызываемая, когда этот конкретный ресурс завершает загрузку.
 
-Here are some examples of some ways you could use the `add`
-method to load files. These first ones are what the docs call the loader's "normal syntax":
+Единственный из этих обязательных аргументов - `url` (файл, который вы хотите загрузить).
+
+Вот несколько примеров того, как можно использовать метод `add` для загрузки файла. Эти первые - это то, что в документации называется "нормальным синтаксисом" загрузчика.:
+
 ```js
 .add('key', 'http://...', function () {})
 .add('http://...', function () {})
 .add('http://...')
 ```
-And these are examples of the loader's "object syntax":
+
+А это примеры "объектного синтаксиса" загрузчика.:
+
 ```js
 .add({
   name: 'key2',
@@ -792,8 +857,9 @@ And these are examples of the loader's "object syntax":
   crossOrigin: true
 })
 ```
-You can also pass the `add` method an array of objects, or urls, or
-both:
+
+Вы также можете передать методу `add` массив объектов, или urls, или оба:
+
 ```js
 .add([
   {name: 'key4', url: 'http://...', onComplete: function () {} },
@@ -801,118 +867,129 @@ both:
   'http://...'
 ]);
 ```
-(Note: If you ever need to reset the loader to load a new batch of files, call the loader's `reset` method: `PIXI.loader.reset();`)
 
-Pixi's loader has many more advanced features, including options to
-let you load and parse binary files of all types. This is not
-something you'll need to do on a day-to-day basis, and way outside the
-scope of this tutorial, so [make sure to check out the loader's GitHub repository
-for more information](https://github.com/englercj/resource-loader).
+(Note: Если вам когда-нибудь понадобится перезагрузить загрузчик, чтобы загрузить новый пакет файлов, вызовите метод загрузчика `reset`: `PIXI.loader.reset();`)
+
+Загрузчик Pixi имеет множество дополнительных функций, в том числе
+позволяет загружать и анализировать двоичные файлы всех типов. Это не
+то, что вам нужно делать изо дня в день, и выходит за рамки этого руководства,
+так что [не забудьте проверить репозиторий загрузчика на GitHub
+Чтобы получить больше информации](https://github.com/englercj/resource-loader).
 
 <a id='positioning'></a>
-Positioning sprites
+Размещение спрайтов
 -------------------
 
-Now that you know how to create and display sprites, let's find out
-how to position and resize them.
+Теперь, когда вы знаете, как создавать и отображать спрайты, давайте узнаем
+как их расположить и изменить размер.
 
-In the earlier example the cat sprite was added to the stage at
-the top left corner. The cat has an `x` position of
-0 and a `y` position of 0. You can change the position of the cat by
-changing the values of its `x` and `y` properties. Here's how you can center the cat in the stage by
-setting its `x` and `y` property values to 96.
+В предыдущем примере спрайт кошки был добавлен на сцену в
+верхний левый угол. У кота есть `x` позложение равное 0 и
+`y` положение равное 0.
+Вы можете изменить положение кошки, измененяя значения его свойств `x` и` y`.
+Вот как можно центрировать кошку на сцене, установите значения свойств `x` и` y` на 96.
+
 ```js
 cat.x = 96;
 cat.y = 96;
 ```
-Add these two lines of code anywhere inside the `setup`
-function, after you've created the sprite. 
+
+Добавьте эти две строки кода в любое место внутри функции
+`setup`, после того, как вы создали спрайт.
+
 ```js
 function setup() {
 
-  //Create the `cat` sprite
+  //Создание спрайта `cat`
   let cat = new Sprite(resources["images/cat.png"].texture);
 
-  //Change the sprite's position
+  //Измените положение спрайта
   cat.x = 96;
   cat.y = 96;
 
-  //Add the cat to the stage so you can see it
+  //Добавьте кота на сцену, чтобы вы его видели
   app.stage.addChild(cat);
 }
 ```
-(Note: In this example,
-`Sprite` is an alias for `PIXI.Sprite`, `TextureCache` is an
-alias for `PIXI.utils.TextureCache`, and `resources` is an alias for
-`PIXI.loader.resources` as described earlier. I'll be
-using aliases that follow this same format for all Pixi objects and
-methods in the example code from now on.)
 
-These two new lines of code will move the cat 96 pixels to the right,
-and 96 pixels down. Here's the result:
+(Note: В этом примере,
+`Sprite` это псевдоним для `PIXI.Sprite`, `TextureCache` является
+псевдонимом для `PIXI.utils.TextureCache`, а `resources` это псевдоним для
+`PIXI.loader.resources` как описано ранее.
+Я буду использовать псевдонимы в том же формате для всех объектов Pixi и
+методы в примере кода с этого момента.)
 
-![Cat centered on the stage](/examples/images/screenshots/03.png)
+Эти две новые строки кода переместят кота на 96 пикселей вправо,
+и 96 пикселей вниз. Вот результат:
 
-The cat's top left corner (its left ear) represents its `x` and `y`
-anchor point. To make the cat move to the right, increase the
-value of its `x` property. To make the cat move down, increase the
-value of its `y` property. If the cat has an `x` value of 0, it will be at
-the very left side of the stage. If it has a `y` value of 0, it will
-be at the very top of the stage.
+![Cat центрирован на сцене](/examples/images/screenshots/03.png)
 
-![Cat centered on the stage - diagram](/examples/images/screenshots/04.png)
+Левый верхний угол кошки (левое ухо) представляет ее `x` и `y`.
+точка привязки. Чтобы кошка двигалась вправо, увеличьте
+значение его свойства `x`. Чтобы кошка двигалась вниз, увеличьте
+значение его свойства `y`. Если у кота значение `x` равно 0, оно будет на
+самой левой стороне сцены. Если он имеет значение `y`, равное 0, он будет
+на самом верху сцены.
 
-Instead of setting the sprite's `x` and `y` properties independently,
-you can set them together in a single line of code, like this:
+![Cat центрирован на сцене - diagram](/examples/images/screenshots/04.png)
+
+Вместо того, чтобы устанавливать свойства спрайта `x` и` y` независимо друг от друга,
+вы можете установить их вместе в одной строке кода, например:
+
 ```js
 sprite.position.set(x, y)
 ```
-<a id='sizenscale'></a>
-Size and scale
---------------
 
-You can change a sprite's size by setting its `width` and `height`
-properties. Here's how to give the cat a `width` of 80 pixels and a `height` of
-120 pixels.
+<a id='sizenscale'></a>
+Размер и масштаб
+----------------
+
+Вы можете изменить размер спрайта, установив его свойства `width` и `height`. Вот как задать кошке `width`  80 пикселей и `height` 20 пикселей.
+
 ```js
 cat.width = 80;
 cat.height = 120;
 ```
-Add those two lines of code to the `setup` function, like this:
+
+Добавьте эти две строки кода в функцию `setup`, вот так:
+
 ```js
 function setup() {
 
-  //Create the `cat` sprite
+  //Создайте спрайт `cat`
   let cat = new Sprite(resources["images/cat.png"].texture);
 
-  //Change the sprite's position
+  //Измените положение спрайта
   cat.x = 96;
   cat.y = 96;
 
-  //Change the sprite's size
+  //Изменить размер спрайта
   cat.width = 80;
   cat.height = 120;
 
-  //Add the cat to the stage so you can see it
+  //Добавьте кота на сцену, чтобы вы его видели
   app.stage.addChild(cat);
 }
 ```
-Here's the result:
 
-![Cat's height and width changed](/examples/images/screenshots/05.png)
+Вот результат:
 
-You can see that the cat's position (its top left corner) didn't
-change, only its width and height.
+![Высота и ширина кошки изменены](/examples/images/screenshots/05.png)
 
-![Cat's height and width changed - diagram](/examples/images/screenshots/06.png)
+Вы можете видеть, что положение кошки (ее левый верхний угол) не изменилось.
+меняем только его ширину и высоту.
 
-Sprites also have `scale.x` and `scale.y` properties that change the
-sprite's width and height proportionately. Here's how to set the cat's
-scale to half size:
+![Высота и ширина кота изменены - диаграмма](/examples/images/screenshots/06.png)
+
+Спрайты также имеют свойства `scale.x` и `scale.y` которые меняют
+ширина и высота спрайта пропорциональны. Вот как настроить кошачий
+масштабировать до половины размера:
+
 ```js
 cat.scale.x = 0.5;
 cat.scale.y = 0.5;
 ```
+
 Scale values are numbers between 0 and 1 that represent a
 percentage of the sprite's size. 1 means 100% (full size), while
 0.5 means 50% (half size). You can double the sprite's size by setting
@@ -1225,7 +1302,7 @@ let sprite = new Sprite(
   resources["images/treasureHunter.json"].textures["frameId.png"]
 );
 ```
-3. That’s way too much typing to do just to create a sprite! 
+1. That’s way too much typing to do just to create a sprite! 
 So I suggest you create an alias called `id` that points to texture’s 
 altas’s `textures` object, like this:
 ```js
