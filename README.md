@@ -33,10 +33,10 @@
   - [Игровые состояния](#игровые-состояния)
   - [движения клавиатурой](#движения-клавиатурой)
   - [Группировка спрайтов](#группировка-спрайтов)
-    - [Local and global positions](#local-and-global-positions)
-    - [Using a ParticleContainer to group sprites](#using-a-particlecontainer-to-group-sprites)
+    - [Локальная и глобальная положения](#локальная-и-глобальная-положения)
+    - [Использование ParticleContainer для группировки спрайтов](#использование-particlecontainer-для-группировки-спрайтов)
   - [Pixi's Graphic Primitives](#pixis-graphic-primitives)
-    - [Rectangles](#rectangles)
+    - [Прямоугольники](#прямоугольники)
     - [Circles](#circles)
     - [Ellipses](#ellipses)
     - [Rounded rectangles](#rounded-rectangles)
@@ -2153,120 +2153,134 @@ animals.height = 200;
 `Container`) может принадлежать только одному родителю за раз.
 Если вы используете `addChild` сделать спрайт дочерним по отношению
 к другому объекту, Pixi автоматически удалит его из текущего родителя.
-Это полезный элемент управления, о котором вам не нужно беспокоиться..
+Это полезный элемент управления, о котором вам не нужно беспокоиться.
 
 <a id='localnglobal'></a>
-### Local and global positions
+### Локальная и глобальная положения
 
-When you add a sprite to a `Container`, its `x` and `y`
-position is *relative to the group’s top left corner*. That's the
-sprite's **local position** For example, what do you think the cat's
-position is in this image?
+Когда вы добавляете спрайт в `Container`, его `x` и `y`
+положение является *относительно левого верхнего угла группы*.
+Это **local position** спрайта например, как ты думаешь кошачий
+позиция на этом изображении?
 
-![Grouping sprites](/examples/images/screenshots/20.png)
+![Группировка спрайтовs](/examples/images/screenshots/20.png)
 
-Let's find out:
-```
+Давай выясним:
+
+```js
 console.log(cat.x);
 //Displays: 16
 ```
-16? Yes! That's because the cat is offset by only 16 pixel's from the
-group's top left corner. 16 is the cat's local position.
 
-Sprites also have a **global position**. The global position is the
-distance from the top left corner of the stage, to the sprite's anchor
-point (usually the sprite's top left corner.) You can find a sprite's global
-position with the help of the `toGlobal` method.  Here's how:
-```
+16? Да! Это потому, что кот смещен всего на 16 пикселей от
+левого верхнего угла группы. 16 - локальное положение кошки.
+
+Спрайты также имеют **global position**. Мировая позиция - это
+расстояние от верхнего левого угла сцены, к точке привязки спрайта
+(обычно верхний левый угол спрайта.) Вы можете найти глобальный
+положение с помощью метода `toGlobal`.
+Вот как:
+
+```js
 parentSprite.toGlobal(childSprite.position)
 ```
-That means you can find the cat's global position inside the `animals`
-group like this:
-```
+
+Это означает, что вы можете найти глобальное положение кошки внутри ʻanimals`
+группы вот так:
+
+```js
 console.log(animals.toGlobal(cat.position));
 //Displays: Object {x: 80, y: 80...};
 ```
-That gives you an `x` and `y` position of 80. That's exactly the cat's
-global position relative to the top left corner of the stage. 
 
-What if you want to find the global position of a sprite, but don't
-know what the sprite's parent container
-is? Every sprite has a property called `parent` that will tell you what the
-sprite's parent is. If you add a sprite directly to the `stage`, then
-`stage` will be the sprite's parent. In the example above, the `cat`'s
-parent is `animals`. That means you can alternatively get the cat's global position
-by writing code like this:
-```
+Это дает вам положение `x` и `y` равное 80. Это точно кошачий
+глобальное положение относительно левого верхнего угла сцены.
+
+Что делать, если вы хотите найти глобальную позицию спрайта, но не
+знаете, что является родительским контейнером спрайта?
+У каждого спрайта есть свойство, называемое `parent` это скажет вам, что за
+родитель спрайта. Если добавить спрайт прямо в `stage`, то
+`stage` будет родителем спрайта. В приведенном выше примере родитель `cat`
+это `animals`. Это означает, что вы также можете получить глобальное положение кошки.
+написав такой код:
+
+```js
 cat.parent.toGlobal(cat.position);
 ```
-And it will work even if you don't know what the cat's parent
-container currently is.
 
-There's one more way to calculate the global position! And, it's
-actually the best way, so listen up! If you want to know the distance
-from the top left corner of the canvas to the sprite, and don't know
-or care what the sprite's parent containers are, use the
-`getGlobalPosition` method. Here's how to use it to find the tiger's global position:
+И он будет работать, даже если вы не знаете, что у кота родитель
+контейнер в настоящее время.
+
+Есть еще один способ рассчитать глобальную позицию! И это
+на самом деле лучший способ, так что слушайте! Если вы хотите знать расстояние
+от левого верхнего угла холста до спрайта, позаботьтесь о родительских контейнерах спрайта, используйте метод `getGlobalPosition`.
+Вот как с его помощью найти глобальное положение тигра:
+
 ```js
 tiger.getGlobalPosition().x
 tiger.getGlobalPosition().y
 ```
-This will give you `x` and `y` values of 128 in the example that we've
-been using.
-The special thing about `getGlobalPosition` is that it's highly
-precise: it will give you the sprite's accurate global position as
-soon as its local position changes. I asked the Pixi development team
-to add this feature specifically for accurate collision detection for
-games. (Thanks, Matt and the rest of the team for adding it!)
 
-What if you want to convert a global position to a local position? you
-can use the `toLocal` method. It works in a similar way, but uses this
-general format:
+Это даст вам `x` и `y` значение = 128 в примере, который мы
+использовали.
+Особенность в `getGlobalPosition` в том, что это очень
+точно: это даст вам точное глобальное положение спрайта как
+только его локальное положение изменится.
+Я просил команду разработчиков Pixi добавить эту функцию
+специально для точного обнаружения столкновений в игре.
+(Спасибо, Мэтт и остальная часть команды за добавление!)
+
+Что, если вы хотите преобразовать глобальную позицию в локальную? вы
+можете использовать метод `toLocal`. Он работает аналогичным образом,
+но использует этот общий формат:
+
 ```js
 sprite.toLocal(sprite.position, anyOtherSprite)
 ```
-Use `toLocal` to find the distance between a sprite and any other
-sprite. Here's how you could find out the tiger's local
-position, relative to the hedgehog.
+
+Используйте `toLocal` найти расстояние между спрайтом и любым другим
+спрайтом. Вот как можно узнать, где расположен тигр, относительно ежа.
+
 ```js
 tiger.toLocal(tiger.position, hedgehog).x
 tiger.toLocal(tiger.position, hedgehog).y
 ```
-This gives you an `x` value of 32 and a `y` value of 32. You can see
-in the example images that the tiger's top left corner is 32 pixels
-down and to the left of the hedgehog's top left corner.
+
+Это дает вам значение `x` = 32 и `y` = 32. Ты можешь видеть
+в примерах изображений верхний левый угол тигра равен 32 пикселям
+вниз и влево от верхнего левого угла ежика.
 
 <a id='spritebatch'></a>
-### Using a ParticleContainer to group sprites
+### Использование ParticleContainer для группировки спрайтов
 
-Pixi has an alternative, high-performance way to group sprites called
-a `ParticleContainer` (`PIXI.particles.ParticleContainer`). Any sprites inside a `ParticleContainer` will render 2 to 5
-times faster than they would if they were in a regular
-`Container`. It’s a great performance boost for games.
+У Pixi есть альтернативный, высокопроизводительный способ группировки спрайтов, называемый
+а `ParticleContainer` (`PIXI.particles.ParticleContainer`). Любые спрайты внутри `ParticleContainer` рендерятся от 2 до 5 раз быстрее, чем если бы они были в обычном `Container`.
+Это отличный прирост производительности для игр.
 
-Create a `ParticleContainer` like this:
+Создать `ParticleContainer` можно так:
+
 ```js
 let superFastSprites = new PIXI.particles.ParticleContainer();
 ```
-Then use `addChild` to add sprites to it, just like you would with any
-ordinary `Container`.
 
-You have to make some compromises if you decide to use a
-`ParticleContainer`. Sprites inside a `ParticleContainer` only have a few  basic properties:
-`x`, `y`, `width`, `height`, `scale`, `pivot`, `alpha`, `visible` – and that’s
-about it. Also, the sprites that it contains can’t have nested
-children of their own. A `ParticleContainer` also can’t use Pixi’s advanced
-visual effects like filters and blend modes. Each `ParticleContainer` can use only one texture (so you'll have to use a spritesheet if you want Sprites with different appearances). But for the huge performance boost that you get, those
-compromises are usually worth it. And you can use
-`Container`s and `ParticleContainer`s simultaneously in the same project, so you can fine-tune your optimization.
+Затем используйте `addChild` чтобы добавить к нему спрайты, как если бы вы делали это с любым
+обыкновенный `Container`.
 
-Why are sprites in a `Particle Container` so fast? Because the positions of
-the sprites are being calculated directly on the GPU. The Pixi
-development team is working to offload as much sprite processing as
-possible on the GPU, so it’s likely that the latest version of Pixi
-that you’re using will have much more feature-rich `ParticleContainer` than
-what I've described here. Check the current [`ParticleContainer`
-documentation](http://pixijs.download/release/docs/PIXI.particles.ParticleContainer.html) for details.
+Вы должны пойти на некоторые компромиссы, если решите использовать
+`ParticleContainer`. Спрайты внутри `ParticleContainer` имеют только несколько основных свойств:
+`x`, `y`, `width`, `height`, `scale`, `pivot`, `alpha`, `visible` – и это
+об этом.
+Кроме того, содержащиеся в нем спрайты не могут быть вложенными собственные дети.
+`ParticleContainer` также не может использовать расширенные визуальные эффекты Pixi, такие как фильтры и режимы наложения. Каждый `ParticleContainer` может использовать только одну текстуру (поэтому вам придется использовать таблицу спрайтов, если вам нужны спрайты с другим внешним видом). Но для огромного прироста производительности эти компромиссы обычно того стоят.
+И вы можете использовать `Container` и `ParticleContainer` одновременно в одном и том же проекте, поэтому вы можете настроить оптимизацию.
+
+Почему спрайты в `Particle Container` такие быстрые? Потому, что позиции
+спрайтов рассчитываются непосредственно на GPU. Команда разработчиков Pixi
+работает на то, чтобы переложить обработку спрайтов, по возможности на GPU,
+поэтому вполне вероятно, что последняя версия Pixi
+которые вы используете, будут иметь гораздо больше функций `ParticleContainer` чем
+то, что я описал здесь.
+Проверить текущую документацию [документация `ParticleContainer`](http://pixijs.download/release/docs/PIXI.particles.ParticleContainer.html) .
 
 Where you create a `ParticleContainer`, there are four optional
 arguments you can provide: `size`, `properties`, `batchSize` and `autoResize`.
@@ -2322,38 +2336,49 @@ if you're already familiar with canvas, there’s nothing really new to
 Let’s take a quick tour of how to make some basic shapes. Here are all
 the shapes we'll make in the code ahead.
 
-![Graphic primitives](/examples/images/screenshots/23.png)
+![Графические примитивы](/examples/images/screenshots/23.png)
 
 <a id='rectangles'></a>
-### Rectangles
+### Прямоугольники
 
-All shapes are made by first creating a new instance of Pixi's
-`Graphics` class (`PIXI.Graphics`).
+Все формы создаются путем создания нового экземпляра Pixi класса
+`Graphics` (`PIXI.Graphics`).
+
 ```js
 let rectangle = new Graphics();
 ```
+
 Use `beginFill` with a hexadecimal color code value to set the
 rectangle’ s fill color. Here’ how to set to it to light blue.
+
 ```js
 rectangle.beginFill(0x66CCFF);
 ```
+
 If you want to give the shape an outline, use the `lineStyle` method. Here's
 how to give the rectangle a 4 pixel wide red outline, with an `alpha`
 value of 1.
+
 ```js
 rectangle.lineStyle(4, 0xFF3300, 1);
 ```
+
 Use the `drawRect` method to draw the rectangle. Its four arguments
 are `x`, `y`, `width` and `height`.
+
 ```js
 rectangle.drawRect(x, y, width, height);
 ```
+
 Use `endFill` when you’re done.
+
 ```js
 rectangle.endFill();
 ```
+
 It’s just like the Canvas Drawing API! Here’s all the code you need to
 draw a rectangle, change its position, and add it to the stage.
+
 ```js
 let rectangle = new Graphics();
 rectangle.lineStyle(4, 0xFF3300, 1);
@@ -2365,6 +2390,7 @@ rectangle.y = 170;
 app.stage.addChild(rectangle);
 
 ```
+
 This code makes a 64 by 64 blue rectangle with a red border at an x and y position of 170.
 
 <a id='circles'></a>
