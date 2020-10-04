@@ -35,7 +35,7 @@
   - [Группировка спрайтов](#группировка-спрайтов)
     - [Локальная и глобальная положения](#локальная-и-глобальная-положения)
     - [Использование ParticleContainer для группировки спрайтов](#использование-particlecontainer-для-группировки-спрайтов)
-  - [Pixi's Graphic Primitives](#pixis-graphic-primitives)
+  - [Графические примитивы Pixi](#графические-примитивы-pixi)
     - [Прямоугольники](#прямоугольники)
     - [Circles](#circles)
     - [Ellipses](#ellipses)
@@ -43,7 +43,7 @@
     - [Lines](#lines)
     - [Polygons](#polygons)
   - [Displaying text](#displaying-text)
-  - [Collision detection](#collision-detection)
+  - [Обнаружение столкновений](#обнаружение-столкновений)
     - [The hitTestRectangle function](#the-hittestrectangle-function)
   - [Case study: Treasure Hunter](#case-study-treasure-hunter)
     - [The code structure](#the-code-structure)
@@ -60,7 +60,7 @@
     - [Checking for collisions](#checking-for-collisions)
     - [Reaching the exit door and ending the game](#reaching-the-exit-door-and-ending-the-game)
   - [More about sprites](#more-about-sprites)
-  - [Taking it further](#taking-it-further)
+  - [Продолжая](#продолжая)
     - [Hexi](#hexi)
     - [BabylonJS](#babylonjs)
   - [Please help to support this project!](#please-help-to-support-this-project)
@@ -2282,21 +2282,24 @@ let superFastSprites = new PIXI.particles.ParticleContainer();
 то, что я описал здесь.
 Проверить текущую документацию [документация `ParticleContainer`](http://pixijs.download/release/docs/PIXI.particles.ParticleContainer.html) .
 
-Where you create a `ParticleContainer`, there are four optional
-arguments you can provide: `size`, `properties`, `batchSize` and `autoResize`.
+При создании `ParticleContainer`, есть четыре дополнительных
+аргументы, которые вы можете предоставить: `size`, `properties`, `batchSize` и `autoResize`.
+
 ```js
 let superFastSprites = new ParticleContainer(maxSize, properties, batchSize, autoResize);
 ```
-The default value for `maxSize` is 1500. So, if you need to contain more
-sprites, set it to a higher number. The `properties` argument is an object
-with 5 Boolean values you can set: `scale`, `position`, `rotation`, `uvs` and
+
+Значение по умолчанию для `maxSize` это 1500. Итак, если вам нужно содержать больше
+спрайты, установите большее число. Аргумент `properties` это объект
+с 5 логическими значениями: `scale`, `position`, `rotation`, `uvs` и
 `alphaAndTint`. The default value of `position` is `true`, but all the others
 are set to `false`. That means that if you want change the `rotation`,
 `scale`, `tint`, or `uvs` of sprite in the `ParticleContainer`, you
 have to set those properties to `true`, like this:
+
 ```js
 let superFastSprites = new ParticleContainer(
-  size, 
+  size,
   {
     rotation: true,
     alphaAndtint: true,
@@ -2305,6 +2308,7 @@ let superFastSprites = new ParticleContainer(
   }
 );
 ```
+
 But, if you don't think you'll need to use these properties, keep them
 set to `false` to squeeze out the maximum amount of performance.
 
@@ -2322,8 +2326,8 @@ and `V` were chosen to represent `x` and `y` for 2D image textures.)
 (I'm not sure what exactly what those last two optional arguments, `batchSize` and `autoResize`, so if anyone knows, please us know in the Issues!)
 
 <a id='graphic'></a>
-Pixi's Graphic Primitives
--------------------------
+Графические примитивы Pixi
+--------------------------
 
 Using image textures is one of the most useful ways of making sprites,
 but Pixi also has its own low-level drawing tools. You can use them to
@@ -2605,18 +2609,19 @@ can use Pixi's loader to load Bitmap font XML files, the same way you
 load JSON or image files.
 
 <a id='collision'></a>
-Collision detection
---------------------------
+Обнаружение столкновений
+------------------------
 
-You now know how to make a huge variety of graphics objects, but what
-can you do with them? A fun thing to do is to build a simple **collision
-detection** system. You can use a custom function called
-`hitTestRectangle` that checks whether any two rectangular Pixi sprites are
-touching.
+Теперь вы знаете, как создавать огромное количество разнообразных графических объектов, но какие
+ты можешь с ними делать? Самое интересное - построить простую систему **collision detection**.
+You can use a custom function called `hitTestRectangle` that checks whether any two rectangular Pixi sprites are touching.
+
 ```js
 hitTestRectangle(spriteOne, spriteTwo)
 ```
+
 if they overlap, `hitTestRectangle` will return `true`. You can use `hitTestRectangle` with an `if` statement to check for a collision between two sprites like this:
+
 ```js
 if (hitTestRectangle(cat, box)) {
   //There's a collision
@@ -2624,6 +2629,7 @@ if (hitTestRectangle(cat, box)) {
   //There's no collision
 }
 ```
+
 As you'll see, `hitTestRectangle` is the front door into the vast universe of game design.
 
 Run the `collisionDetection.html` file in the `examples` folder for a
@@ -2638,6 +2644,7 @@ well as the
 keyboard control system that makes the cat move. The only new thing is the
 way `hitTestRectangle` is used inside the `play` function to check for a
 collision.
+
 ```js
 function play(delta) {
 
@@ -2662,24 +2669,31 @@ function play(delta) {
   }
 }
 ```
+
 Because the `play` function is being called by the game loop 60 times
 per second, this `if` statement is constantly checking for a collision
 between the cat and the box. If `hitTestRectangle` is `true`, the
 text `message` object uses `text` to display "Hit":
+
 ```js
 message.text = "Hit!";
 ```
+
 The color of the box is then changed from green to red by setting the
 box's `tint` property to the hexadecimal red value.
+
 ```js
 box.tint = 0xff3300;
 ```
+
 If there's no collision, the message and box are maintained in their
 original states:
+
 ```js
 message.text = "No collision...";
 box.tint = 0xccff99;
 ```
+
 This code is pretty simple, but suddenly you've created an interactive
 world that seems to be completely alive. It's almost like magic! And, perhaps
 surprisingly, you now have all the skills you need to start making
@@ -3307,44 +3321,41 @@ to act as containers for other `DisplayObject`s. Third up the chain is
 the `Sprite` class. Sprites can both be displayed on the stage and be containers for other sprites.
 
 <a id='takingitfurther'></a>
-Taking it further
------------------
+Продолжая
+---------
 
-Pixi can do a lot, but it can't do everything! If you want to start
-making games or complex interactive applications with Pixi, you'll need
-to use some helper libraries:
+Pixi может многое, но не все! Если хочешь начать
+создавать игры или сложные интерактивные приложения с Pixi вам понадобится
+использовать вспомогательные библиотеки:
 
-- [Bump](https://github.com/kittykatattack/bump): A complete suite of 2D collision functions for games.
-- [Tink](https://github.com/kittykatattack/tink): Drag-and-drop, buttons, a universal pointer and other
-  helpful interactivity tools.
-- [Charm](https://github.com/kittykatattack/charm): Easy-to-use tweening animation effects for Pixi sprites.
-- [Dust](https://github.com/kittykatattack/dust): Particle effects for creating things like explosions, fire
-  and magic.
-- [Sprite Utilities](https://github.com/kittykatattack/spriteUtilities): Easier and more intuitive ways to
-  create and use Pixi sprites, as well adding a state machine and
-  animation player. Makes working with Pixi a lot more fun.
-- [Sound.js](https://github.com/kittykatattack/sound.js): A micro-library for loading, controlling and generating
-  sound and music effects. Everything you need to add sound to games.
-- [Smoothie](https://github.com/kittykatattack/smoothie): Ultra-smooth sprite animation using true delta-time interpolation. It also lets you specify the fps (frames-per-second) at which your game or application runs, and completely separates your sprite rendering loop from your application logic loop.
+- [Bump](https://github.com/kittykatattack/bump): Полный набор функций 2D-столкновений для игр.
+- [Tink](https://github.com/kittykatattack/tink): Drag-and-drop, кнопки, универсальный указатель и др.
+  полезные интерактивные инструменты.
+- [Charm](https://github.com/kittykatattack/charm): Простые в использовании эффекты твин-анимации для спрайтов Pixi.
+- [Dust](https://github.com/kittykatattack/dust): Эффекты частиц для создания таких вещей, как взрывы, огонь и магия.
+- [Sprite Utilities](https://github.com/kittykatattack/spriteUtilities): Более простые и интуитивно понятные способы создавать и использовать спрайты Pixi, а также добавлять конечный автомат и
+  проигрыватель анимации. Делает работу с Pixi намного интереснее.
+- [Sound.js](https://github.com/kittykatattack/sound.js): Микробиблиотека для загрузки, управления и генерации звуковые и музыкальные эффекты. Все, что нужно для добавления звука в игры.
+- [Smoothie](https://github.com/kittykatattack/smoothie): Сверхгладкая анимация спрайтов с использованием истинной дельта-временной интерполяции. Он также позволяет указать частоту кадров в секунду (кадров в секунду), с которой работает ваша игра или приложение, и полностью отделяет цикл рендеринга спрайтов от цикла логики приложения.
 
-You can find out how to use all these libraries with Pixi in the book 
+Вы можете узнать, как использовать все эти библиотеки с Pixi, в книге.
 [Learn PixiJS](http://www.springer.com/us/book/9781484210956).
 
 <a id='hexi'></a>
 ### Hexi
 
-Do you want to use all the functionality of those libraries, but don't
-want the hassle of integrating them yourself? Use **Hexi**: a complete
-development environment for building games and interactive
-applications:
+Вы хотите использовать все функции этих библиотек, но не
+хотите хлопот по их интеграции? Воспользуйтесь **Hexi**: полная
+среда разработки для создания игр и интерактивных
+Приложения:
 
 https://github.com/kittykatattack/hexi
 
-It bundles the best version of Pixi (the latest **stable** one) with all these 
-libraries (and more!) for a simple and fun way to make games. Hexi also
-lets you access the global `PIXI` object directly, so you can write
-low-level Pixi code directly in a Hexi application, and optionally choose to use as many or
-as few of Hexi's extra conveniences as you need.
+В него входит лучшая версия Pixi (последняя **стабильная**) со всеми
+этими библиотеками (и другими!) для простого и увлекательного способа создавать игры.
+Hexi также позволяет получить доступ к глобальному объекту `PIXI` напрямую, так что ты можешь написать
+низкоуровневый код Pixi непосредственно в приложении Hexi и, при желании, использовать столько или
+столько дополнительных удобств Hexi, сколько вам нужно.
 
 <a id='babylonjs'></a>
 ### BabylonJS
@@ -3367,25 +3378,24 @@ content than what's in this tutorial, and it's
 packed full of all the essential techniques you need to know to use
 Pixi to make all kinds of interactive applications and games.
 
-Find out how to:
+Узнайте, как:
 
-- Make animated game characters.
-- Create a full-featured animation state player.
-- Dynamically animate lines and shapes.
-- Use tiling sprites for infinite parallax scrolling.
-- Use blend modes, filters, tinting, masks, video, and render textures.
-- Produce content for multiple resolutions.
-- Create interactive buttons.
-- Create a flexible drag and drop interface for Pixi.
-- Create particle effects.
-- Build a stable software architectural model that will scale to any size.
-- Make complete games.
+- Создавть анимированных игровых персонажей.
+- Создать полноценный плейер анимационных состояний.
+- Динамически анимируйте линии и формы.
+- Использовать мозаичные спрайты для бесконечной прокрутки параллакса.
+- Использовать режимы наложения, фильтры, тонирование, маски, видео и текстуры рендеринга.
+- Создавать контент для разных разрешений.
+- Создавать интерактивные кнопки.
+- Создавать гибкий интерфейс перетаскивания для Pixi.
+- Создавать эффекты частиц.
+- Создавать стабильную архитектурную модель программного обеспечения, которую можно масштабировать до любого размера.
+- Создавать полные игры.
 
-And, as a bonus, all the code is written entirely in the latest version of
-JavaScript: ES6/2015. And, although the book's code is based on Pixi v3.x, it all works just fine with the latest version of Pixi 4.x!
+И, как бонус, весь код полностью написан на последней версии
+JavaScript: ES6 / 2015. И хотя код книги основан на Pixi v3.x, все это прекрасно работает с последней версией Pixi 4.x!
 
-If you want to support this project, please buy a copy of this book,
-and buy another copy for your mom!
+Если вы хотите поддержать этот проект, пожалуйста, купите копию этой книги,
+и купи еще один экземпляр для мамы!
 
-Or, make a generous donation to: http://www.msf.org
-
+Или сделайте щедрое пожертвование: http://www.msf.org
