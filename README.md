@@ -28,11 +28,11 @@
   - [Использование атласа текстур](#использование-атласа-текстур)
   - [Загрузка атласа текстур](#загрузка-атласа-текстур)
   - [Создание спрайтов из загруженного атласа текстур](#создание-спрайтов-из-загруженного-атласа-текстур)
-  - [Moving Sprites](#moving-sprites)
-  - [Using velocity properties](#using-velocity-properties)
-  - [Game states](#game-states)
-  - [Keyboard Movement](#keyboard-movement)
-  - [Grouping Sprites](#grouping-sprites)
+  - [Движение спрайтов](#движение-спрайтов)
+  - [Использование скоростных свойств](#использование-скоростных-свойств)
+  - [Игровые состояния](#игровые-состояния)
+  - [движения клавиатурой](#движения-клавиатурой)
+  - [Группировка спрайтов](#группировка-спрайтов)
     - [Local and global positions](#local-and-global-positions)
     - [Using a ParticleContainer to group sprites](#using-a-particlecontainer-to-group-sprites)
   - [Pixi's Graphic Primitives](#pixis-graphic-primitives)
@@ -1520,46 +1520,47 @@ function randomInt(min, max) {
 </body>
 ```
 
-You can see in the code above that all the blobs are created using a
-`for` loop. Each `blob` is spaced evenly along the `x` axis like this:
+В приведенном выше коде видно, что все капли создаются с использованием
+wbrkf `for`. Каждая капла - `blob` равномерно распределен по оси `x` :
 
 ```js
 let x = spacing * i + xOffset;
 blob.x = x;
 ```
 
-`spacing` has a value 48, and `xOffset` has a value of 150. What this
-means is the first `blob` will have an `x` position of 150.
-This offsets it from the left side of the stage by 150 pixels. Each
-subsequent `blob` will have an `x` value that's 48 pixels greater than
-the `blob` created in the previous iteration of the loop. This creates
-an evenly spaced line of blob monsters, from left to right, along the dungeon floor.
+`spacing` имеет значение 48, и `xOffset` равен 150. Что
+означает, что первый `blob` будет иметь позицию `x` 150.
+Это смещает его от левой стороны сцены на 150 пикселей.
+Каждый последующий `blob` будет иметь значение `x` на 48 пикселей больше чем
+`blob` созданный на предыдущей итерации цикла.
+Это создает равномерно расположенную линию из капель монстров слева направо вдоль пола подземелья.
 
-Each `blob` is also given a random `y` position. Here's the code that
-does this:
+Каждый `blob` также получает случайную позицию по `y`. 
+Вот код, который это делает:
 
 ```js
 let y = randomInt(0, stage.height - blob.height);
 blob.y = y;
 ```
 
-The `blob`'s `y` position could be assigned any random number between 0 and
-512, which is the value of `stage.height`. This works with the help of
-a custom function called `randomInt`. `randomInt` returns a random number
-that's within a range between any two numbers you supply.
+The `blob`'s `y` позиции может быть присвоено любое случайное число
+между  0 и 512, что является значением `stage.height`.
+Это работает с помощью специальной функции, называемой `randomInt`.
+`randomInt` возвращает случайное число, которое находится
+в диапазоне между любыми двумя заданными вами числами.
 
 ```js
 randomInt(lowestNumber, highestNumber)
 ```
 
-That means if you want a random number between 1 and 10, you can get
-one like this:
+Это означает, что если вам нужно случайное число от 1 до 10, вы можете получить
+его так:
 
 ```js
 let randomNumber = randomInt(1, 10);
 ```
 
-Here's the `randomInt` function definition that does all this work:
+Вот определение функции `randomInt`, которая выполняет всю эту работу:
 
 ```js
 function randomInt(min, max) {
@@ -1567,81 +1568,85 @@ function randomInt(min, max) {
 }
 ```
 
-`randomInt` is a great little function to keep in your back pocket for
-making games - I use it all the time.
+`randomInt` отличная маленькая функция, которую можно носить в заднем кармане
+создание игр - я использую его все время.
 
 <a id='movingsprites'></a>
-Moving Sprites
---------------
+Движение спрайтов
+-----------------
 
-You now know how to display sprites, but how do you make them move?
-That's easy: create a looping function using Pixi's `ticker` 
-This is called a **game loop**.
-Any code you put inside the game loop will update 60 times per
-second. Here's some code you could write to make the `cat` sprite move
-to the right at a rate of 1 pixel per frame.
+Теперь вы знаете, как отображать спрайты, но как заставить их двигаться?
+Это просто: создайте функцию цикла с помощью Pixi `ticker`
+Это называется **game loop**.
+Любой код, который вы помещаете в game loop будет обновляться 60 раз в секунду.
+Вот код, который можно написать, чтобы спрайт `cat` двигался
+вправо со скоростью 1 пиксель на кадр.
+
 ```js
 
 function setup() {
 
-  //Start the game loop by adding the `gameLoop` function to
-  //Pixi's `ticker` and providing it with a `delta` argument.
+  //Запустите игровой цикл, добавив функцию `gameLoop` к
+  //Pixi `ticker` и предоставив ему аргумент `delta`.
   app.ticker.add(delta => gameLoop(delta));
 }
 
 function gameLoop(delta){
 
-  //Move the cat 1 pixel 
+  //Переместите кошку на 1 pixel
   cat.x += 1;
 }
 ```
-If you run this bit of code, you'll see the sprite gradually move to
-the right side of the stage. 
 
-![Moving sprites](/examples/images/screenshots/15.png)
+Если вы запустите этот фрагмент кода, вы увидите, что спрайт постепенно переместится в
+правую часть сцены.
 
-That's because each time the `gameLoop` runs, it adds 1 to the cat's x position.
-```
+![Движущиеся спрайты](/examples/images/screenshots/15.png)
+
+Это потому, что каждый раз запуск `gameLoop`, добавляет 1 к позиции кошки по оси x.
+
+```js
 cat.x += 1;
 ```
 
-Any function you add to Pixi's `ticker` will be called 60 times per second. You can see that the function is provided a `delta` argument - what's that?
+Любая функция, которую вы добавляете в Pixi `ticker` будет вызываться 60 раз в секунду. Вы можете видеть, что функция имеет аргумент `delta` - что это такое?
 
-The `delta` value represents the amount of fractional lag between frames. You can optionally add it to the cat's position, to make the cat's animation independent of the frame rate. Here's how:
+Значение `delta` представляет собой величину дробной задержки между кадрами. При желании вы можете добавить его к положению кота, чтобы анимация кота не зависела от частоты кадров. Вот так:
+
 ```js
 cat.x += 1 + delta;
 ```
-Whether or not you choose to add this `delta` value is largely an aestheic choice. And the effect will only really be noticeable if your animation is struggling to keep up with a consistent 60 frames per second display rate (which might happen, for example, if it's running on a slow device). The rest of the examples in this tutorial won't use this `delta` value, but feel free to use it in your own work if you wish.
 
-You don't have to use Pixi's ticker to create a game loop. If you prefer, just use `requestAnimationFrame`, like this:
+Независимо от того, добавляете ли вы это значение `delta` или нет, это во многом эстетический выбор. И эффект будет действительно заметен только в том случае, если ваша анимация изо всех сил пытается поддерживать постоянную скорость отображения 60 кадров в секунду (что может произойти, например, если она работает на медленном устройстве). Остальные примеры в этом руководстве не будут использовать это значение `delta`, но вы можете свободно использовать его в своей работе, если хотите.
+
+Вам не обязательно использовать тикер Pixi для создания игрового цикла. Если хотите, просто используйте `requestAnimationFrame`, например:
 
 ```js
 function gameLoop() {
 
-  //Call this `gameLoop` function on the next screen refresh
-  //(which happens 60 times per second)
+  //Вызовите эту функцию gameLoop при следующем обновлении экрана (что происходит 60 раз в секунду).
   requestAnimationFrame(gameLoop);
 
-  //Move the cat
+  //Перемещение кошки
   cat.x += 1;
 }
 
-//Start the loop
+//Начать цикл
 gameLoop();
 
 ```
 
-It entirely up to you which style you prefer.
+Выбор стиля зависит только от вас..
 
-And that's really all there is to it! Just change any sprite property by small
-increments inside the loop, and they'll animate over time. If you want
-the sprite to animate in the opposite direction (to the left), just give it a
-negative value, like `-1`.
+И это действительно все! Просто измените любое свойство спрайта на небольшое
+увеличение внутри цикла, и со временем они будут анимироваться. Если ты хочешь
+спрайт для анимации в противоположном направлении (слева), просто дайте ему
+отрицательное значение, например `-1`.
 
-You'll find this code in the `movingSprites.html` file - here's the
-complete code:
+Вы найдете этот код в файле `movingSprites.html` - вот полный код:
+
 ```js
-//Aliases
+//Псевдонимы
 let Application = PIXI.Application,
     Container = PIXI.Container,
     loader = PIXI.loader,
@@ -1650,172 +1655,176 @@ let Application = PIXI.Application,
     Sprite = PIXI.Sprite,
     Rectangle = PIXI.Rectangle;
 
-//Create a Pixi Application
-let app = new Application({ 
-    width: 256, 
-    height: 256,                       
-    antialias: true, 
-    transparent: false, 
+//Создание Pixi приложения
+let app = new Application({
+    width: 256,
+    height: 256,
+    antialias: true,
+    transparent: false,
     resolution: 1
   }
 );
 
-//Add the canvas that Pixi automatically created for you to the HTML document
+//Добавьте холст, который Pixi автоматически создал для вас, в HTML-документ.
 document.body.appendChild(app.view);
 
 loader
   .add("images/cat.png")
   .load(setup);
 
-//Define any variables that are used in more than one function
+//Определите любые переменные, которые используются более чем в одной функции
 let cat;
 
 function setup() {
 
   //Create the `cat` sprite 
   cat = new Sprite(resources["images/cat.png"].texture);
-  cat.y = 96; 
+  cat.y = 96;
   app.stage.addChild(cat);
- 
-  //Start the game loop 
-  app.ticker.add(delta => gameLoop(delta));
-}
 
-function gameLoop(delta){
-
-  //Move the cat 1 pixel 
-  cat.x += 1;
-  
-  //Optionally use the `delta` value
-  //cat.x += 1 + delta;
-}
-```
-(Notice that the `cat` variable needs to be defined outside the
-`setup` and
-`gameLoop` functions so that you can access it inside both of them.)
-
-You can animate a sprite's scale, rotation, or size - whatever! You'll see
-many more examples of how to animate sprites ahead.
-
-<a id='velocity'></a>
-Using velocity properties
--------------------------
-
-To give you more flexibility, it's a good idea to control a sprite's
-movement speed using two **velocity properties**: `vx` and `vy`. `vx`
-is used to set the sprite's speed and direction on the x axis
-(horizontally). `vy` is
-used to set the sprite's speed and direction on the y axis (vertically). Instead of
-changing a sprite's `x` and `y` values directly, first update the velocity
-variables, and then assign those velocity values to the sprite. This is an
-extra bit of modularity that you'll need for interactive game animation.
-
-The first step is to create `vx` and `vy` properties on your sprite,
-and give them an initial value.
-```js
-cat.vx = 0;
-cat.vy = 0;
-```
-Setting `vx` and `vy` to 0 means that the sprite isn't moving.
-
-Next, in the game loop, update `vx` and `vy` with the velocity at which you
-want the sprite to move. Then assign those values to the
-sprite's `x` and `y` properties. Here's how you could use this
-technique to make the cat sprite move down and to right at one pixel each
-frame:
-```js
-function setup() {
-
-  //Create the `cat` sprite 
-  cat = new Sprite(resources["images/cat.png"].texture);
-  cat.y = 96; 
-  cat.vx = 0;
-  cat.vy = 0;
-  app.stage.addChild(cat);
- 
   //Start the game loop
   app.ticker.add(delta => gameLoop(delta));
 }
 
 function gameLoop(delta){
 
-  //Update the cat's velocity
+  //Move the cat 1 pixel
+  cat.x += 1;
+  
+  //Optionally use the `delta` value
+  //cat.x += 1 + delta;
+}
+```
+
+(Обратите внимание, что переменная `cat` необходимо определить вне функций
+`setup` и `gameLoop` так, чтобы вы имели доступ из обеих функций.)
+
+Вы можете анимировать масштаб, вращение или размер спрайта - что угодно! Ты увидишь
+впереди еще много примеров того, как анимировать спрайты.
+
+<a id='velocity'></a>
+Использование скоростных свойств
+--------------------------------
+
+Для большей гибкости рекомендуется управлять скоростью передвижения спрайтов
+с помощью двух **velocity properties**: `vx` и `vy`. 
+`vx` используется для установки скорости и направления спрайта по оси x
+(горизонтально).
+`vy` используется для установки скорости и направления спрайта по оси y (по вертикали).
+Вместо того, чтобы напрямую изменять значения `x` и `y` спрайта, сначала
+обновите переменные скорости, а затем присвойте эти значения скорости спрайту.
+Это дополнительная модульность, необходимая для интерактивной игровой анимации.
+
+Первый шаг - создать свойства `vx` и `vy` вашему спрайту, и дайте им начальное значение.
+
+```js
+cat.vx = 0;
+cat.vy = 0;
+```
+
+Установка `vx` и `vy` в 0 означает, что спрайт не движется.
+
+Далее в game loop, обновляем `vx` и `vy` со скоростью, с которой вы
+хотите, чтобы спрайт двигался. Затем присвойте эти значения
+свойствам `x` и `y` спрайта. Вот как это можно использовать,
+чтобы спрайт кошки двигался вниз и вправо на один пиксель каждый
+кадр:
+
+```js
+function setup() {
+
+  //создаем спрайт `cat`
+  cat = new Sprite(resources["images/cat.png"].texture);
+  cat.y = 96;
+  cat.vx = 0;
+  cat.vy = 0;
+  app.stage.addChild(cat);
+
+  //стратуем game loop
+  app.ticker.add(delta => gameLoop(delta));
+}
+
+function gameLoop(delta){
+
+  //Обновляем скорость кошки
   cat.vx = 1;
   cat.vy = 1;
 
-  //Apply the velocity values to the cat's 
-  //position to make it move
+  //Примените значения скорости к положению кошки, чтобы она двигалась
   cat.x += cat.vx;
   cat.y += cat.vy;
 }
 
 
 ```
-When you run this code, the cat will move down and to the right at one
-pixel per frame:
+
+Когда вы запустите этот код, кошка переместится вниз и вправо на один
+пиксель на кадр:
 
 ![Moving sprites](/examples/images/screenshots/16.png)
 
-What if you want to make the cat move in a different direction? To
-make the cat move to the left, give it a `vx` value of `-1`. To make
-it move up, give the cat a `vy` value of `-1`. To make the cat move
-faster, give it larger `vx` and `vy` values, like `3`, `5`, `-2`, or
-`-4`.
+Что, если вы хотите заставить кошку двигаться в другом направлении? Чтобы
+заставить кошку переместиться влево, дайте ей `vx` значение `-1`. 
+Чтобы он двигался вверх, дайте кошке `vy` значение `-1`. 
+Чтобы кошка двигалась быстрее, увеличьте значения `vx` и `vy` , например на `3`, `5`, `-2`,
+или `-4`.
 
-You'll see ahead how modularizing a sprite's velocity with `vx` and
-`vy` velocity properties helps with keyboard and mouse pointer
-control systems for games, as well as making it easier to implement physics.
+Далее вы увидите, как модулирование скорости спрайта с помощью `vx` и
+`vy` свойств скоростей помогает системам управления для игр клавиатурой
+и указателем мыши, а также упрощает реализацию физики.
 
 <a id='gamestates'></a>
-Game states
+Игровые состояния
 -----------
 
-As a matter of style, and to help modularize your code, I
-recommend structuring your game loop like this:
+С точки зрения стиля и для модульности кода я
+рекомендую структурировать игровой цикл следующим образом:
+
 ```js
-//Set the game state
+//установка game state
 state = play;
- 
-//Start the game loop 
+
+//старт game loop
 app.ticker.add(delta => gameLoop(delta));
 
 function gameLoop(delta){
 
-  //Update the current game state:
+  //обновление текущего game state:
   state(delta);
 }
 
 function play(delta) {
 
-  //Move the cat 1 pixel to the right each frame
+  //Перемещайте кота на 1 пиксель вправо на каждый кадр
   cat.vx = 1
   cat.x += cat.vx;
 }
 ```
-You can see that the `gameLoop` is calling a function called `state` 60 times
-per second. What is the `state` function? It's been assigned to
-`play`. That means all the code in the `play` function will also run at 60
-times per second.
 
-Here's how the code from the previous example can be re-factored to
-this new model:
+Вы можете видеть, что `gameLoop` вызывает функцию с именем `state` 60 раз
+в секунду. Что это за функция `state` ?
+Ей была назначена `play`. Это означает, что весь код в функции `play` также выполняется
+60 раз в секунду.
+
+Вот как можно преобразовать код из предыдущего примера в эту новую модель:
+
 ```js
-//Define any variables that are used in more than one function
+//Определите любые переменные, которые используются более чем в одной функции
 let cat, state;
 
 function setup() {
 
-  //Create the `cat` sprite 
+  //Create the `cat` sprite
   cat = new Sprite(resources["images/cat.png"].texture);
-  cat.y = 96; 
+  cat.y = 96;
   cat.vx = 0;
   cat.vy = 0;
   app.stage.addChild(cat);
 
   //Set the game state
   state = play;
- 
-  //Start the game loop 
+
+  //Start the game loop
   app.ticker.add(delta => gameLoop(delta));
 }
 
@@ -1832,20 +1841,22 @@ function play(delta) {
   cat.x += cat.vx;
 }
 ```
-Yes, I know, this is a bit of [head-swirler](http://www.amazon.com/Electric-Psychedelic-Sitar-Headswirlers-1-5/dp/B004HZ14VS)! But, don't let it scare
-you and spend a minute or two walking through in your mind how those
-functions are connected. As you'll see ahead, structuring your game
-loop like this will make it much, much easier to do things like switching
-game scenes and levels.
+
+Да, я знаю, это немного [головоломно](http://www.amazon.com/Electric-Psychedelic-Sitar-Headswirlers-1-5/dp/B004HZ14VS)! Но пусть это не пугает вас и потратьте минуту или две, размышляя над тем, как
+функции связаны.
+Как вы увидите дальше, структурируя ваши игры
+такой цикл значительно упростит выполнение таких операций, как переключение
+игровых сцен и уровней.
 
 <a id='keyboard'></a>
-Keyboard Movement
------------------
+движения клавиатурой
+--------------------
 
-With just a little more work you can build a simple system to control
-a sprite using the keyboard. To simplify your code, I suggest you use
-this custom function called `keyboard` that listens for and captures
-keyboard events.
+Приложив немного больше усилий, вы сможете создать простую систему управления
+спрайтом с помощью клавиатуры. Чтобы упростить ваш код, я предлагаю вам использовать
+эту настраиваемую функцию называемую `keyboard` который слушает и улавливает
+события клавиатуры.
+
 ```js
 function keyboard(value) {
   let key = {};
@@ -1854,7 +1865,7 @@ function keyboard(value) {
   key.isUp = true;
   key.press = undefined;
   key.release = undefined;
-  //The `downHandler`
+  // `downHandler`
   key.downHandler = event => {
     if (event.key === key.value) {
       if (key.isUp && key.press) key.press();
@@ -1864,7 +1875,7 @@ function keyboard(value) {
     }
   };
 
-  //The `upHandler`
+  // `upHandler`
   key.upHandler = event => {
     if (event.key === key.value) {
       if (key.isDown && key.release) key.release();
@@ -1874,7 +1885,7 @@ function keyboard(value) {
     }
   };
 
-  //Attach event listeners
+  //Присоединить слушателей событий
   const downListener = key.downHandler.bind(key);
   const upListener = key.upHandler.bind(key);
   
@@ -1885,7 +1896,7 @@ function keyboard(value) {
     "keyup", upListener, false
   );
   
-  // Detach event listeners
+  // Отключить слушателей событий
   key.unsubscribe = () => {
     window.removeEventListener("keydown", downListener);
     window.removeEventListener("keyup", upListener);
@@ -1894,76 +1905,82 @@ function keyboard(value) {
   return key;
 }
 ```
-The `keyboard` function is easy to use. Create a new keyboard object like this:
+
+Функция `keyboard` проста в использовании. Создайте новый объект клавиатуры, подобный этому:
+
 ```js
 let keyObject = keyboard(keyValue);
 ```
-Its one argument is the key value that you want to listen for.
+
+Его единственный аргумент - это ключевое значение, которое вы хотите услышать.
 [Here's a list of keys](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values).
 
-Then assign `press` and `release` methods to the keyboard object like this:
+Затем назначьте методы `press` и `release` объекту keyboard:
+
 ```js
 keyObject.press = () => {
-  //key object pressed
+  // объект key нажатие
 };
 keyObject.release = () => {
-  //key object released
+  // объект key отпускание
 };
 ```
-Keyboard objects also have `isDown` and `isUp` Boolean properties that
-you can use to check the state of each key.
 
-Don't forget to remove event listeners by using the `unsubscribe` method :
+Объекты клавиатуры также имеют булевы свойства `isDown` и `isUp`
+которые можно использовать для проверки состояния каждой клавиши.
+
+Не забудьте удалить прослушиватели событий с помощью метода `unsubscribe` :
+
 ```js
 keyObject.unsubscribe();
 ```
 
-Take a look at the
-`keyboardMovement.html` file in the `examples` folder to see how you
-can use this `keyboard` function to control a sprite using your
-keyboard's arrow keys. Run it and use the left, up, down, and right
-arrow keys to move the cat around the stage.
+Взгляните на файл `keyboardMovement.html` в папке `examples` чтобы увидеть,
+как можно использовать эту функцию `keyboard` для управления спрайтом используя
+клавиши со стрелками на вашей клавиатуре. Запустите его и используйте влево, вверх, вниз и вправо
+клавиши со стрелками для перемещения кота по сцене.
 
 ![Keyboard movement](/examples/images/screenshots/17.png)
 
-Here's the code that does all this:
+Вот код, который все это делает:
+
 ```js
-//Define any variables that are used in more than one function
+//Определите любые переменные, которые используются более чем в одной функции
 let cat, state;
 
 function setup() {
 
-  //Create the `cat` sprite 
+  //Создайте спрайт `cat`
   cat = new Sprite(resources["images/cat.png"].texture);
-  cat.y = 96; 
+  cat.y = 96;
   cat.vx = 0;
   cat.vy = 0;
   app.stage.addChild(cat);
 
-  //Capture the keyboard arrow keys
+  //Захватить клавиши со стрелками на клавиатуре
   let left = keyboard("ArrowLeft"),
       up = keyboard("ArrowUp"),
       right = keyboard("ArrowRight"),
       down = keyboard("ArrowDown");
 
-  //Left arrow key `press` method
+  //Метод клавиша со стрелкой влево `нажата`
   left.press = () => {
-    //Change the cat's velocity when the key is pressed
+    //Изменение скорости кошки при нажатии клавиши
     cat.vx = -5;
     cat.vy = 0;
   };
   
-  //Left arrow key `release` method
+  //Клавиша со стрелкой влево `отпущена`
   left.release = () => {
-    //If the left arrow has been released, and the right arrow isn't down,
-    //and the cat isn't moving vertically:
-    //Stop the cat
+    //Если стрелка влево отпущена, а стрелка вправо не нажата
+    // и кошка не движется вертикально:
+    //Остановить кошку
     if (!right.isDown && cat.vy === 0) {
       cat.vx = 0;
     }
   };
 
-  //Up
+  //Вверх
   up.press = () => {
     cat.vy = -5;
     cat.vx = 0;
@@ -1974,7 +1991,7 @@ function setup() {
     }
   };
 
-  //Right
+  //Вправо
   right.press = () => {
     cat.vx = 5;
     cat.vy = 0;
@@ -1985,7 +2002,7 @@ function setup() {
     }
   };
 
-  //Down
+  //Вниз
   down.press = () => {
     cat.vy = 5;
     cat.vx = 0;
@@ -1996,109 +2013,118 @@ function setup() {
     }
   };
 
-  //Set the game state
+  //Установите состояние игры
   state = play;
- 
-  //Start the game loop 
+
+  //Запустить игровой цикл
   app.ticker.add(delta => gameLoop(delta));
 }
 
 function gameLoop(delta){
 
-  //Update the current game state:
+  //Обновить текущий game state:
   state(delta);
 }
 
 function play(delta) {
 
-  //Use the cat's velocity to make it move
+  //Используйте скорость кошки, чтобы заставить ее двигаться
   cat.x += cat.vx;
   cat.y += cat.vy
 }
 ```
 
 <a id='grouping'></a>
-Grouping Sprites
-----------------
+Группировка спрайтов
+--------------------
 
-Groups let you create game scenes, and manage similar sprites together
-as single units. Pixi has an object called a `Container`
-that lets you do this. Let's find out how it works.
+Группы позволяют создавать игровые сцены и вместе управлять похожими спрайтами
+как отдельными единицами. В Pixi есть объект называемый `Container`
+который позволяет вам сделать это. Давайте узнаем, как это работает.
 
-Imagine that you want to display three sprites: a cat, hedgehog and
-tiger. Create them, and set their positions - *but don't add them to the
-stage*.
+Представьте что вы хотите отобразить три спрайта: cat, hedgehog и
+tiger. Создайте их и установите их позиции *но не добавляйте их к сцене!*.
+
 ```js
-//The cat
+//Кот
 let cat = new Sprite(id["cat.png"]);
 cat.position.set(16, 16);
 
-//The hedgehog
+//Ёжик
 let hedgehog = new Sprite(id["hedgehog.png"]);
 hedgehog.position.set(32, 32);
 
-//The tiger
+//Тигр
 let tiger = new Sprite(id["tiger.png"]);
 tiger.position.set(64, 64);
 ```
 
-Next, create an `animals` container to group them all together like
-this:
+Теперь создайте контейнер `animals` чтобы сгрупировать их всех вместе:
+
 ```js
 let animals = new PIXI.Container();
 ```
-Then use `addChild` to *add the sprites to the group*.
+
+Затем используйте `addChild` чтобы *добавить спрайты в группу*.
+
 ```js
 animals.addChild(cat);
 animals.addChild(hedgehog);
 animals.addChild(tiger);
 ```
-Finally add the group to the stage.
+
+Наконец, добавьте группу на сцену.
+
 ```js
 app.stage.addChild(animals);
 ```
-(As you know, the `stage` object is also a `Container`. It’s the root
-container for all Pixi sprites.)
 
-Here's what this code produces:
+(Как известно, объект `stage` также является `Container`. 
+Это корневой контейнер для всех спрайтов Pixi.)
 
-![Grouping sprites](/examples/images/screenshots/18.png)
+Вот что производит этот код:
 
-What you can't see in that image is the invisible `animals` group
-that's containing the sprites.
+![Группировка спрайтов](/examples/images/screenshots/18.png)
 
-![Grouping sprites](/examples/images/screenshots/19.png)
+То, что вы не видите на этом изображении, - это невидимая группа животных.
+это содержит спрайты.
 
-You can now treat the `animals` group as a single unit. You can think
-of a `Container` as a special kind of sprite that doesn’t
-have a texture.
+![Группировка спрайтов](/examples/images/screenshots/19.png)
 
-If you need a list of all the child sprites that `animals` contains,
-use its `children` array to find out.
-```
+Теперь вы можете использовать группу `animals` как единый юнит.
+`Container` как особый вид спрайта, который не имеет текстуру.
+
+Если вам нужен список всех дочерних спрайтов, содержащихся в `animals`,
+используйте его массив `children`.
+
+```js
 console.log(animals.children)
-//Displays: Array [Object, Object, Object]
+//Отобразит: Array [Object, Object, Object]
 ```
-This tells you that `animals` has three sprites as children.
 
-Because the `animals` group is just like any other sprite, you can
-change its `x` and `y` values, `alpha`, `scale` and
-all the other sprite properties. Any property value you change on the
-parent container will affect the child sprites in a relative way. So if you
-set the group's `x` and `y` position, all the child sprites will
-be repositioned relative to the group's top left corner. What would
-happen if you set the `animals`'s `x` and `y` position to 64?
-```
+Это говорит вам, что `animals` имеет три спрайта - потомка.
+
+Поскольку группа `animals` как и любой другой спрайт, Вы можете
+изменить его `x` и `y` значения, `alpha`, `scale` а также
+все остальные свойства спрайта. Любое значение свойства, которое вы изменяете на
+родительский контейнер будет относительным образом влиять на дочерние спрайты.
+Итак, если вы установите `x` и `y` положения группы, все дочерние спрайты будут
+перемещенны относительно левого верхнего угла группы.
+Что произойдет, если вы установите значение `x` и `y ` группы animals в 64?
+
+```js
 animals.position.set(64, 64);
 ```
-The whole group of sprites will move 64 pixels right and 64 pixels to
-the down.
 
-![Grouping sprites](/examples/images/screenshots/20.png)
+Вся группа спрайтов переместится на 64 пикселя вправо и на 64 пикселя вправо.
+вниз.
 
-The `animals` group also has its own dimensions, which is based on the area
-occupied by the containing sprites. You can find its `width` and
-`height` values like this:
+![Группировка спрайтов](/examples/images/screenshots/20.png)
+
+Группа `animals` также имеет свои размеры, которые основаны на площади
+занятой содержащимися спрайтами. Вы можете найти его `width` и
+`height` так:
+
 ```js
 console.log(animals.width);
 //Displays: 112
@@ -2107,24 +2133,27 @@ console.log(animals.height);
 //Displays: 112
 
 ```
-![Group width and height](/examples/images/screenshots/21.png)
 
-What happens if you change a group's width or height?
+![Ширина и высота группы](/examples/images/screenshots/21.png)
+
+Что произойдет, если вы измените ширину или высоту группы?
+
 ```js
 animals.width = 200;
 animals.height = 200;
 ```
-All the child sprites will scale to match that change.
 
-![Group width and height](/examples/images/screenshots/22.png)
+Все дочерние спрайты будут масштабироваться в соответствии с этим изменением..
 
-You can nest as many `Container`s inside other
-`Container`s as you like, to create deep hierarchies if
-you need to. However, a `DisplayObject` (like a `Sprite` or another
-`Container`) can only belong to one parent at a time. If
-you use `addChild` to make a sprite the child of another object, Pixi
-will automatically remove it from its current parent. That’s a useful
-bit of management that you don’t have to worry about.
+![Ширина и высота группы](/examples/images/screenshots/22.png)
+
+Вы можете вложить столько `Container` внутрь другого
+`Container` сколько вам надо, создавая глубокие иерархии, если
+нужно. Но, `DisplayObject` (такой как `Sprite` или другой
+`Container`) может принадлежать только одному родителю за раз.
+Если вы используете `addChild` сделать спрайт дочерним по отношению
+к другому объекту, Pixi автоматически удалит его из текущего родителя.
+Это полезный элемент управления, о котором вам не нужно беспокоиться..
 
 <a id='localnglobal'></a>
 ### Local and global positions
