@@ -44,13 +44,13 @@
     - [Polygons](#polygons)
   - [Displaying text](#displaying-text)
   - [Обнаружение столкновений](#обнаружение-столкновений)
-    - [The hitTestRectangle function](#the-hittestrectangle-function)
-  - [Case study: Treasure Hunter](#case-study-treasure-hunter)
-    - [The code structure](#the-code-structure)
-    - [Initialize the game in the setup function](#initialize-the-game-in-the-setup-function)
+    - [Функция hitTestRectangle](#функция-hittestrectangle)
+  - [Пример использования: Treasure Hunter](#пример-использования-treasure-hunter)
+    - [Структура кода](#структура-кода)
+    - [Инициализировать игру в функции setup](#инициализировать-игру-в-функции-setup)
       - [Creating the game scenes](#creating-the-game-scenes)
-      - [Making the dungeon, door, explorer and treasure](#making-the-dungeon-door-explorer-and-treasure)
-      - [Making the blob monsters](#making-the-blob-monsters)
+      - [Изготовление темницы, двери, исследователя и сокровища](#изготовление-темницы-двери-исследователя-и-сокровища)
+      - [Создание монстров - капель (blob monsters)](#создание-монстров---капель-blob-monsters)
       - [Making the health bar](#making-the-health-bar)
       - [Making the message text](#making-the-message-text)
     - [Playing the game](#playing-the-game)
@@ -59,7 +59,7 @@
     - [Moving the monsters](#moving-the-monsters)
     - [Checking for collisions](#checking-for-collisions)
     - [Reaching the exit door and ending the game](#reaching-the-exit-door-and-ending-the-game)
-  - [More about sprites](#more-about-sprites)
+  - [Подробнее о спрайтах](#подробнее-о-спрайтах)
   - [Продолжая](#продолжая)
     - [Hexi](#hexi)
     - [BabylonJS](#babylonjs)
@@ -2700,7 +2700,7 @@ surprisingly, you now have all the skills you need to start making
 games with Pixi!
 
 <a id='hittest'></a>
-### The hitTestRectangle function
+### Функция hitTestRectangle
 
 But what about the `hitTestRectangle` function? What does it do, and
 how does it work? The details of how collision detection algorithms
@@ -2763,36 +2763,37 @@ function hitTestRectangle(r1, r2) {
 
 ```
 <a id='casestudy'></a>
-Case study: Treasure Hunter
----------------
+Пример использования: Treasure Hunter
+-------------------------------------
 
-I've told you that you now have all the skills you need to start
-making games. What? You don't believe me? Let me prove it to you! Let’s take a
-close at how to make a simple object collection and enemy
-avoidance game called **Treasure Hunter**. (You'll find it in the `examples`
+Я сказал вам, что теперь у вас есть все навыки, необходимые для начала
+создание игр. Какой? Вы мне не верите? Позвольте мне доказать вам это! Давайте возьмем
+закрыть, как сделать простую коллекцию объектов и врага
+игра избегания называется **Treasure Hunter**. (You'll find it in the `examples`
 folder.)
 
 ![Treasure Hunter](/examples/images/screenshots/26.png)
 
-Treasure Hunter is a good example of one of the simplest complete
-games you can make using the tools you've learnt so far. Use the
-keyboard arrow
-keys to help the explorer find the treasure and carry it to the exit.
-Six blob monsters move up and down between the dungeon walls, and if
-they hit the explorer he becomes semi-transparent and the health meter
-at the top right corner shrinks. If all the health is used up, “You
-Lost!” is displayed on the stage; if the explorer reaches the exit with
-the treasure, “You Won!” is displayed. Although it’s a basic
-prototype, Treasure Hunter contains most of the elements you’ll find
-in much bigger games: texture atlas graphics, interactivity,
-collision, and multiple game scenes. Let’s go on a tour of how the
-game was put together so that you can use it as a starting point for one of your own games.
+Treasure Hunter - хороший пример одного из самых простых полноценных
+игр, которые вы можете создавать, используя уже изученные инструменты.
+Использовать кнопки со стрелками на клавиатуре, чтобы помочь исследователю
+найти клад и отнести его к выходу.
+Шесть монстров-капель перемещаются между стенами подземелья, и если
+они попадают в исследователя, он становится полупрозрачным, а индикатор здоровья
+в правом верхнем углу сжимается.
+Если все здоровье израсходовано, «Ты Погиб!" отображается на сцене;
+если исследователь достигает выхода с сокровище "Вы выиграли!" отображается. Хотя это базовый
+прототип, Treasure Hunter содержит большинство элементов, которые вы найдете
+в гораздо более крупных играх: графика текстурного атласа, интерактивность,
+столкновение и несколько игровых сцен. Давайте посмотрим, как
+game была составлена ​​так, чтобы вы могли использовать ее в качестве отправной точки для одной из ваших собственных игр.
 
-### The code structure
+### Структура кода
 
-Open the `treasureHunter.html` file and you'll see that all the game
-code is in one big file. Here's a birds-eye view of how all the code is
-organized.
+Откройте файл `treasureHunter.html`, и вы увидите, что вся игра
+код находится в одном большом файле. 
+Вот как выглядит весь код с высоты птичьего полета.
+организовано.
 
 ```js
 //Setup Pixi and load the texture atlas files - call the `setup`
@@ -2818,20 +2819,21 @@ function end() {
 //The game's helper functions:
 //`keyboard`, `hitTestRectangle`, `contain` and `randomInt`
 ```
-Use this as your world map to the game as we look at how each
-section works.
+
+Используйте это как карту мира в игре, поскольку мы рассмотрим,
+как работает каждая секция.
 
 <a id='initialize'></a>
-### Initialize the game in the setup function
+### Инициализировать игру в функции setup
 
-As soon as the texture atlas images have loaded, the `setup` function
-runs. It only runs once, and lets you perform
-one-time setup tasks for your game. It's a great place to create and initialize
-objects, sprites, game scenes, populate data arrays or parse
-loaded JSON game data.
+Как только изображения атласа текстур загружены, запускается функция `setup`.
+Она запускается только один раз и позволяет вам выполнять
+одноразовые задания по настройке вашей игры.
+Это отличное место для создания и инициализации объектов, спрайтов, игровых сцен,
+заполнение массивов данных или анализа загруженых данных игры в формате JSON.
 
-Here's an abridged view of the `setup` function in Treasure Hunter,
-and the tasks that it performs.
+Вот сокращенный вид функции `setup` в Treasure Hunter,
+и задачи, которые он выполняет.
 
 ```js
 function setup() {
@@ -2888,7 +2890,7 @@ property will be set to `true` to display the text that appears at the
 end of the game.
 
 <a id='makingdungon'></a>
-#### Making the dungeon, door, explorer and treasure
+#### Изготовление темницы, двери, исследователя и сокровища
 
 The player, exit door, treasure chest and the dungeon background image
 are all sprites made from texture atlas frames. Very importantly,
@@ -2920,11 +2922,12 @@ treasure.x = gameScene.width - treasure.width - 48;
 treasure.y = gameScene.height / 2 - treasure.height / 2;
 gameScene.addChild(treasure);
 ```
-Keeping them together in the `gameScene` group will make it easy for
-us to hide the `gameScene` and display the `gameOverScene` when the game is finished.
+
+Сохраняя их вместе в группе `gameScene` облегчит
+нам скрытие `gameScene` и отображение `gameOverScene` когда игра закончена.
 
 <a id='makingblob'></a>
-#### Making the blob monsters
+#### Создание монстров - капель (blob monsters)
 
 The six blob monsters are created in a loop. Each blob is given a
 random initial position and velocity. The vertical velocity is
@@ -2977,6 +2980,7 @@ for (let i = 0; i < numberOfBlobs; i++) {
 }
 
 ```
+
 <a id='healthbar'></a>
 #### Making the health bar
 
@@ -2987,6 +2991,7 @@ just two overlapping rectangles at exactly the same position: a black rectangle 
 a red rectangle in front. They're grouped together into a single `healthBar`
 group. The `healthBar` is then added to the `gameScene` and positioned
 on the stage.
+
 ```js
 //Create the health bar
 healthBar = new PIXI.Container();
@@ -3009,16 +3014,21 @@ healthBar.addChild(outerBar);
 
 healthBar.outer = outerBar;
 ```
+
 You can see that a property called `outer` has been added to the
 `healthBar`. It just references the `outerBar` (the red rectangle) so that it will be convenient to access later.
+
 ```js
 healthBar.outer = outerBar;
 ```
+
 You don't have to do this; but, hey why not! It means that if you want
 to control the width of the red `outerBar`, you can write some smooth code that looks like this:
+
 ```js
 healthBar.outer.width = 30;
 ```
+
 That's pretty neat and readable, so we'll keep it!
 
 <a id='message'></a>
@@ -3031,6 +3041,7 @@ text sprite and adding it to the `gameOverScene`. Because the
 starts, you can’t see this text. Here’s the code from the `setup`
 function that creates the message text and adds it to the
 `gameOverScene`.
+
 ```js
 let style = new TextStyle({
     fontFamily: "Futura",
@@ -3042,12 +3053,14 @@ message.x = 120;
 message.y = app.stage.height / 2 - 32;
 gameOverScene.addChild(message);
 ```
+
 <a id='playing'></a>
 ### Playing the game
 
 All the game logic and the code that makes the sprites move happens
 inside the `play` function, which runs in a continuous loop. Here's an
 overview of what the `play` function does
+
 ```js
 function play(delta) {
   //Move the explorer and contain it inside the dungeon
@@ -3059,6 +3072,7 @@ function play(delta) {
   //Change the game `state` to `end` when the game is finished
 }
 ```
+
 Let's find out how all these features work.
 
 <a id='movingexplorer'></a>
@@ -3069,10 +3083,12 @@ that is very similar to the keyboard control code you learnt earlier.
 The `keyboard` objects modify the explorer’s velocity, and that
 velocity is added to the explorer’s position inside the `play`
 function.
+
 ```js
 explorer.x += explorer.vx;
 explorer.y += explorer.vy;
 ```
+
 <a id='containingmovement'></a>
 #### Containing movement
 
@@ -3084,9 +3100,11 @@ movement.
 
 That's done with the help of a custom function called
 `contain`.
+
 ```js
 contain(explorer, {x: 28, y: 10, width: 488, height: 480});
 ```
+
 `contain` takes two arguments. The first is the sprite you want to keep
 contained. The second is any object with `x`, `y`, `width` and
 `height` properties that define a rectangular area. In this example,
@@ -3101,6 +3119,7 @@ The `contain` function also returns a `collision` variable with the
 value "top", "right", "bottom" or "left", depending on which side of
 the boundary the sprite hit. (`collision` will be `undefined` if the
 sprite didn't hit any of the boundaries.)
+
 ```js
 function contain(sprite, container) {
 
@@ -3134,6 +3153,7 @@ function contain(sprite, container) {
   return collision;
 }
 ```
+
 You'll see how the `collision` return value will be used in the code
 ahead to make the blob monsters bounce back and forth between the top
 and bottom dungeon walls.
@@ -3147,6 +3167,7 @@ player. If a blob bumps into the dungeon’s top or bottom walls, its
 direction is reversed. All this is done with the help of a `forEach` loop
 which iterates through each of `blob` sprites in the `blobs` array on
 every frame.
+
 ```js
 blobs.forEach(function(blob) {
 
@@ -3170,22 +3191,27 @@ blobs.forEach(function(blob) {
 });
 
 ```
+
 You can see in this code above how the return value of the `contain`
 function is used to make the blobs bounce off the walls. A variable
 called `blobHitsWall` is used to capture the return value:
+
 ```js
 let blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
 ```
+
 `blobHitsWall` will usually be `undefined`. But if the blob hits the
 top wall, `blobHitsWall` will have the value "top". If the blob hits
 the bottom wall, `blobHitsWall` will have the value "bottom". If
 either of these cases are `true`, you can reverse the blob's direction
 by reversing its velocity. Here's the code that does this:
+
 ```js
 if (blobHitsWall === "top" || blobHitsWall === "bottom") {
   blob.vy *= -1;
 }
 ```
+
 Multiplying the blob's `vy` (vertical velocity) value by `-1` will flip
 the direction of its movement.
 
@@ -3194,15 +3220,18 @@ the direction of its movement.
 
 The code in the loop above uses `hitTestRectangle` to figure
 out if any of the enemies have touched the explorer.
+
 ```js
 if(hitTestRectangle(explorer, blob)) {
   explorerHit = true;
 }
 ```
+
 If `hitTestRectangle` returns `true`, it means there’s been a collision
 and a variable called `explorerHit` is set to `true`. If `explorerHit`
 is `true`, the `play` function makes the explorer semi-transparent
 and reduces the width of the `health` bar by 1 pixel.
+
 ```js
 if(explorerHit) {
 
@@ -3219,6 +3248,7 @@ if(explorerHit) {
 }
 
 ```
+
 If  `explorerHit` is `false`, the explorer's `alpha` property is
 maintained at 1, which makes it fully opaque.
 
@@ -3237,6 +3267,7 @@ if (hitTestRectangle(explorer, treasure)) {
   treasure.y = explorer.y + 8;
 }
 ```
+
 <a id='reachingexit'></a>
 ### Reaching the exit door and ending the game
 
@@ -3246,26 +3277,33 @@ treasure to the exit, or you can lose if you run out of health.
 To win the game, the treasure chest just needs to touch the exit door. If
 that happens, the game `state` is set to `end`, and the `message` text
 displays "You won".
+
 ```js
 if (hitTestRectangle(treasure, door)) {
   state = end;
   message.text = "You won!";
 }
 ```
+
 If you run out of health, you lose the game. The game `state` is also
 set to `end` and the `message` text displays "You Lost!"
+
 ```js
 if (healthBar.outer.width < 0) {
   state = end;
   message.text = "You lost!";
 }
 ```
+
 But what does this mean?
+
 ```js
 state = end;
 ```
+
 You'll remember from earlier examples that the `gameLoop` is constantly updating a function called
 `state` at 60 times per second. Here's the `gameLoop`that does this:
+
 ```js
 function gameLoop(delta){
 
@@ -3273,6 +3311,7 @@ function gameLoop(delta){
   state(delta);
 }
 ```
+
 You'll also remember that we initially set the value of
 `state` to `play`, which is why the `play` function runs in a loop.
 By setting `state` to `end` we're telling the code that we want
@@ -3280,40 +3319,44 @@ another function, called `end` to run in a loop. In a bigger game you
 could have a `tileScene` state, and states for each game level, like
 `leveOne`, `levelTwo` and `levelThree`.
 
-So what is that `end` function? Here it is!
+Так что же это за функция `end`? Вот!
+
 ```js
 function end() {
   gameScene.visible = false;
   gameOverScene.visible = true;
 }
 ```
-It just flips the visibility of the game scenes. This is what hides
-the `gameScene` and displays the `gameOverScene` when the game ends.
 
-This is a really simple example of how to switch a game's state, but
-you can have as many game states as you like in your games, and fill them
-with as much code as you need. Just change the value of `state` to
-whatever function you want to run in a loop.
+Он просто переворачивает видимость игровых сцен. Это то, что скрывает
+в `gameScene` и отображает `gameOverScene` когда игра заканчивается.
+
+Это действительно простой пример того, как переключить состояние игры, но
+вы можете иметь столько игровых состояний, сколько хотите, и заполнять их
+с таким количеством кода, которое вам нужно. Просто измените значение `state` на
+любую функцию, которую вы хотите запустить в цикле.
 
 And that’s really all there is to Treasure Hunter! With a little more work you could turn this simple prototype into a full game – try it!
 
 <a id='spriteproperties'></a>
-More about sprites
------------------------------
+Подробнее о спрайтах
+--------------------
 
-You've learnt how to use quite a few useful sprite properties so far, like `x`, `y`,
-`visible`, and `rotation` that give you a lot of control over a
-sprite's position and appearance. But Pixi Sprites also have many more
-useful properties that are fun to play with. [Here's the full list.](http://pixijs.download/release/docs/PIXI.Sprite.html)
+Вы уже научились использовать несколько полезных свойств спрайтов, например `x`, `y`,
+`visible`, и `rotation` которые дают вам полный контроль над
+положением и внешним видом спрайта. Но у Pixi Sprites есть еще много
+полезных свойства, с которыми весело играть. [Вот полный список.](http://pixijs.download/release/docs/PIXI.Sprite.html)
 
-How does Pixi’s class inheritance system work? ([What is a **class**
-and what is **inheritance**? Click this link to find out.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript)) Pixi’s sprites are
-built on an inheritance model that follows this chain:
-```
+Как работает система наследования классов Pixi? ([Что такое **class**
+и что есть **inheritance**? Щелкните эту ссылку, чтобы узнать.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript)) Спрайты Pixi
+построена на модели наследования, которая следует этой цепочке:
+
+```js
 DisplayObject > Container > Sprite
 ```
-Inheritance just means that the classes later in the chain use
-properties and methods from classes earlier in the chain. That means that even though `Sprite` is the last class in the chain, has all the same properties as `DisplayObject` and `Container`, in addition to its own unique properties.
+
+Наследование просто означает, что классы позже в цепочке используют
+свойства и методы из классов ранее в цепочке.That means that even though `Sprite` is the last class in the chain, has all the same properties as `DisplayObject` and `Container`, in addition to its own unique properties.
 The most basic class is `DisplayObject`. Anything that’s a
 `DisplayObject` can be rendered on the stage. `Container`
 is the next class in the inheritance chain. It allows `DisplayObject`s
