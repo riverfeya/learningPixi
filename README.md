@@ -24,10 +24,10 @@
   - [Размещение спрайтов](#размещение-спрайтов)
   - [Размер и масштаб](#размер-и-масштаб)
   - [Rotation](#rotation)
-  - [Make a sprite from a tileset sub-image](#make-a-sprite-from-a-tileset-sub-image)
-  - [Using a texture atlas](#using-a-texture-atlas)
-  - [Loading the texture atlas](#loading-the-texture-atlas)
-  - [Creating sprites from a loaded texture atlas](#creating-sprites-from-a-loaded-texture-atlas)
+  - [Создание спрайта из фрагмента тайлсета](#создание-спрайта-из-фрагмента-тайлсета)
+  - [Использование атласа текстур](#использование-атласа-текстур)
+  - [Загрузка атласа текстур](#загрузка-атласа-текстур)
+  - [Создание спрайтов из загруженного атласа текстур](#создание-спрайтов-из-загруженного-атласа-текстур)
   - [Moving Sprites](#moving-sprites)
   - [Using velocity properties](#using-velocity-properties)
   - [Game states](#game-states)
@@ -990,242 +990,257 @@ cat.scale.x = 0.5;
 cat.scale.y = 0.5;
 ```
 
-Scale values are numbers between 0 and 1 that represent a
-percentage of the sprite's size. 1 means 100% (full size), while
-0.5 means 50% (half size). You can double the sprite's size by setting
-its scale values to 2, like this:
+значения Scale - это числа от 0 до 1, которые представляют
+процент от размера спрайта. 1 означает 100% (полный размер), а
+0,5 означает 50% (половинный размер). Вы можете удвоить размер спрайта, установив
+его масштабные значения равны 2, например:
+
 ```js
 cat.scale.x = 2;
 cat.scale.y = 2;
 ```
-Pixi has an alternative, concise way for you set sprite's scale in one
-line of code using the `scale.set` method.
+
+У Pixi есть альтернативный, краткий способ установки масштаба спрайта за один
+строка кода с использованием метода `scale.set`.
+
 ```js
 cat.scale.set(0.5, 0.5);
 ```
-If that appeals to you, use it!
+
+Если вам это нравится, используйте это!
 
 <a id='rotation'></a>
 Rotation
 --------
 
-You can make a sprite rotate by setting its `rotation` property to a
-value in [radians](http://www.mathsisfun.com/geometry/radians.html).
+Вы можете заставить спрайт вращаться, установив для его свойства «rotation» значение
+ в [радианах](http://www.mathsisfun.com/geometry/radians.html).
+
 ```js
 cat.rotation = 0.5;
 ```
-But around which point does that rotation happen?
+Но вокруг какой точки происходит это вращение?
 
-You've seen that a sprite's top left corner represents its `x` and `y` position. That point is
-called the **anchor point**. If you set the sprite’s `rotation`
-property to something like `0.5`, the rotation will happen *around the
-sprite’s anchor point*.
-This diagram shows what effect this will have on our cat sprite.
+Вы видели, что верхний левый угол спрайта представляет его положение `x` и `y`. Эта точка
+называется **anchor point**. Если вы установите для спрайта свойство `rotation`
+в значение  `0.5`, вращение произойдет *вокруг sprite’s anchor point*.
+Эта диаграмма показывает, как это повлияет на наш спрайт кошки.
 
-![Rotation around anchor point - diagram](/examples/images/screenshots/07.png)
+![Поворот вокруг точки привязки - диаграмма](/examples/images/screenshots/07.png)
 
-You can see that the anchor point, the cat’s left ear, is the center of the imaginary circle around which the cat is rotating.
-What if you want the sprite to rotate around its center? Change the
-sprite’s `anchor` point so that it’s centered inside the sprite, like
-this:
+Вы можете видеть, что точка привязки, левое ухо кошки, является центром воображаемого круга, вокруг которого вращается кошка.
+Что, если вы хотите, чтобы спрайт вращался вокруг своего центра? Изменить
+точкe привязки спрайта так, чтобы она располагалась по центру внутри спрайта, например
+так:
+
 ```js
 cat.anchor.x = 0.5;
 cat.anchor.y = 0.5;
 ```
-The `anchor.x` and `anchor.y` values represent a percentage of the texture’s dimensions, from 0 to 1 (0%
-to 100%). Setting it to 0.5 centers the texture over the point. The location of the point
-itself won’t change, just the way the texture is positioned over it.
 
-This next diagram shows what happens to the rotated sprite if you center its anchor point.
+Значения `anchor.x` и `anchor.y` представляют процент размеров текстуры от 0 до 1 (0%
+до 100%). Если установить значение 0,5, текстура будет центрирована над точкой. Расположение точки
+само по себе не изменится, просто то, как текстура расположена поверх него.
 
-![Rotation around centered anchor point - diagram](/examples/images/screenshots/08.png)
+Следующая диаграмма показывает, что происходит с повернутым спрайтом, 
+если вы центрируете его точку привязки.
 
-You can see that the sprite’s texture shifts up and to the left. This
-is an important side-effect to remember!
+![Поворот вокруг центральной точки привязки - диаграмма](/examples/images/screenshots/08.png)
 
-Just like with `position` and `scale`, you can set the anchor’s x and
-y values with one line of code like this:
+Вы можете видеть, что текстура спрайта смещается вверх и влево. Эта
+это важный побочный эффект, о котором следует помнить!
+
+Как и в случае с `position` и `scale`, вы можете установить `x` и
+`y` значения одной строкой кода, например:
+
 ```js
 cat.anchor.set(x, y)
 ```
-Sprites also have a `pivot` property which works in a similar way to
-`anchor`. `pivot` sets the position
-of the sprite's x/y origin point. If you change the pivot point and
-then rotate the sprite, it will
-rotate around that origin point. For example, the following code will
-set the sprite's `pivot.x` point to 32, and its `pivot.y` point to 32
+
+Спрайты также имеют свойство `pivot`, которое работает аналогично
+Якорю. `pivot` устанавливает позицию исходной точки `x` / `y` спрайта. 
+Если вы измените точку поворота, а затем повернёте спрайт, он будет
+повернуть вокруг этой исходной точки.
+Например, следующий код установит для точки спрайта pivot.x значение 32,
+а его pivot.y указывает на 32
+
 ```js
 cat.pivot.set(32, 32)
 ```
-Assuming that the sprite is 64x64 pixels, the sprite will now rotate
-around its center point. But remember: if you change a sprite's pivot
-point, you've also changed its x/y origin point. 
 
-So, what's the difference between `anchor` and `pivot`? They're really
-similar! `anchor` shifts the origin point of the sprite's image texture, using a 0 to 1 normalized value.
-`pivot` shifts the origin of the sprite's x and y point, using pixel
-values. Which should you use? It's up to you. Just play around
-with both of them and see which you prefer.
+Предполагая, что размер спрайта составляет 64x64 пикселя, он теперь будет вращаться.
+вокруг его центральной точки. Но помните: если вы измените точку поворота спрайта,
+вы также изменили его исходную точку `x` / `y`.
+
+Итак, в чем разница между `anchor` и `pivot`? Они действительно
+аналогичны! `anchor` сдвигает исходную точку текстуры изображения спрайта,
+используя нормализованное значение от 0 до 1.
+`pivot` сдвигает начало координат `x` и `y` спрайта, используя значение пиксель.
+ Что вам следует использовать? Решать вам. Просто поиграйте
+с обоими и посмотрите, что вам больше нравится.
 
 <a id='tileset'></a>
-Make a sprite from a tileset sub-image
+Создание спрайта из фрагмента тайлсета
 --------------------------------------
 
-You now know how to make a sprite from a single image file. But, as a
-game designer, you’ll usually be making your sprites using
-**tilesets** (also known as **spritesheets**.) Pixi has some convenient built-in ways to help you do this.
-A tileset is a single image file that contains sub-images. The sub-images
-represent all the graphics you want to use in your game. Here's an
-example of a tileset image that contains game characters and game
-objects as sub-images.
+Теперь вы знаете, как создать спрайт из одного файла изображения.
+Но как гейм-дизайнер вы обычно будете создавать свои спрайты, используя
+**tilesets** (также известен как **spritesheets**.)
+В Pixi есть несколько удобных встроенных способов, которые помогут вам в этом.
+Набор плиток - это отдельный файл изображения, который содержит фрагменты изображения.
+Дополнительные изображения представляют собой всю графику, которую вы хотите использовать в своей игре. 
+Вот пример изображения тайлсета, которое содержит игровых персонажей и игровые
+объекты как суб-изображения.
 
-![An example tileset](/examples/images/screenshots/09.png)
+![Пример набора тайлов](/examples/images/screenshots/09.png)
 
-The entire tileset is 192 by 192 pixels. Each image is in its own 32 by 32
-pixel grid cell. Storing and accessing all your game graphics on a
-tileset is a very
-processor and memory efficient way to work with graphics, and Pixi is
-optimized for this.
+Размер всего тайлсета 192 на 192 пикселя. Каждое изображение - свое 32 на 32.
+ячейка пиксельной сетки. Хранение и доступ ко всей игровой графике на
+набор плиток очень эффективен для процессора и памяти эффективно работают с графикой, а Pixi
+оптимизирован для этого.
 
-You can capture a sub-image from a tileset by defining a rectangular
-area
-that's the same size and position as the sub-image you want to
-extract. Here's an example of the rocket sub-image that’s been extracted from
-the tileset.
+Вы можете захватить фрагмент изображения из набора плиток, определив прямоугольную
+область того же размера и положения, что и дополнительное изображение, которое вы хотите
+извлекать. Вот пример фрагмента изображения ракеты, извлеченного из
+набор плиток.
 
-![Rocket extracted from tileset](/examples/images/screenshots/10.png)
+![Ракета извлечена из тайлсета](/examples/images/screenshots/10.png)
 
-Let's look at the code that does this. First, load the `tileset.png` image
-with Pixi’s `loader`, just as you've done in earlier examples.
+Давайте посмотрим на код, который это делает. Сначала загрузите изображение `tileset.png`
+с Pixi `loader`, так же, как вы это делали в предыдущих примерах.
+
 ```js
 loader
   .add("images/tileset.png")
   .load(setup);
 ```
-Next, when the image has loaded, use a rectangular sub-section of the tileset to create the
-sprite’s image. Here's the code that extracts the sub image, creates
-the rocket sprite, and positions and displays it on the canvas.
+
+Затем, когда изображение загружено, используйте прямоугольную подсекцию набора тайлов, чтобы создать
+изображение спрайта. Вот код, который извлекает дополнительное изображение, создает
+спрайт ракеты, а также позиционирует и отображает его на холсте.
+
 ```js
 function setup() {
 
-  //Create the `tileset` sprite from the texture
+  //Создайте спрайт `tileset` из текстуры
   let texture = TextureCache["images/tileset.png"];
 
-  //Create a rectangle object that defines the position and
-  //size of the sub-image you want to extract from the texture
-  //(`Rectangle` is an alias for `PIXI.Rectangle`)
+  //Создайте прямоугольный объект, который определяет положение и размер фрагмента изображения, которое вы хотите извлечь из текстуры.
+  //(`Rectangle` это псевдоним для `PIXI.Rectangle`)
   let rectangle = new Rectangle(192, 128, 64, 64);
 
-  //Tell the texture to use that rectangular section
+  //Скажите текстуре использовать эту прямоугольную секцию
   texture.frame = rectangle;
 
-  //Create the sprite from the texture
+  //Создайте спрайт из текстуры
   let rocket = new Sprite(texture);
 
-  //Position the rocket sprite on the canvas
+  //Поместите спрайт ракеты на холст.
   rocket.x = 32;
   rocket.y = 32;
 
-  //Add the rocket to the stage
+  //Добавьте ракету на сцену
   app.stage.addChild(rocket);
   
-  //Render the stage   
+  //Рендеринг сцены
   app.renderer.render(app.stage);
 }
 ```
-How does this work?
 
-Pixi has a built-in `Rectangle` object (`PIXI.Rectangle`) that is a general-purpose
-object for defining rectangular shapes. It takes four arguments. The
-first two arguments define the rectangle's `x` and `y` position. The
-last two define its `width` and `height`. Here's the format
-for defining a new `Rectangle` object.
+Как это работает?
+
+Pixi имеет встроенный объект `Rectangle` (`PIXI.Rectangle`) это универсальный
+объект для определения прямоугольных форм. Требуется четыре аргумента.
+Первые два аргумента определяют положение прямоугольника `x` и `y`. 
+Последние два определяют его ширину и высоту. Вот формат
+для определения нового объекта Rectangle.
+
 ```js
 let rectangle = new PIXI.Rectangle(x, y, width, height);
 ```
-The rectangle object is just a *data object*; it's up to you to decide how you want to use it. In
-our example we're using it to define the position and area of the
-sub-image on the tileset that we want to extract. Pixi textures have a useful
-property called `frame` that can be set to any `Rectangle` objects. 
-The `frame` crops the texture to the dimensions of the `Rectangle`.
-Here's how to use `frame`
-to crop the texture to the size and position of the rocket.
+
+Объект прямоугольника - это просто *объект данных*; Вам решать, как вы хотите его использовать. В
+в нашем примере мы используем его, чтобы определить положение и площадь
+вложенное изображение на тайлсете, которое мы хотим извлечь.
+Pixi textures имеют полезное свойство, называемое `frame`
+который может быть установлен на любой `Rectangle` objects.
+`frame` кадрирует текстуру к размеру `Rectangle`.
+Вот как использовать `frame` обрезать текстуру по размеру и положению ракеты.
+
 ```js
 let rectangle = new Rectangle(192, 128, 64, 64);
 texture.frame = rectangle;
 ```
-You can then use that cropped texture to create the sprite:
+
+Затем вы можете использовать эту обрезанную текстуру для создания спрайта.:
+
 ```js
 let rocket = new Sprite(texture);
 ```
-And that's how it works!
 
-Because making sprite textures from a tileset
-is something you’ll do with great frequency, Pixi has a more convenient way
-to help you do this - let's find out what that is next.
+Вот как это работает!
+
+Поскольку создание текстур спрайтов из набора тайлов
+то, что вы будете делать с большой частотой, Pixi предлагает более удобный способ
+чтобы помочь вам в этом - давайте узнаем, что это будет дальше.
 
 <a id='textureatlas'></a>
-Using a texture atlas
----------------------
+Использование атласа текстур
+----------------------------
 
-If you’re working on a big, complex game, you’ll want a fast and
-efficient way to create sprites from tilesets. This is where a
-**texture atlas** becomes really useful. A texture atlas is a JSON
-data file that contains the positions and sizes of sub-images on a
-matching tileset PNG image. If you use a texture atlas, all you need
-to know about the sub-image you want to display is its name. You
-can arrange your tileset images in any order and the JSON file
-will keep track of their sizes and positions for you. This is
-really convenient because it means the sizes and positions of
-tileset images aren’t hard-coded into your game program. If you
-make changes to the tileset, like adding images, resizing them,
-or removing them, just re-publish the JSON file and your game will
-use that data to display the correct images. You won’t have to
-make any changes to your game code.
+Если вы работаете над большой сложной игрой, вам понадобится быстрая и
+эффективный способ создания спрайтов из наборов тайлов. Вот где
+**texture atlas** становится действительно полезным.
+Атлас текстур - это JSON файл данных, который содержит положения
+и размеры фрагментов изображений на набор элементов мозаики PNG фото.
+Если вы используете атлас текстур, все, что вам нужно знать о суб-изображении
+вы хотите отобразить его имя.
+Вы можете расположить изображения тайлсета в любом порядке, а Файл JSON
+будет отслеживать их размеры и положение для вас. Это
+действительно удобно, потому что это означает размеры и положение
+изображения набора плиток жестко не запрограммированы в вашей игровой программе.
+Если вы вносите изменения в набор элементов мозаичного изображения, например добавляете изображения, изменяете их размер,
+или удалив их, просто повторно опубликуйте файл JSON, и ваша игра будет
+использовать эти данные для отображения правильных изображений. Вам не нужно
+вносить какие-либо изменения в код игры.
 
-Pixi is compatible with a standard JSON texture atlas format that is
-output by a popular software tool called [Texture
-Packer](https://www.codeandweb.com/texturepacker). Texture Packer’s
-“Essential” license is free. Let’s find out how to use it to make a
-texture atlas, and load the atlas into Pixi. (You don’t have to use
-Texture Packer. Similar tools, like [Shoebox](http://renderhjs.net/shoebox/) or [spritesheet.js](https://github.com/krzysztof-o/spritesheet.js/), output PNG and JSON files
-in a standard format that is compatible with Pixi.)
+Pixi совместим со стандартным форматом атласа текстур JSON, который
+вывод популярным программным инструментом под названием
+[Texture Packer](https://www.codeandweb.com/texturepacker). Texture Packer’s
+Лицензия Essential бесплатна. Давайте узнаем, как с его помощью
+создать текстурный атлас и загрузить атлас в Pixi. (Вам не нужно использовать
+Texture Packer. Подобные инструменты, например [Shoebox](http://renderhjs.net/shoebox/) или [spritesheet.js](https://github.com/krzysztof-o/spritesheet.js/), output PNG and JSON files
+в стандартном формате, совместимом с Pixi.)
 
-First, start with a collection of individual image files that you'd
-like to use in your game.
+Сначала начните с набора отдельных файлов изображений, которые вы хотели бы
+нравится использовать в своей игре.
 
 ![Image files](/examples/images/screenshots/11.png)
 
-(All the images in this section were created by Lanea Zimmerman. You
-can find more of her artwork
+(Все изображения в этом разделе созданы Lanea Zimmerman. 
+Вы можете найти больше ее работ
 [here](http://opengameart.org/users/sharm).
 Thanks, Lanea!)
 
-Next, open Texture Packer and choose **JSON Hash** as the framework
-type. Drag your images into Texture Packer's workspace. (You can
-also point Texture Packer to any folder that contains your images.)
-It will automatically arrange the images on a single tileset image, and give them names that match their original image names.
+Затем откройте Texture Packer и выберите **JSON Hash** в качестве основы
+тип. Перетащите изображения в рабочее пространство Texture Packer. (Вы можете
+также укажите Texture Packer в любую папку, содержащую ваши изображения.)
+Он автоматически разместит изображения на одном изображении набора тайлов и даст им имена, соответствующие их исходным именам изображений.
 
 ![Image files](/examples/images/screenshots/12.png)
 
-(If you're using the free version of
-Texture Packer, set **Algorithm** to `Basic`, set **Trim mode** to
-`None`, set **Extrude** to `0`, set **Size constraints** to `Any size` and slide the **PNG Opt
-Level** all the way to the left to `0`. These are the basic
-settings that will allow the free version of Texture Packer to create
-your files without any warnings or errors.)
+(Если вы используете бесплатную версию Texture Packer, установите **Algorithm** в `Basic`, 
+установите **Trim mode** в `None`, а **Extrude** в `0`, задайте **Size constraints** в `Any size`
+и передвиньте **PNG OptLevel** all the way влево на `0`. Это базовые настройки которые позволят вам в бесплатной версии Texture Packer создавать ваши файлы без ошибок и предупреждений.)
 
-When you’re done, click the **Publish** button. Choose the file name and
-location, and save the published files. You’ll end up with 2 files: a
-PNG file and a JSON file. In this example my file names are
-`treasureHunter.json` and `treasureHunter.png`. To make your life easier,
-just keep both files in your project’s `images` folder. (You can think
-of the JSON file as extra metadata for the image file, so it makes
-sense to keep both files in the same folder.)
-The JSON file describes the name, size and position of each of the
-sub-images
-in the tileset. Here’s an excerpt that describes the blob monster
-sub-image.
+Закончив, кликните по кнопке **Publish**. Выберите имя файла и расположение, и сохраните файлы.
+Вы получите 2 файла: PNG и JSON. В этом примере мои имена файлов
+`treasureHunter.json` и `treasureHunter.png`. Чтобы облегчить себе жизнь,
+просто сохраните оба файла в папке `images` вашего проекта. (файл JSON это как бы дополнительные
+метаданные для файла изображения, поэтому есть смысл хранить оба файла в одной папке.)
+файл JSON описывает имя, размер и положение каждого суб-изображения в тайлсете.
+Вот отрывок, в котором описывается фрагмент изображения монстра-капли.
+
 ```js
 "blob.png":
 {
@@ -1237,160 +1252,171 @@ sub-image.
 	"pivot": {"x":0.5,"y":0.5}
 },
 ```
-The `treasureHunter.json` file also contains “dungeon.png”,
-“door.png”, "exit.png", and "explorer.png" properties each with
-similar data. Each of these sub-images are called **frames**. Having
-this data is really helpful because now you don’t need to know the
-size and position of each sub-image in the tileset. All you need to
-know is the sprite’s **frame id**. The frame id is just the name
-of the original image file, like "blob.png" or "explorer.png".
 
-Among the many advantages to using a texture atlas is that you can
-easily add 2 pixels of padding around each image (Texture Packer does
-this by default.) This is important to prevent the possibility of
-**texture bleed**. Texture bleed is an effect that happens when the
-edge of an adjacent image on the tileset appears next to a sprite.
-This happens because of the way your computer's GPU (Graphics
-Processing Unit) decides how to round fractional pixels values. Should
-it round them up or down? This will be different for each GPU.
-Leaving 1 or 2 pixels spacing around images on a tilseset makes all
-images display consistently.
+Файл `treasureHunter.json` файл также содержит свойства “dungeon.png”,
+“door.png”, "exit.png", и "explorer.png" свойства, каждый с
+подобными данными. Каждое из этих изображений называется **frames**.
+Эти данные действительно полезны, потому что теперь вам не нужно знать
+размер и положение каждого фрагмента изображения в тайлсете. Все что вам нужно
+знать, это спрайт **frame id**. Идентификатор кадра - это просто имя
+исходного файла изображения, например "blob.png" или "explorer.png".
 
-(Note: If you have two pixels of padding around a graphic, and you still notice a strange "off by one pixel" glitch in the
-way Pixi is displaying it, try changing the texture's scale mode
-algorithm. Here's how: `texture.baseTexture.scaleMode =
-PIXI.SCALE_MODES.NEAREST;`. These glitches can sometimes happen
-because of GPU floating point rounding errors.)
+Среди множества преимуществ использования текстурного атласа можно отметить:
+легко добавить 2 пикселя отступа вокруг каждого изображения (Texture Packer делает
+это по умолчанию.) Это важно для предотвращения возможности
+**texture bleed**. Texture bleed это эффект, который происходит, когда
+край соседнего изображения на тайлсете появляется рядом со спрайтом.
+Это происходит из-за того, как графический процессор вашего компьютера (Graphics
+Processing Unit) решает, как округлить значения дробных пикселей. Должен
+это округлить их вверх или вниз? Это будет отличаться для каждого графического процессора.
+Если оставить интервал в 1 или 2 пикселя вокруг изображений на тилсете, все
+изображения отображаются последовательно.
 
-Now that you know how to create a texture atlas, let's find out how to
-load it into your game code.
+(Note: Если у вас есть два пикселя отступа вокруг изображения, но вы по-прежнему замечаете странный сбой «смещение на один пиксель» в способе отображения Pixi, попробуйте изменить алгоритм режима масштабирования текстуры.
+Here's how: `texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;`.
+Эти сбои иногда могут возникать из-за ошибок округления чисел с плавающей запятой графического процессора.)
+
+Теперь, когда вы знаете, как создать атлас текстур, давайте узнаем, как
+загрузите это в свой игровой код.
 
 <a id='loadingatlas'></a>
-Loading the texture atlas
--------------------------
+Загрузка атласа текстур
+-----------------------
 
-To get the texture atlas into Pixi, load it using Pixi’s
-`loader`. If the JSON file was made with Texture Packer, the
-`loader` will interpret the data and create a texture from each
-frame on the tileset automatically.  Here’s how to use the `loader` to load the `treasureHunter.json`
-file. When it has loaded, the `setup` function will run.
+Чтобы получить атлас текстур в Pixi, загрузите его с помощью Pixi
+`loader`. Если файл JSON был создан с Texture Packer, 
+`loader` интерпретирует данные и создаст текстуру из каждого
+кадра на тайлсете автоматически.  Вот как использовать `loader`
+для загрузки файла `treasureHunter.json` .
+Когда он загрузился, функция `setup` будет запущена.
+
 ```js
 loader
   .add("images/treasureHunter.json")
   .load(setup);
 ```
-Each image on the tileset is now an individual texture in Pixi’s
-cache. You can access each texture in the cache with the same name it
-had in Texture Packer (“blob.png”, “dungeon.png”, “explorer.png”,
+
+Каждое изображение на тайлсете теперь представляет собой отдельную
+текстуру в кэше Pixi.
+Вы можете получить доступ к каждой текстуре в кеше с тем же именем,
+что у нее было в Texture Packer (“blob.png”, “dungeon.png”, “explorer.png”,
 etc.).
 
 <a id='creatingsprites'></a>
-Creating sprites from a loaded texture atlas
+Создание спрайтов из загруженного атласа текстур
 --------------------------------------------
 
-Pixi gives you three general ways to create a sprite from a texture atlas:
+Pixi предлагает три основных способа создания спрайта из текстурного атласа.:
 
-1.	Using `TextureCache`:
+1. ИСпользуя `TextureCache`:
+
 ```js
 let texture = TextureCache["frameId.png"],
     sprite = new Sprite(texture);
 ```
-2.	If you’ve used Pixi’s `loader` to load the texture atlas, use the 
-loader’s `resources`:
+
+2. Если вы использовали Pixi `loader` чтобы загрузить атлас текстур, используйте загрузчик `resources`:
+
 ```js
 let sprite = new Sprite(
   resources["images/treasureHunter.json"].textures["frameId.png"]
 );
 ```
-1. That’s way too much typing to do just to create a sprite! 
-So I suggest you create an alias called `id` that points to texture’s 
-altas’s `textures` object, like this:
+
+1. Это слишком много для создания спрайта!
+Поэтому я предлагаю вам создать псевдоним под названием `id`
+который указывает на текстуры объект `textures` атласа текстур, вот так:
+
 ```js
 let id = PIXI.loader.resources["images/treasureHunter.json"].textures; 
 ```
-Then you can just create each new sprite like this:
+
+Затем вы можете просто создавать каждый новый спрайт следующим образом:
+
 ```js
 let sprite = new Sprite(id["frameId.png"]);
 ```
-Much better!
 
-Here's how you could use these three different sprite creation
-techniques in the `setup` function to create and display the
-`dungeon`, `explorer`, and `treasure` sprites.
+Намного лучше!
+
+Вот как вы можете использовать эти три разных способа создания спрайтов
+в функции `setup` для создавания и отображения спрайтов
+ `dungeon`, `explorer`, и `treasure`.
+
 ```js
 
-//Define variables that might be used in more 
-//than one function
+//Определите переменные, которые могут использоваться более чем в одной функции
 let dungeon, explorer, treasure, id;
 
 function setup() {
 
-  //There are 3 ways to make sprites from textures atlas frames
+  // Есть 3 способа сделать спрайты из текстурных кадров атласа
 
-  //1. Access the `TextureCache` directly
+  // 1. Access the `TextureCache` directly
   let dungeonTexture = TextureCache["dungeon.png"];
   dungeon = new Sprite(dungeonTexture);
   app.stage.addChild(dungeon);
 
-  //2. Access the texture using through the loader's `resources`:
+  // 2. Доступ к текстуре с помощью загрузчика `resources`:
   explorer = new Sprite(
     resources["images/treasureHunter.json"].textures["explorer.png"]
   );
   explorer.x = 68;
 
-  //Center the explorer vertically
+  // Центрировать проводник по вертикали
   explorer.y = app.stage.height / 2 - explorer.height / 2;
   app.stage.addChild(explorer);
 
-  //3. Create an optional alias called `id` for all the texture atlas 
-  //frame id textures.
-  id = PIXI.loader.resources["images/treasureHunter.json"].textures; 
+  // 3. Создайте дополнительный псевдоним с именем `id` для всех текстур
+  // идентификаторов кадров атласа текстур.
+  id = PIXI.loader.resources["images/treasureHunter.json"].textures;
   
-  //Make the treasure box using the alias
+  // Создание сундука сокровищ с помощью псевдонима
   treasure = new Sprite(id["treasure.png"]);
   app.stage.addChild(treasure);
 
-  //Position the treasure next to the right edge of the canvas
+  // Расположите сокровище рядом с правым краем холста.
   treasure.x = app.stage.width - treasure.width - 48;
   treasure.y = app.stage.height / 2 - treasure.height / 2;
   app.stage.addChild(treasure);
 }
 ```
-Here's what this code displays:
 
-![Explorer, dungeon and treasure](/examples/images/screenshots/13.png)
+Вот что отображает этот код:
 
-The stage dimensions are 512 by 512 pixels, and you can see in the
-code above that the `app.stage.height` and `app.stage.width` properties are used
-to align the sprites. Here's how the `explorer`'s `y` position is
-vertically centered:
+![Исследователь, темница и сокровища](/examples/images/screenshots/13.png)
+
+Размеры сцены составляют 512 на 512 пикселей, и вы можете увидеть в
+коде выше, что свойства `app.stage.height` и `app.stage.width` используют
+для выравнивания спрайтов. Вот как `y` положение у `explorer` центрируется вертикально:
+
 ```js
 explorer.y = app.stage.height / 2 - explorer.height / 2;
 ```
-Learning to create and display sprites using a texture atlas is an
-important benchmark. So before we continue, let's take a look at the
-code you
-could write to add the remaining
-sprites: the `blob`s and `exit` door, so that you can produce a scene
-that looks like this:
 
-![All the texture atlas sprites](/examples/images/screenshots/14.png)
+Научиться создавать и отображать спрайты с помощью атласа текстур - это
+важный ориентир. Итак, прежде чем мы продолжим, давайте взглянем на
+код, который вы можете написать, чтобы добавить оставшиеся спрайты:
+дверь `blob` и `exit`, чтобы вы могли создать сцену это выглядит так:
 
-Here's the entire code that does all this. I've also included the HTML
-code so you can see everything in its proper context.
-(You'll find this working code in the
-`examples/spriteFromTextureAtlas.html` file in this repository.)
-Notice that the `blob` sprites are created and added to the stage in a
-loop, and assigned random positions.
+![Все спрайты текстурного атласа](/examples/images/screenshots/14.png)
+
+Вот весь код, который все это делает. Я также включил HTML
+код, чтобы вы могли видеть все в правильном контексте.
+(Вы найдете этот рабочий код в файле `examples/spriteFromTextureAtlas.html`
+в этом репозитории.)
+Обратите внимание, что спрайты `blob` создаются и добавляются на сцену в
+цикле и назначенны случайные позиции.
+
 ```js
 <!doctype html>
 <meta charset="utf-8">
-<title>Make a sprite from a texture atlas</title>
+<title>Делаем спрайт из текстурного атласа</title>
 <body>
 <script src="../pixi/pixi.min.js"></script>
 <script>
 
-//Aliases
+//Псевдонимы
 let Application = PIXI.Application,
     Container = PIXI.Container,
     loader = PIXI.loader,
@@ -1399,95 +1425,93 @@ let Application = PIXI.Application,
     Sprite = PIXI.Sprite,
     Rectangle = PIXI.Rectangle;
 
-//Create a Pixi Application
+//Создаем приложение Pixi
 let app = new Application({ 
-    width: 512, 
-    height: 512,                       
-    antialias: true, 
-    transparent: false, 
+    width: 512,
+    height: 512,
+    antialias: true,
+    transparent: false,
     resolution: 1
   }
 );
 
-//Add the canvas that Pixi automatically created for you to the HTML document
+// Добавьте холст, который Pixi автоматически создал для вас, в HTML-документ.
 document.body.appendChild(app.view);
 
-//load a JSON file and run the `setup` function when it's done
+// загружаем файл JSON и по завершении запустить функцию `setup`
 loader
   .add("images/treasureHunter.json")
   .load(setup);
 
-//Define variables that might be used in more 
-//than one function
+// Определите переменные, которые могут использоваться более чем в одной функции
 let dungeon, explorer, treasure, door, id;
 
 function setup() {
 
-  //There are 3 ways to make sprites from textures atlas frames
+  //Есть 3 способа сделать спрайты из текстурных кадров атласа
 
-  //1. Access the `TextureCache` directly
+  //1. Доступ к кэшу `TextureCache` напрямую
   let dungeonTexture = TextureCache["dungeon.png"];
   dungeon = new Sprite(dungeonTexture);
   app.stage.addChild(dungeon);
 
-  //2. Access the texture using throuhg the loader's `resources`:
+  //2. Доступ к текстуре через загрузчик `resources`:
   explorer = new Sprite(
     resources["images/treasureHunter.json"].textures["explorer.png"]
   );
   explorer.x = 68;
 
-  //Center the explorer vertically
+  //Центрировать проводник по вертикали
   explorer.y = app.stage.height / 2 - explorer.height / 2;
   app.stage.addChild(explorer);
 
-  //3. Create an optional alias called `id` for all the texture atlas 
-  //frame id textures.
-  id = PIXI.loader.resources["images/treasureHunter.json"].textures; 
+  //3. Создайте необязательный псевдоним с именем ʻid`
+  // для всех текстур идентификатора кадра атласа текстур.
+  id = PIXI.loader.resources["images/treasureHunter.json"].textures;
   
-  //Make the treasure box using the alias
+  //Сделайте сундук с сокровищами, используя псевдоним
   treasure = new Sprite(id["treasure.png"]);
   app.stage.addChild(treasure);
 
-  //Position the treasure next to the right edge of the canvas
+  //Расположите сокровище рядом с правым краем холста.
   treasure.x = app.stage.width - treasure.width - 48;
   treasure.y = app.stage.height / 2 - treasure.height / 2;
   app.stage.addChild(treasure);
 
-  //Make the exit door
-  door = new Sprite(id["door.png"]); 
+  //Сделайте дверь выхода
+  door = new Sprite(id["door.png"]);
   door.position.set(32, 0);
   app.stage.addChild(door);
 
-  //Make the blobs
+  //Сделайте блобы
   let numberOfBlobs = 6,
       spacing = 48,
       xOffset = 150;
 
-  //Make as many blobs as there are `numberOfBlobs`
+  //Сделайте столько блобов, сколько есть `numberOfBlobs`
   for (let i = 0; i < numberOfBlobs; i++) {
 
-    //Make a blob
+    //Делаем блобы
     let blob = new Sprite(id["blob.png"]);
 
-    //Space each blob horizontally according to the `spacing` value.
-    //`xOffset` determines the point from the left of the screen
-    //at which the first blob should be added.
+    //Разместите каждый блоб(каплю) по горизонтали в соответствии со значением `spacing`.
+    //`xOffset` определяет точку слева на экране, в которую должен быть добавлен первый blob.
     let x = spacing * i + xOffset;
 
-    //Give the blob a random y position
-    //(`randomInt` is a custom function - see below)
+    //Задайте для капли случайную позицию y
+    //(`randomInt` это настраиваемая функция - см. ниже)
     let y = randomInt(0, app.stage.height - blob.height);
 
-    //Set the blob's position
+    //Установите положение капли
     blob.x = x;
     blob.y = y;
 
-    //Add the blob sprite to the stage
+    //Добавьте спрайт капли на сцену
     app.stage.addChild(blob);
   }
 }
 
-//The `randomInt` helper function
+//Вспомогательная функция `randomInt`
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -1495,12 +1519,15 @@ function randomInt(min, max) {
 </script>
 </body>
 ```
+
 You can see in the code above that all the blobs are created using a
 `for` loop. Each `blob` is spaced evenly along the `x` axis like this:
+
 ```js
 let x = spacing * i + xOffset;
 blob.x = x;
 ```
+
 `spacing` has a value 48, and `xOffset` has a value of 150. What this
 means is the first `blob` will have an `x` position of 150.
 This offsets it from the left side of the stage by 150 pixels. Each
@@ -1510,28 +1537,36 @@ an evenly spaced line of blob monsters, from left to right, along the dungeon fl
 
 Each `blob` is also given a random `y` position. Here's the code that
 does this:
+
 ```js
 let y = randomInt(0, stage.height - blob.height);
 blob.y = y;
 ```
+
 The `blob`'s `y` position could be assigned any random number between 0 and
 512, which is the value of `stage.height`. This works with the help of
 a custom function called `randomInt`. `randomInt` returns a random number
 that's within a range between any two numbers you supply.
+
 ```js
 randomInt(lowestNumber, highestNumber)
 ```
+
 That means if you want a random number between 1 and 10, you can get
 one like this:
+
 ```js
 let randomNumber = randomInt(1, 10);
 ```
+
 Here's the `randomInt` function definition that does all this work:
+
 ```js
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 ```
+
 `randomInt` is a great little function to keep in your back pocket for
 making games - I use it all the time.
 
