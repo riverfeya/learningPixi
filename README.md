@@ -37,28 +37,28 @@
     - [Использование ParticleContainer для группировки спрайтов](#использование-particlecontainer-для-группировки-спрайтов)
   - [Графические примитивы Pixi](#графические-примитивы-pixi)
     - [Прямоугольники](#прямоугольники)
-    - [Circles](#circles)
-    - [Ellipses](#ellipses)
-    - [Rounded rectangles](#rounded-rectangles)
+    - [Круги](#круги)
+    - [Эллипсы](#эллипсы)
+    - [Скругленный прямоугольник](#скругленный-прямоугольник)
     - [Lines](#lines)
     - [Polygons](#polygons)
-  - [Displaying text](#displaying-text)
+  - [Отображение текста](#отображение-текста)
   - [Обнаружение столкновений](#обнаружение-столкновений)
     - [Функция hitTestRectangle](#функция-hittestrectangle)
   - [Пример использования: Treasure Hunter](#пример-использования-treasure-hunter)
     - [Структура кода](#структура-кода)
-    - [Инициализировать игру в функции setup](#инициализировать-игру-в-функции-setup)
-      - [Creating the game scenes](#creating-the-game-scenes)
+    - [Инициализация игры в функции setup](#инициализация-игры-в-функции-setup)
+      - [Создание игровых сцен](#создание-игровых-сцен)
       - [Изготовление темницы, двери, исследователя и сокровища](#изготовление-темницы-двери-исследователя-и-сокровища)
       - [Создание монстров - капель (blob monsters)](#создание-монстров---капель-blob-monsters)
-      - [Making the health bar](#making-the-health-bar)
-      - [Making the message text](#making-the-message-text)
-    - [Playing the game](#playing-the-game)
-    - [Moving the explorer](#moving-the-explorer)
-      - [Containing movement](#containing-movement)
-    - [Moving the monsters](#moving-the-monsters)
-    - [Checking for collisions](#checking-for-collisions)
-    - [Reaching the exit door and ending the game](#reaching-the-exit-door-and-ending-the-game)
+      - [Делаем полоску здоровья](#делаем-полоску-здоровья)
+      - [Создание текста сообщения](#создание-текста-сообщения)
+    - [Играем в игру](#играем-в-игру)
+    - [Перемещение исследователя](#перемещение-исследователя)
+      - [Сдерживание движения](#сдерживание-движения)
+    - [Перемещение монстров](#перемещение-монстров)
+    - [Проверка на столкновения](#проверка-на-столкновения)
+    - [Достижение выходной двери и завершение игры](#достижение-выходной-двери-и-завершение-игры)
   - [Подробнее о спрайтах](#подробнее-о-спрайтах)
   - [Продолжая](#продолжая)
     - [Hexi](#hexi)
@@ -2326,20 +2326,19 @@ and `V` were chosen to represent `x` and `y` for 2D image textures.)
 (I'm not sure what exactly what those last two optional arguments, `batchSize` and `autoResize`, so if anyone knows, please us know in the Issues!)
 
 <a id='graphic'></a>
+
 Графические примитивы Pixi
 --------------------------
 
-Using image textures is one of the most useful ways of making sprites,
-but Pixi also has its own low-level drawing tools. You can use them to
-make rectangles, shapes, lines, complex polygons and text. And,
-fortunately, it uses almost the same API as the [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas) so,
-if you're already familiar with canvas, there’s nothing really new to
-  learn. But the big advantage is that, unlike the Canvas Drawing API,
-  the shapes you draw with Pixi are rendered by WebGL on the GPU. Pixi
-  lets you access all that untapped performance power.
-Let’s take a quick tour of how to make some basic shapes. Here are all
-the shapes we'll make in the code ahead.
-
+Использование текстур изображений - один из самых полезных способов создания спрайтов,
+но у Pixi также есть свои собственные низкоуровневые инструменты рисования. Вы можете использовать их чтобы
+создавать прямоугольники, формы, линии, сложные многоугольники и текст. А также,
+к счастью, он использует почти тот же API, что и [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_graphics_with_canvas) так,
+если вы уже знакомы с холстом HTML5, то для вас в этом не будет ничего нового. Но большое преимущество в том, что, в отличие от Canvas Drawing API,
+  фигуры, которые вы рисуете с помощью Pixi, обрабатываются WebGL на графическом процессоре. Pixi
+  позволяет получить доступ ко всей этой неиспользованной мощности.
+Давайте кратко рассмотрим, как создавать основные формы. Вот все
+формы, которые мы создадим в следующем коде.
 ![Графические примитивы](/examples/images/screenshots/23.png)
 
 <a id='rectangles'></a>
@@ -2352,36 +2351,36 @@ the shapes we'll make in the code ahead.
 let rectangle = new Graphics();
 ```
 
-Use `beginFill` with a hexadecimal color code value to set the
-rectangle’ s fill color. Here’ how to set to it to light blue.
+Используйте `beginFill` с шестнадцатеричным значением цветового кода, чтобы установить
+цвет заливки прямоугольника. Вот как настроить его на голубой.
 
 ```js
 rectangle.beginFill(0x66CCFF);
 ```
 
-If you want to give the shape an outline, use the `lineStyle` method. Here's
-how to give the rectangle a 4 pixel wide red outline, with an `alpha`
-value of 1.
+Если вы хотите придать фигуре очертание, используйте метод lineStyle. Вот
+как придать прямоугольнику красный контур шириной 4 пикселя с помощью ʻalpha`
+значение 1.
 
 ```js
 rectangle.lineStyle(4, 0xFF3300, 1);
 ```
 
-Use the `drawRect` method to draw the rectangle. Its four arguments
-are `x`, `y`, `width` and `height`.
+Используйте метод drawRect, чтобы нарисовать прямоугольник. Его четыре аргумента
+это `x`,` y`, `width` и` height`.
 
 ```js
 rectangle.drawRect(x, y, width, height);
 ```
 
-Use `endFill` when you’re done.
+Используйте `endFill` когда будете готовы.
 
 ```js
 rectangle.endFill();
 ```
 
-It’s just like the Canvas Drawing API! Here’s all the code you need to
-draw a rectangle, change its position, and add it to the stage.
+Это похоже на API рисования холста! Вот весь код, который вам нужен
+нарисуйте прямоугольник, измените его положение и добавьте его на сцену.
 
 ```js
 let rectangle = new Graphics();
@@ -2395,18 +2394,20 @@ app.stage.addChild(rectangle);
 
 ```
 
-This code makes a 64 by 64 blue rectangle with a red border at an x and y position of 170.
+Этот код создает синий прямоугольник 64 на 64 с красной рамкой в ​​координатах x и y, равных 170..
 
 <a id='circles'></a>
-### Circles
+### Круги
 
-Make a circle with the `drawCircle` method. Its three arguments are
-`x`, `y` and `radius`
+Сделайте круг методом `drawCircle`. Его три аргумента: `x`, `y` и `radius`
+
 ```js
 drawCircle(x, y, radius)
 ```
-Unlike rectangles and sprites, a circle’s x and y position is also its
-center point. Here’s how to make a violet colored circle with a radius of 32 pixels.
+
+В отличие от прямоугольников и спрайтов, положение круга по осям x и y также является его
+Центральной точкой. Вот как создать круг фиолетового цвета с радиусом 32 пикселя.
+
 ```js
 let circle = new Graphics();
 circle.beginFill(0x9966FF);
@@ -2416,17 +2417,22 @@ circle.x = 64;
 circle.y = 130;
 app.stage.addChild(circle);
 ```
+
 <a id='ellipses'></a>
-### Ellipses
-As a one-up on the Canvas Drawing API, Pixi lets you draw an ellipse
-with the `drawEllipse` method.
+### Эллипсы
+
+Pixi позволяет рисовать эллипсы в качестве альтернативы Canvas Drawing API.
+методом drawEllipse.
+
 ```js
 drawEllipse(x, y, width, height);
 ```
-The x/y position defines the ellipse’s top left corner (imagine that
-the ellipse is surrounded by an invisible rectangular bounding box -
-the top left corner of that box will represent the ellipse's x/y
-anchor position). Here’s a yellow ellipse that’s 50 pixels wide and 20 pixels high.
+
+Положение x / y определяет верхний левый угол эллипса (представьте, что
+эллипс окружен невидимой прямоугольной ограничивающей рамкой -
+верхний левый угол этого поля будет представлять x / y эллипса
+положение якоря). Вот желтый эллипс шириной 50 пикселей и высотой 20 пикселей.
+
 ```js
 let ellipse = new Graphics();
 ellipse.beginFill(0xFFFF00);
@@ -2436,17 +2442,22 @@ ellipse.x = 180;
 ellipse.y = 130;
 app.stage.addChild(ellipse);
 ```
-<a id='roundedrect'></a>
-### Rounded rectangles
 
-Pixi also lets you make rounded rectangles with the `drawRoundedRect`
-method. The last argument, `cornerRadius` is a number in pixels that
-determines by how much the corners should be rounded.
+<a id='roundedrect'></a>
+### Скругленный прямоугольник
+
+Pixi также позволяет создавать прямоугольники со скругленными углами
+с помощью метода drawRoundedRect.
+Последний аргумент, `cornerRadius` число в пикселях, которое
+определяет, на сколько нужно закруглять углы.
+
 ```js
 drawRoundedRect(x, y, width, height, cornerRadius)
 ```
-Here's how to make a rounded rectangle with a corner radius of 10
-pixels.
+
+Вот как сделать прямоугольник со скругленными углами с радиусом угла 10
+пикселей.
+
 ```js
 let roundBox = new Graphics();
 roundBox.lineStyle(4, 0x99CCFF, 1);
@@ -2457,13 +2468,16 @@ roundBox.x = 48;
 roundBox.y = 190;
 app.stage.addChild(roundBox);
 ```
+
 <a id='lines'></a>
+
 ### Lines
 
-You've seen in the examples above that the `lineStyle` method lets you
-define a line.  You can use the `moveTo` and `lineTo` methods to draw the
-start and end points of the line, in just the same way you can with the Canvas
-Drawing API. Here’s how to draw a 4 pixel wide, white diagonal line.
+В приведенных выше примерах вы видели, что метод lineStyle позволяет вам
+определить линию. Вы можете использовать методы `moveTo` и `lineTo` для рисования
+начальной и конечной точек линии, точно так же, как вы можете с Canvas
+API рисования. Вот как нарисовать белую диагональную линию шириной 4 пикселя.
+
 ```js
 let line = new Graphics();
 line.lineStyle(4, 0xFFFFFF, 1);
@@ -2473,17 +2487,20 @@ line.x = 32;
 line.y = 32;
 app.stage.addChild(line);
 ```
-`PIXI.Graphics` objects, like lines, have `x` and `y` values, just
-like sprites, so you can position them anywhere on the stage after
-you've drawn them.
+
+`PIXI.Graphics` объекты, такие как линии, имеют значения x и y, просто
+как спрайты, поэтому вы можете разместить их в любом месте сцены после
+того как вы их нарисовали.
 
 <a id='polygons'></a>
+
 ### Polygons
 
-You can join lines together and fill them with colors to make complex
-shapes using the `drawPolygon` method. `drawPolygon`'s argument is a
-path array of x/y points that define the positions of each point on the
-shape.
+Вы можете соединять линии вместе и заливать их цветами, чтобы сделать сложные
+фигуры с помощью метода `drawPolygon`. Аргумент drawPolygon - это
+массив путей x/y точек, которые определяют положения каждой точки на
+форма.
+
 ```js
 let path = [
   point1X, point1Y,
@@ -2493,55 +2510,60 @@ let path = [
 
 graphicsObject.drawPolygon(path);
 ```
-`drawPolygon` will join those three points together to make the shape.
-Here’s how to use `drawPolygon` to connect three lines together to
-make a red triangle with a blue border. The triangle is drawn at
-position 0,0 and then moved to its position on the stage using its
-`x` and `y` properties.
+
+`drawPolygon` соединит эти три точки вместе, чтобы получилась форма.
+Вот как использовать drawPolygon для соединения трех линий
+сделайте красный треугольник с синей каймой. Треугольник нарисован на
+положение 0,0, а затем переместился на свое место на сцене, используя его
+Свойства `x` и `y`.
+
 ```js
 let triangle = new Graphics();
 triangle.beginFill(0x66FF33);
 
-//Use `drawPolygon` to define the triangle as
-//a path array of x/y positions
+//Используем `drawPolygon` чтобы определить треугольник как массив путей x/y позиций
 
 triangle.drawPolygon([
-    -32, 64,             //First point
-    32, 64,              //Second point
-    0, 0                 //Third point
+    -32, 64,             //Первая точка
+    32, 64,              //Вторая точка
+    0, 0                 //Третья точка
 ]);
 
-//Fill shape's color
+//Цвет заливки формы
 triangle.endFill();
 
-//Position the triangle after you've drawn it.
-//The triangle's x/y position is anchored to its first point in the path
+//Расположите треугольник после того, как вы его нарисовали.
+//Положение треугольника x/y привязано к его первой точке на пути.
 triangle.x = 180;
 triangle.y = 22;
 
 app.stage.addChild(triangle);
 ```
+
 <a id='text'></a>
 
-Displaying text
----------------
+Отображение текста
+------------------
 
-Use a `Text` object (`PIXI.Text`) to display text on the stage. In its simplest form, you can do it like this:
+Используйте объект `Text` (` PIXI.Text`) для отображения текста в рабочей области. В простейшей форме это можно сделать так:
+
 ```js
 let message = new Text("Hello Pixi!");
 app.stage.addChild(message);
 ```
 
-This will display the words, "Hello, Pixi" on the canvas. Pixi’s Text objects inherit from the `Sprite` class, so they
-contain all the same properties like `x`, `y`, `width`, `height`,
-`alpha`, and `rotation`. Position and resize text on the stage just like you would any other sprite. For example, you could use `position.set` to set the `message`'s `x` and `y` position like this:
+На холсте отобразятся слова «Hello, Pixi». Объекты Pixi Text наследуются от класса Sprite, поэтому они
+содержат все те же свойства, как `x`,` y`, `width`,` height`,
+`alpha`, и `rotation`. Расположите и измените размер текста на сцене так же, как и любой другой спрайт. 
+Например, вы можете использовать `position.set`, чтобы установить положение `x` и `y` в сообщении следующим образом:
+
 ```js
 message.position.set(54, 96);
 ```
 
-![Displaying text](/examples/images/screenshots/24.png)
+![Отображение текста](/examples/images/screenshots/24.png)
 
-That will give you basic, unstyled text. But if you want to get fancier, use Pixi's `TextStyle` function to define custom text styling. Here's how:
+Это даст вам основной текст без стиля. Но если вы хотите стать красивее, используйте функцию Pixi TextStyle для определения пользовательского стиля текста. Вот как:
 
 ```js
 let style = new TextStyle({
@@ -2556,51 +2578,63 @@ let style = new TextStyle({
   dropShadowAngle: Math.PI / 6,
   dropShadowDistance: 6,
 });
-``` 
-That creates a new `style` object containing all the text styling that you'd like to use. For a complete list of all the style properties you can use, [see here](http://pixijs.download/release/docs/PIXI.TextStyle.html).
+```
 
-To apply the style to the text, add the `style` object as the `Text` function's second argument, like this:
+Это создает новый объект `style` содержащий все стили текста, которые вы хотели бы использовать.
+Полный список всех свойств стиля, которые вы можете использовать, [смотрите здесь](http://pixijs.download/release/docs/PIXI.TextStyle.html).
+
+Чтобы применить стиль к тексту, добавьте объект `style` в качестве второго аргумента функции `Text`, например:
+
 ```js
 let message = new Text("Hello Pixi!", style);
-``` 
-![Displaying text](/examples/images/screenshots/24.5.png)
+```
 
-If you want to change the content of a text object after you've
-created it, use the `text` property.
+![Отображение текста](/examples/images/screenshots/24.5.png)
+
+Если вы хотите изменить содержимое текстового объекта после того, как
+создал его, используйте свойство `text`.
+
 ```js
 message.text = "Text changed!";
 ```
-Use the `style` property if you want to redefine the style properties.
+
+Используйте свойство `style`, если вы хотите переопределить свойства стиля.
+
 ```js
 message.style = {fill: "black", font: "16px PetMe64"};
 ```
 
-Pixi makes text objects by using the Canvas Drawing API to
-render the text to an invisible and temporary canvas
-element. It then turns the canvas into a WebGL texture so that it
-can be mapped onto a sprite. That’s why the text’s color needs to be
-wrapped in a string: it’s a Canvas Drawing API color value. As with
-any canvas color values, you can use words for common colors like
-“red” or “green”, or use rgba, hsla or hex values.
+Pixi создает текстовые объекты, используя Canvas Drawing API для
+визуализациии текста на невидимом и временном элементе холста.
+Затем он превращает холст в текстуру WebGL, чтобы он
+можно отобразить на спрайт.
+Вот почему цвет текста должен быть
+завернутый в строку: это значение цвета Canvas Drawing API. Как и с
+любыми значениями цвета холста, вы можете использовать слова для обозначения общих цветов, например
+«Красный» или «зеленый», либо используйте значения rgba, hsla или шестнадцатеричные значения.
 
-Pixi can also wrap long lines of text. Set the text’s `wordWrap` style
-property to `true`, and then set `wordWrapWidth` to the maximum length
-in pixels, that the line of text should be. Use the `align` property
-to set the alignment for multi-line text.
+Pixi также может переносить длинные строки текста. Установите стиль текста wordWrap
+для свойства true, а затем установите для wordWrapWidth максимальную длину.
+в пикселях, что должна быть строка текста. Используйте свойство ʻalign`
+для установки выравнивания для многострочного текста.
+
 ```js
 message.style = {wordWrap: true, wordWrapWidth: 100, align: center};
 ```
+
 (Note: `align` doesn't affect single line text.)
 
 If you want to use a custom font file, use the CSS `@font-face` rule
 to link the font file to the HTML page where your Pixi application is
 running.
+
 ```js
 @font-face {
   font-family: "fontFamilyName";
   src: url("fonts/fontFile.ttf");
 }
 ```
+
 Add this `@font-face` rule to your HTML page's CSS style sheet.
 
 [Pixi also has support for bitmap
@@ -2614,154 +2648,154 @@ load JSON or image files.
 
 Теперь вы знаете, как создавать огромное количество разнообразных графических объектов, но какие
 ты можешь с ними делать? Самое интересное - построить простую систему **collision detection**.
-You can use a custom function called `hitTestRectangle` that checks whether any two rectangular Pixi sprites are touching.
+Вы можете использовать настраиваемую функцию под названием `hitTestRectangle` это проверяет,
+соприкасаются ли какие-либо два прямоугольных спрайта Pixi.
 
 ```js
 hitTestRectangle(spriteOne, spriteTwo)
 ```
 
-if they overlap, `hitTestRectangle` will return `true`. You can use `hitTestRectangle` with an `if` statement to check for a collision between two sprites like this:
+если они перекрываются, `hitTestRectangle` вернусь `true`. Вы можете использовать `hitTestRectangle` с оператор `if` для проверки столкновения двух таких спрайтов:
 
 ```js
 if (hitTestRectangle(cat, box)) {
-  //There's a collision
+  //Есть столкновение
 } else {
-  //There's no collision
+  //Нет столкновения
 }
 ```
 
-As you'll see, `hitTestRectangle` is the front door into the vast universe of game design.
+Как вы увидите, `hitTestRectangle` вход в огромную вселенную игрового дизайна.
 
-Run the `collisionDetection.html` file in the `examples` folder for a
-working example of how to use `hitTestRectangle`. Use the arrow keys
-to move the cat. If the cat hits the box, the box becomes red
-and "Hit!" is displayed by the text object.
+Запустите файл `collisionDetection.html` в папке `examples`, для
+рабочего примера использования `hitTestRectangle`. Используйте клавиши со стрелками
+чтобы переместить кошку. Если кошка попадает в коробку, коробка становится красной.
+и "Хит!" отображается текстовым объектом.
 
-![Displaying text](/examples/images/screenshots/25.png)
+![Отображение текста](/examples/images/screenshots/25.png)
 
-You've already seen all the code that creates all these elements, as
-well as the
-keyboard control system that makes the cat move. The only new thing is the
-way `hitTestRectangle` is used inside the `play` function to check for a
-collision.
+Вы уже видели весь код, который создает все эти элементы, например
+а также система управления клавиатурой, которая заставляет кошку двигаться.
+Единственное новое - это путь `hitTestRectangle` используется внутри функции `play`
+для проверки на столкновение.
 
 ```js
 function play(delta) {
 
-  //use the cat's velocity to make it move
+  //использовать скорость кошки, чтобы заставить ее двигаться
   cat.x += cat.vx;
   cat.y += cat.vy;
 
-  //check for a collision between the cat and the box
+  //проверить на столкновение между кошкой и ящиком
   if (hitTestRectangle(cat, box)) {
 
-    //if there's a collision, change the message text
-    //and tint the box red
+    //при столкновении измените текст сообщения и закрасьте поле красным
     message.text = "hit!";
     box.tint = 0xff3300;
 
   } else {
 
-    //if there's no collision, reset the message
-    //text and the box's color
+    //если нет коллизии, сбросить текст сообщения и цвет окна
     message.text = "No collision...";
     box.tint = 0xccff99;
   }
 }
 ```
 
-Because the `play` function is being called by the game loop 60 times
-per second, this `if` statement is constantly checking for a collision
-between the cat and the box. If `hitTestRectangle` is `true`, the
-text `message` object uses `text` to display "Hit":
+Поскольку функция play вызывается игровым циклом 60 раз
+в секунду этот оператор `if` постоянно проверяет наличие столкновения
+между кошкой и коробкой. Если `hitTestRectangle` имеет значение `true`,
+Объект text `message` использует `text` для отображения "Hit":
 
 ```js
 message.text = "Hit!";
 ```
 
-The color of the box is then changed from green to red by setting the
-box's `tint` property to the hexadecimal red value.
+Затем цвет рамки меняется с зеленого на красный, устанавливая
+box значение свойства `tint` к шестнадцатеричному значению красного цвета.
 
 ```js
 box.tint = 0xff3300;
 ```
 
-If there's no collision, the message and box are maintained in their
-original states:
+Если коллизий нет, сообщение и окно остаются в своих
+исходные состояния:
 
 ```js
 message.text = "No collision...";
 box.tint = 0xccff99;
 ```
 
-This code is pretty simple, but suddenly you've created an interactive
-world that seems to be completely alive. It's almost like magic! And, perhaps
-surprisingly, you now have all the skills you need to start making
-games with Pixi!
+Этот код довольно прост, но внезапно вы создали интерактивный
+мир, который кажется полностью живым. Это почти похоже на волшебство! И, возможно
+как ни странно, теперь у вас есть все навыки, необходимые, чтобы начать делать
+игры с Pixi!
 
 <a id='hittest'></a>
 ### Функция hitTestRectangle
 
-But what about the `hitTestRectangle` function? What does it do, and
-how does it work? The details of how collision detection algorithms
-like this work is a little bit outside the scope of this tutorial. (If you really want to know, you can find out how [this book](https://www.apress.com/us/book/9781430258001).)
-The most important thing is that you know how to use it. But, just for
-your reference, and in case you're curious, here's the complete
-`hitTestRectangle` function definition. Can you figure out from the
-comments what it's doing?
+Но как насчет функции `hitTestRectangle`? Что он делает, и
+как это работает? Подробности того, как алгоритмы обнаружения столкновений
+как эта работа немного выходит за рамки этого урока.
+(Если вы действительно хотите знать, вы можете узнать, как в [этой книге](https://www.apress.com/us/book/9781430258001).)
+Самое главное, чтобы вы знали, как им пользоваться. Но только для
+ваш отзыв, и если вам интересно, вот полное определение функции `hitTestRectangle`.
+Вы можете понять из комментариев, что она делает?
+
 ```js
 function hitTestRectangle(r1, r2) {
 
-  //Define the variables we'll need to calculate
+  //Определите переменные, которые нам понадобятся для расчета
   let hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
 
-  //hit will determine whether there's a collision
+  //попадание определит, есть ли столкновение
   hit = false;
 
-  //Find the center points of each sprite
+  //Найдите центральные точки каждого спрайта
   r1.centerX = r1.x + r1.width / 2;
   r1.centerY = r1.y + r1.height / 2;
   r2.centerX = r2.x + r2.width / 2;
   r2.centerY = r2.y + r2.height / 2;
 
-  //Find the half-widths and half-heights of each sprite
+  //Найдите полуширину и половину высоты каждого спрайта
   r1.halfWidth = r1.width / 2;
   r1.halfHeight = r1.height / 2;
   r2.halfWidth = r2.width / 2;
   r2.halfHeight = r2.height / 2;
 
-  //Calculate the distance vector between the sprites
+  //Вычислить вектор расстояния между спрайтами
   vx = r1.centerX - r2.centerX;
   vy = r1.centerY - r2.centerY;
 
-  //Figure out the combined half-widths and half-heights
+  //Определите комбинированные полуширины и полувысоты
   combinedHalfWidths = r1.halfWidth + r2.halfWidth;
   combinedHalfHeights = r1.halfHeight + r2.halfHeight;
 
-  //Check for a collision on the x axis
+  //Проверить наличие столкновения по оси x
   if (Math.abs(vx) < combinedHalfWidths) {
 
-    //A collision might be occurring. Check for a collision on the y axis
+    //Может произойти столкновение. Проверьте наличие столкновения по оси Y
     if (Math.abs(vy) < combinedHalfHeights) {
 
-      //There's definitely a collision happening
+      //Определенно происходит столкновение
       hit = true;
     } else {
 
-      //There's no collision on the y axis
+      //На оси Y нет столкновения
       hit = false;
     }
   } else {
 
-    //There's no collision on the x axis
+    //На оси x столкновения нет
     hit = false;
   }
 
-  //`hit` will be either `true` or `false`
+  //`hit` будет либо `true` либо `false`
   return hit;
 };
 
 ```
+
 <a id='casestudy'></a>
 Пример использования: Treasure Hunter
 -------------------------------------
@@ -2796,35 +2830,34 @@ game была составлена ​​так, чтобы вы могли ис
 организовано.
 
 ```js
-//Setup Pixi and load the texture atlas files - call the `setup`
-//function when they've loaded
+//Настройте Pixi и загрузите файлы текстурного атласа - вызовите функцию `setup` когда они загрузились
 
 function setup() {
-  //Initialize the game sprites, set the game `state` to `play`
-  //and start the 'gameLoop'
+  //Инициализируем игровые спрайты, установите состояние игры на `play`
+  //и запустите `gameLoop`
 }
 
 function gameLoop(delta) {
-  //Runs the current game `state` in a loop and renders the sprites
+  //Запускаем текущий игровой `state` в loop и рендерим спрайты
 }
 
 function play(delta) {
-  //All the game logic goes here
+  //Здесь происходит вся логика игры
 }
 
 function end() {
-  //All the code that should run at the end of the game
+  //Весь код, который должен запускаться в конце игры
 }
 
-//The game's helper functions:
-//`keyboard`, `hitTestRectangle`, `contain` and `randomInt`
+//Вспомогательные функции игры:
+//`keyboard`, `hitTestRectangle`, `contain` и `randomInt`
 ```
 
 Используйте это как карту мира в игре, поскольку мы рассмотрим,
 как работает каждая секция.
 
 <a id='initialize'></a>
-### Инициализировать игру в функции setup
+### Инициализация игры в функции setup
 
 Как только изображения атласа текстур загружены, запускается функция `setup`.
 Она запускается только один раз и позволяет вам выполнять
@@ -2855,16 +2888,18 @@ function setup() {
 }
 
 ```
-The last two lines of code, `state = play;` and `gameLoop()` are perhaps
-the most important. Adding the `gameLoop` to Pixi's ticker switches on the game's engine,
-and causes the `play` function to be called in a continuous loop. But before we look at how that works, let's see what the
-specific code inside the `setup` function does.
+
+Tон последние две строки кода, `state = play;` и `gameLoop()` возможно
+самое важное. Добавление `gameLoop` в тикер Pixi включает движок игры.,
+и вызывает функцию `play` в непрерывном цикле. Но прежде чем мы посмотрим,
+как это работает, давайте посмотрим, что делает специальный код внутри функции `setup` .
 
 <a id='gamescene'></a>
-#### Creating the game scenes
+#### Создание игровых сцен
 
-The `setup` function creates two `Container` groups called
-`gameScene` and `gameOverScene`. Each of these are added to the stage.
+Функция `setup` создает две группы `Container`, называемые
+`gameScene` и `gameOverScene`. Каждый из них добавляется на сцену.
+
 ```js
 gameScene = new Container();
 app.stage.addChild(gameScene);
@@ -2873,30 +2908,34 @@ gameOverScene = new Container();
 app.stage.addChild(gameOverScene);
 
 ```
-All of the sprites that are part of the main game are added to the
-`gameScene` group. The game over text that should be displayed at the
-end of the game is added to the `gameOverScene` group.
 
-![Displaying text](/examples/images/screenshots/27.png)
+Все спрайты, которые являются частью основной игры, добавляются в
+группа `gameScene`. Текст game over который должен отображаться в
+конец игры добавлен в группу `gameOverScene`.
 
-Although it's created in the `setup` function, the `gameOverScene`
-shouldn't be visible when the game first starts, so its `visible`
-property is initialized to `false`.
+![Отображение текста](/examples/images/screenshots/27.png)
+
+Хотя он создается в функции `setup`, `gameOverScene`
+не должен быть виден при первом запуске игры, его `visible`
+свойство инициализируется значением `false`.
+
 ```js
 gameOverScene.visible = false;
 ```
-You'll see ahead that, when the game ends, the `gameOverScene`'s `visible`
-property will be set to `true` to display the text that appears at the
-end of the game.
+
+Вы увидите его, когда игра закончится, свойство `gameOverScene` - `visible`
+будет установлено на `true` для отображения текста, который появляется в
+конец игры.
 
 <a id='makingdungon'></a>
 #### Изготовление темницы, двери, исследователя и сокровища
 
-The player, exit door, treasure chest and the dungeon background image
-are all sprites made from texture atlas frames. Very importantly,
-they're all added as children of the `gameScene`.
+Игрок, выходная дверь, сундук с сокровищами и темница фоновое изображение
+все спрайты сделаны из фреймов текстурного атласа. Очень важно,
+все они добавлены как дети `gameScene`.
+
 ```js
-//Create an alias for the texture atlas frame ids
+//Создайте псевдоним для идентификаторов кадров атласа текстур
 id = resources["images/treasureHunter.json"].textures;
 
 //Dungeon
@@ -2929,12 +2968,13 @@ gameScene.addChild(treasure);
 <a id='makingblob'></a>
 #### Создание монстров - капель (blob monsters)
 
-The six blob monsters are created in a loop. Each blob is given a
-random initial position and velocity. The vertical velocity is
-alternately multiplied by `1` or `-1` for each blob, and that’s what
-causes each blob to move in the opposite direction to the one next to
-it. Each blob monster that's created is pushed into an array called
+Шесть монстров-капель созданы в цикле. Каждому BLOB-объекту дается
+случайное начальное положение и скорость. Вертикальная скорость
+поочередно умножается на `1` или `-1` для каждой капли, и вот что
+заставляет каждую каплю двигаться в направлении, противоположном тому,
+что находится рядом с ним. Каждый созданный монстр blob помещается в массив с именем
 `blobs`.
+
 ```js
 let numberOfBlobs = 6,
     spacing = 48,
@@ -2942,70 +2982,68 @@ let numberOfBlobs = 6,
     speed = 2,
     direction = 1;
 
-//An array to store all the blob monsters
+//Массив для хранения всех монстров-капель
 blobs = [];
 
-//Make as many blobs as there are `numberOfBlobs`
+//Сделайте столько капель, сколько есть `numberOfBlobs`
 for (let i = 0; i < numberOfBlobs; i++) {
 
-  //Make a blob
+  //Сделать каплю
   let blob = new Sprite(id["blob.png"]);
 
-  //Space each blob horizontally according to the `spacing` value.
-  //`xOffset` determines the point from the left of the screen
-  //at which the first blob should be added
+  //Разместите каждую каплю по горизонтали в соответствии со значением `spacing`.
+  //`xOffset` определяет точку слева на экране, в которую должен быть добавлен первый blob
   let x = spacing * i + xOffset;
 
-  //Give the blob a random `y` position
+  //Дайте капле случайную `y` позицию
   let y = randomInt(0, stage.height - blob.height);
 
-  //Set the blob's position
+  //Установите положение капли
   blob.x = x;
   blob.y = y;
 
-  //Set the blob's vertical velocity. `direction` will be either `1` or
-  //`-1`. `1` means the enemy will move down and `-1` means the blob will
-  //move up. Multiplying `direction` by `speed` determines the blob's
-  //vertical direction
+  //Установите вертикальную скорость капли. direction будет либо 1, либо
+  //`-1`. `1` означает, что враг пойдет вниз и `-1` означает, что капля будет
+  //двигаться вверх. Умножение `direction` на `speed` определяет вертикальное
+  // направление капли
   blob.vy = speed * direction;
 
-  //Reverse the direction for the next blob
+  //Изменить направление следующей капли
   direction *= -1;
 
-  //Push the blob into the `blobs` array
+  //Поместите blob в массив `blobs`
   blobs.push(blob);
 
-  //Add the blob to the `gameScene`
+  //Добавьте каплю в `gameScene`
   gameScene.addChild(blob);
 }
 
 ```
 
 <a id='healthbar'></a>
-#### Making the health bar
+#### Делаем полоску здоровья
 
-When you play Treasure Hunter you'll notice that when the explorer touches
-one of the enemies, the width of the health bar at the top right
-corner of the screen decreases. How was this health bar made? It's
-just two overlapping rectangles at exactly the same position: a black rectangle behind, and
-a red rectangle in front. They're grouped together into a single `healthBar`
-group. The `healthBar` is then added to the `gameScene` and positioned
-on the stage.
+Когда вы играете в «Охотник за сокровищами», вы заметите, что когда исследователь касается
+один из врагов, ширина шкалы здоровья вверху справа
+угол экрана уменьшается. Как была сделана эта полоска здоровья? Это
+всего два перекрывающихся прямоугольника в одной и той же позиции: черный прямоугольник сзади, и
+красный прямоугольник спереди. Они сгруппированы в одну группу `healthBar`.
+`healthBar` затем добавляется к `gameScene` и позиционируется на сцене.
 
 ```js
-//Create the health bar
+//Создайте полосу здоровья
 healthBar = new PIXI.Container();
 healthBar.position.set(stage.width - 170, 4)
 gameScene.addChild(healthBar);
 
-//Create the black background rectangle
+//Создайте прямоугольник на черном фоне
 let innerBar = new PIXI.Graphics();
 innerBar.beginFill(0x000000);
 innerBar.drawRect(0, 0, 128, 8);
 innerBar.endFill();
 healthBar.addChild(innerBar);
 
-//Create the front red rectangle
+//Создайте передний красный прямоугольник
 let outerBar = new PIXI.Graphics();
 outerBar.beginFill(0xFF3300);
 outerBar.drawRect(0, 0, 128, 8);
@@ -3015,32 +3053,32 @@ healthBar.addChild(outerBar);
 healthBar.outer = outerBar;
 ```
 
-You can see that a property called `outer` has been added to the
-`healthBar`. It just references the `outerBar` (the red rectangle) so that it will be convenient to access later.
+Вы можете видеть, что свойство под названием `outer` был добавлен в
+`healthBar`. Он просто ссылается на `outerBar` (красный прямоугольник)
+so что потом будет удобно получить доступ.
 
 ```js
 healthBar.outer = outerBar;
 ```
 
-You don't have to do this; but, hey why not! It means that if you want
-to control the width of the red `outerBar`, you can write some smooth code that looks like this:
+Вам не нужно этого делать; но, эй, почему бы и нет! Значит, если хочешь
+контролировать ширину красного `outerBar`, вы можете написать гладкий код, который выглядит так:
 
 ```js
 healthBar.outer.width = 30;
 ```
 
-That's pretty neat and readable, so we'll keep it!
+Это довольно аккуратно и удобно для чтения, так что мы сохраним его!
 
 <a id='message'></a>
-#### Making the message text
+#### Создание текста сообщения
 
-When the game is finished, some text displays “You won!” or “You
-lost!”, depending on the outcome of the game. This is made using a
-text sprite and adding it to the `gameOverScene`. Because the
-`gameOverScene`‘s `visible` property is set to `false` when the game
-starts, you can’t see this text. Here’s the code from the `setup`
-function that creates the message text and adds it to the
-`gameOverScene`.
+Когда игра закончится, появится текст «Вы выиграли!» или ты
+проиграл! », в зависимости от исхода игры. Это сделано с помощью
+текстовый спрайт и добавив его в `gameOverScene`. Поскольку свойство
+`visible` контейнера `gameOverScene` установлено в `false` при старте игры,
+вы не видите этот текст. Вот код из функции `setup` который создает
+текст сообщения и добавляет его в `gameOverScene`.
 
 ```js
 let style = new TextStyle({
@@ -3055,34 +3093,34 @@ gameOverScene.addChild(message);
 ```
 
 <a id='playing'></a>
-### Playing the game
+### Играем в игру
 
-All the game logic and the code that makes the sprites move happens
-inside the `play` function, which runs in a continuous loop. Here's an
-overview of what the `play` function does
+Вся логика игры и код, который заставляет спрайты двигаться, происходят
+внутри функции `play`, который работает в непрерывном цикле. Вот
+обзор того, что делает функция `play`.
 
 ```js
 function play(delta) {
-  //Move the explorer and contain it inside the dungeon
-  //Move the blob monsters
-  //Check for a collision between the blobs and the explorer
-  //Check for a collision between the explorer and the treasure
-  //Check for a collision between the treasure and the door
-  //Decide whether the game has been won or lost
-  //Change the game `state` to `end` when the game is finished
+  //Переместите исследователя и удерживайте его внутри подземелья
+  //Переместите монстров-капель
+  //Проверьте наличие столкновения между каплями и проводником
+  //Проверьте, нет ли столкновения между исследователем и сокровищем
+  //Проверьте, нет ли столкновения между сокровищем и дверью
+  //Решите, выиграна игра или проиграна
+  //Измените состояние игры на ʻend`, когда игра закончится
 }
 ```
 
-Let's find out how all these features work.
+Давайте узнаем, как работают все эти функции.
 
 <a id='movingexplorer'></a>
-### Moving the explorer
+### Перемещение исследователя
 
-The explorer is controlled using the keyboard, and the code that does
-that is very similar to the keyboard control code you learnt earlier.
-The `keyboard` objects modify the explorer’s velocity, and that
-velocity is added to the explorer’s position inside the `play`
-function.
+Проводник управляется с клавиатуры, а код,
+это очень похоже на код управления клавиатурой, который вы узнали ранее.
+Объекты `keyboard` изменяют скорость проводника, и это
+скорость добавляется к позиции исследователя внутри `play`
+функция.
 
 ```js
 explorer.x += explorer.vx;
@@ -3090,35 +3128,35 @@ explorer.y += explorer.vy;
 ```
 
 <a id='containingmovement'></a>
-#### Containing movement
+#### Сдерживание движения
 
-But what's new is that the explorer's movement is contained inside the walls of the
-dungeon. The green outline shows the limits of the explorer's
-movement.
+Но что нового, так это то, что движение исследователя заключено в стенах
+подземелье. Зеленый контур показывает пределы возможностей исследователя.
+движение.
 
-![Displaying text](/examples/images/screenshots/28.png)
+![Отображение текста](/examples/images/screenshots/28.png)
 
-That's done with the help of a custom function called
+Это делается с помощью специальной функции, называемой
 `contain`.
 
 ```js
 contain(explorer, {x: 28, y: 10, width: 488, height: 480});
 ```
 
-`contain` takes two arguments. The first is the sprite you want to keep
-contained. The second is any object with `x`, `y`, `width` and
-`height` properties that define a rectangular area. In this example,
-the containing object defines an area that's just slightly offset
-from, and smaller than, the stage. It matches the dimensions of the dungeon
-walls.
+`contain` принимает два аргумента. Первый - это спрайт, который вы хотите сохранить
+содержится. Второй - любой объект со свойствами `x`, `y`, `width` и
+`height` которые определяют прямоугольную область. В этом примере
+содержащий объект определяет область, которая немного смещена
+от сцены и меньше ее. Он соответствует размерам темницы
+стены.
 
-Here's the `contain` function that does all this work. The function checks
-to see if the sprite has crossed the boundaries of the containing
-object. If it has, the code moves the sprite back into that boundary.
-The `contain` function also returns a `collision` variable with the
-value "top", "right", "bottom" or "left", depending on which side of
-the boundary the sprite hit. (`collision` will be `undefined` if the
-sprite didn't hit any of the boundaries.)
+Вот функция `contain`, которая выполняет всю эту работу. Функция проверяет
+чтобы увидеть, пересек ли спрайт границы содержащего
+объект. Если да, код перемещает спрайт обратно в эту границу.
+Функция `contain` также возвращает переменную `collision` с
+значение "сверху", "справа", "снизу" или "слева", в зависимости от того, с какой стороны
+граница, на которую попал спрайт. (`collision` будет `undefined` если
+спрайт не попал ни в одну из границ.)
 
 ```js
 function contain(sprite, container) {
@@ -3154,19 +3192,18 @@ function contain(sprite, container) {
 }
 ```
 
-You'll see how the `collision` return value will be used in the code
-ahead to make the blob monsters bounce back and forth between the top
-and bottom dungeon walls.
+Вы увидите, как в коде будет использоваться возвращаемое значение `collision`.
+впереди, чтобы монстры-капли подпрыгивали между вершинами
+и нижние стены подземелья.
 
 <a id='movingmonsters'></a>
-### Moving the monsters
+### Перемещение монстров
 
-The `play` function also moves the blob monsters, keeps them contained
-inside the dungeon walls, and checks each one for a collision with the
-player. If a blob bumps into the dungeon’s top or bottom walls, its
-direction is reversed. All this is done with the help of a `forEach` loop
-which iterates through each of `blob` sprites in the `blobs` array on
-every frame.
+Функция `play` также перемещает монстров-капель, удерживает их
+внутри стен подземелья и проверяет каждую на предмет столкновения с
+игроком. Если капля врезается в верхнюю или нижнюю стены темницы, ее
+направление инвертируется. Все это делается с помощью цикла `forEach`
+который проходит через каждый из `blob` спрайтов в массиве `blobs` каждый кадр.
 
 ```js
 blobs.forEach(function(blob) {
@@ -3174,17 +3211,16 @@ blobs.forEach(function(blob) {
   //Move the blob
   blob.y += blob.vy;
 
-  //Check the blob's screen boundaries
+  //Проверьте границы экрана блоба
   let blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
 
-  //If the blob hits the top or bottom of the stage, reverse
-  //its direction
+  //Если капля попадает в верхнюю или нижнюю часть сцены, реверсим ее направление
   if (blobHitsWall === "top" || blobHitsWall === "bottom") {
     blob.vy *= -1;
   }
 
-  //Test for a collision. If any of the enemies are touching
-  //the explorer, set `explorerHit` to `true`
+  //Тест на столкновение. Если какой-либо из врагов касается проводника,
+  // установите для ʻexplorerHit` значение `true`
   if(hitTestRectangle(explorer, blob)) {
     explorerHit = true;
   }
@@ -3192,19 +3228,19 @@ blobs.forEach(function(blob) {
 
 ```
 
-You can see in this code above how the return value of the `contain`
-function is used to make the blobs bounce off the walls. A variable
-called `blobHitsWall` is used to capture the return value:
+Вы можете видеть в этом коде выше, как возвращаемое значение `contain`
+Функция используется для того, чтобы капли отскакивали от стен. Переменная
+ `blobHitsWall` используется для захвата возвращаемого значения:
 
 ```js
 let blobHitsWall = contain(blob, {x: 28, y: 10, width: 488, height: 480});
 ```
 
-`blobHitsWall` will usually be `undefined`. But if the blob hits the
-top wall, `blobHitsWall` will have the value "top". If the blob hits
-the bottom wall, `blobHitsWall` will have the value "bottom". If
-either of these cases are `true`, you can reverse the blob's direction
-by reversing its velocity. Here's the code that does this:
+`blobHitsWall` обычно будет `undefined`. Но если капля попадает в
+верхнюю стену, `blobHitsWall` будет иметь значение "top". Если капля попадает в
+нижнюю стенку, `blobHitsWall` будет иметь ценность "bottom". Если
+любой из этих случаев `true`, вы можете изменить направление капли
+изменяя его скорость. Вот код, который это делает:
 
 ```js
 if (blobHitsWall === "top" || blobHitsWall === "bottom") {
@@ -3212,14 +3248,14 @@ if (blobHitsWall === "top" || blobHitsWall === "bottom") {
 }
 ```
 
-Multiplying the blob's `vy` (vertical velocity) value by `-1` will flip
-the direction of its movement.
+Умножение вертикальной скорости капли `vy` (vertical velocity) на `-1` перевернет
+направление его движения.
 
 <a id='checkingcollisions'></a>
-### Checking for collisions
+### Проверка на столкновения
 
-The code in the loop above uses `hitTestRectangle` to figure
-out if any of the enemies have touched the explorer.
+Код в приведенном выше цикле использует `hitTestRectangle`  чтобы понять
+коснулся ли кто-либо из врагов исследователя.
 
 ```js
 if(hitTestRectangle(explorer, blob)) {
@@ -3227,39 +3263,39 @@ if(hitTestRectangle(explorer, blob)) {
 }
 ```
 
-If `hitTestRectangle` returns `true`, it means there’s been a collision
-and a variable called `explorerHit` is set to `true`. If `explorerHit`
-is `true`, the `play` function makes the explorer semi-transparent
-and reduces the width of the `health` bar by 1 pixel.
+Если `hitTestRectangle` возвращает `true`, это означает, что произошло столкновение
+и переменная с именем `explorerHit` установлен на `true`. Если `explorerHit`
+= `true`, функция `play` делает проводник полупрозрачным и уменьшает ширину `health` 
+бара на 1 пиксель.
 
 ```js
 if(explorerHit) {
 
-  //Make the explorer semi-transparent
+  //Делаем проводник полупрозрачным
   explorer.alpha = 0.5;
 
-  //Reduce the width of the health bar's inner rectangle by 1 pixel
+  //уменьшаем ширину внутреннего прямоугольника шкалы здоровья на 1 пиксель.
   healthBar.outer.width -= 1;
 
 } else {
 
-  //Make the explorer fully opaque (non-transparent) if it hasn't been hit
+  //Сделайте проводник полностью непрозрачным (непрозрачный) если не попал
   explorer.alpha = 1;
 }
 
 ```
 
-If  `explorerHit` is `false`, the explorer's `alpha` property is
-maintained at 1, which makes it fully opaque.
+ЕСли  `explorerHit` = `false`, свойство `alpha` исследователя
+поддерживается в 1, что делает его полностью непрозрачным.
 
-The `play` function also checks for a collision between the treasure
-chest and the explorer. If there’s a hit, the `treasure` is set to the
-explorer’s position, with a slight offset. This makes it look like the
-explorer is carrying the treasure.
+Функция `play` также проверяет наличие столкновения между сокровищами
+сундук и исследователь. Если есть попадание, `treasure` установлен на
+положение исследователя с небольшим смещением. Это делает его похожим на
+исследователь несет сокровище.
 
-![Displaying text](/examples/images/screenshots/29.png)
+![Отображение текста](/examples/images/screenshots/29.png)
 
-Here's the code that does this:
+Вот код, который это делает:
 
 ```js
 if (hitTestRectangle(explorer, treasure)) {
@@ -3269,14 +3305,13 @@ if (hitTestRectangle(explorer, treasure)) {
 ```
 
 <a id='reachingexit'></a>
-### Reaching the exit door and ending the game
+### Достижение выходной двери и завершение игры
 
-There are two ways the game can end: You can win if you carry the
-treasure to the exit, or you can lose if you run out of health.
+Игра может закончиться двумя способами: вы можете выиграть, если у вас есть
+сокровище к выходу, иначе вы можете проиграть, если у вас закончится здоровье.
 
-To win the game, the treasure chest just needs to touch the exit door. If
-that happens, the game `state` is set to `end`, and the `message` text
-displays "You won".
+Чтобы выиграть игру, сундук с сокровищами просто должен коснуться выходной двери. Если
+это происходит, игра `state` устанавливается в `end`, и текст `message` отображает "You won".
 
 ```js
 if (hitTestRectangle(treasure, door)) {
@@ -3285,8 +3320,8 @@ if (hitTestRectangle(treasure, door)) {
 }
 ```
 
-If you run out of health, you lose the game. The game `state` is also
-set to `end` and the `message` text displays "You Lost!"
+Если у вас кончится здоровье, вы проиграете игру. Игровой `state` это также
+установится в `end` и текст `message` отобразит "You Lost!"
 
 ```js
 if (healthBar.outer.width < 0) {
@@ -3295,29 +3330,29 @@ if (healthBar.outer.width < 0) {
 }
 ```
 
-But what does this mean?
+Но что это значит?
 
 ```js
 state = end;
 ```
 
-You'll remember from earlier examples that the `gameLoop` is constantly updating a function called
-`state` at 60 times per second. Here's the `gameLoop`that does this:
+Вы помните из предыдущих примеров, что `gameLoop` постоянно обновляет функцию, называемую
+`state` 60 раз в секунду. Вот `gameLoop`который это делает:
 
 ```js
 function gameLoop(delta){
 
-  //Update the current game state:
+  //Обновить текущее состояние игры:
   state(delta);
 }
 ```
 
-You'll also remember that we initially set the value of
-`state` to `play`, which is why the `play` function runs in a loop.
-By setting `state` to `end` we're telling the code that we want
-another function, called `end` to run in a loop. In a bigger game you
-could have a `tileScene` state, and states for each game level, like
-`leveOne`, `levelTwo` and `levelThree`.
+Вы также помните, что мы изначально устанавливали значение
+`state` = `play`, вот почему функция `play` работает в цикле.
+Устанавливая `state` в `end` мы сообщаем коду, что хотим
+вызвать другую функцию, `end` для запуска в цикле.
+В большой игре вы могли бы иметь `tileScene` state, и состояния для каждого уровня игры,
+`leveOne`, `levelTwo` и `levelThree`.
 
 Так что же это за функция `end`? Вот!
 
@@ -3336,7 +3371,9 @@ function end() {
 с таким количеством кода, которое вам нужно. Просто измените значение `state` на
 любую функцию, которую вы хотите запустить в цикле.
 
-And that’s really all there is to Treasure Hunter! With a little more work you could turn this simple prototype into a full game – try it!
+И это действительно все, что нужно для Treasure Hunter!
+Немного поработав, вы сможете превратить этот простой прототип 
+в полноценную игру - попробуйте!
 
 <a id='spriteproperties'></a>
 Подробнее о спрайтах
@@ -3356,12 +3393,16 @@ DisplayObject > Container > Sprite
 ```
 
 Наследование просто означает, что классы позже в цепочке используют
-свойства и методы из классов ранее в цепочке.That means that even though `Sprite` is the last class in the chain, has all the same properties as `DisplayObject` and `Container`, in addition to its own unique properties.
-The most basic class is `DisplayObject`. Anything that’s a
-`DisplayObject` can be rendered on the stage. `Container`
-is the next class in the inheritance chain. It allows `DisplayObject`s
-to act as containers for other `DisplayObject`s. Third up the chain is
-the `Sprite` class. Sprites can both be displayed on the stage and be containers for other sprites.
+свойства и методы из классов ранее в цепочке.
+Это означает, что даже если `Sprite` это последний класс в цепочке,
+имеет все те же свойства, что и `DisplayObject` и `Container`,
+в дополнение к своим уникальным свойствам.
+Самый простой класс `DisplayObject`. Все, что есть
+`DisplayObject` может быть поставлен на сцене. `Container`
+это следующий класс в цепочке наследования. Это позволяет `DisplayObject`
+действовать как контейнеры для других `DisplayObject`.
+Третье место в цепочкеe у класса `Sprite`.
+Спрайты могут как отображаться на сцене, так и быть контейнерами для других спрайтов.
 
 <a id='takingitfurther'></a>
 Продолжая
